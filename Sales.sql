@@ -15,6 +15,6 @@ SELECT SUM(total_sales)
 FROM sales;
 
 
--- 
+-- Prints game days
 SELECT * FROM sales
-WHERE game_day='yes';
+WHERE total_sales > 80000;
