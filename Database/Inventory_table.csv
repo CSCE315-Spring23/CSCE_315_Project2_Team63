@@ -1,0 +1,42 @@
+﻿item_id,item,quantity,price,vendor_name,units,expiration_date
+943849,brown rice,100,50,HEB,lb,4/1/2023
+712435,white rice,150,75,HEB,lb,5/1/2023
+438971,pinto beans,150,75,HEB,lb,6/1/2023
+835124,black beans,150,75,HEB,lb,7/1/2023
+617340,chicken,200,450,HEB,lb,8/1/2023
+293641,steak,100,500,HEB,lb,9/1/2023
+864273,ground beef,50,150,HEB,lb,10/1/2023
+149526,fajita vegetables,50,50,HEB,lb,11/1/2023
+675194,spring mix,10,50,HEB,lb,12/1/2023
+298703,romaine lettuce,15,40,HEB,lb,1/1/2024
+481962,iceburg lettuce,15,40,HEB,lb,2/1/2024
+926371,mozzarella cheese,50,150,HEB,lb,3/1/2024
+715086,mixed cheddar,30,90,HEB,lb,4/1/2024
+530891,corn salsa,250,1000,HEB,lb,5/1/2024
+327605,pico de gallo,250,1250,HEB,lb,6/1/2024
+918563,onions,125,176.92,HEB,lb,7/1/2024
+276590,jalapeno peppers,100,90.91,HEB,lb,8/1/2024
+540982,cilantro,200,78,HEB,lb,9/1/2024
+874513,sour cream,250,550,HEB,lb,10/1/2024
+352607,guacamole,250,1500,HEB,lb,11/1/2024
+960283,jalapeno ranch,36,5,HEB,oz,12/1/2024
+680952,ranch,64,8,HEB,oz,1/1/2025
+517428,red sauce,64,10,HEB,oz,2/1/2025
+894603,salse verde,64,10,HEB,oz,3/1/2025
+139205,chipotle sauce,36,6,HEB,oz,4/1/2025
+750198,black olives,50,14.25,HEB,lb,5/1/2025
+425863,lime,13,29.97,HEB,lb,6/1/2025
+978142,lime juice,32,6.28,HEB,oz,7/1/2025
+683245,italian dressing,36,4.57,HEB,oz,8/1/2025
+406951,queso,240,100,HEB,oz,9/1/2025
+829617,large tortilla,25,272.5,HEB,pcs (50 per),7/1/2025
+715938,small tortilla,20,150,HEB,pcs (50 per),11/1/2025
+283659,nacho chips,80,240,HEB,lb,12/1/2025
+624178,fountain drink cups,1000,35.8,HEB,pcs,1/1/2026
+479136,water bottles,1000,138,HEB,pcs,2/1/2026
+842063,cardboard bowls + tops,1000,25,HEB,pcs,3/1/2026
+157492,paper bags,2000,52.8,HEB,pcs,4/1/2026
+362781,aluminum foil,20,80,HEB,pcs (50 per),5/1/2026
+598142,sauce containers,1000,20,HEB,pcs,6/1/2026
+746209,bags of cutlery,1000,20,HEB,pcs,7/1/2026
+283948,gloves,20,40,HEB,boxes,8/1/2026

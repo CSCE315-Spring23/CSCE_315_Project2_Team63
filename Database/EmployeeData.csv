@@ -1,0 +1,16 @@
+﻿EMP ID,EMP NAME,POSITION,PAY RATE,AVG HOURS WORKED,CLOCK IN/OUT STATUS
+1001,John Smith,Manager,23.35,40,In
+1002,Sarah Johnson,Manager,23.35,40,Out
+1003,David Lee,Server,11.25,30,In
+1004,Emily Chen,Hot Oven/Grill Operator,15.13,35,Out
+1005,Michael Kim,Cashier,11.25,25,In
+1006,Jessica Lee,Server,11.25,30,In
+1007,Ethan Park,Hot Oven/Grill Operator,15.13,35,In
+1008,Michelle Lee,Cashier,11.25,25,Out
+1009,Ryan Kim,Server,11.25,30,In
+1010,Kevin Park,Hot Oven/Grill Operator,15.13,35,In
+1011,Rachel Lee,Server,11.25,30,Out
+1012,Mark Kim,Cashier,11.25,25,In
+1013,Eric Lee,Server,11.25,30,In
+1014,Grace Park,Hot Oven/Grill Operator,15.13,35,Out
+1015,Andrew Kim,Cashier,11.25,25,Out
