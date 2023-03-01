@@ -11,3 +11,6 @@ WHERE position IN ('Server', 'Cashier') AND clock_in_out_status = 'In';
 SELECT emp_id, emp_name, position, clock_in_out_status
 FROM employeedata
 WHERE pay_rate > 12;
+
+-- Selecting all entries in the menu table
+SELECT * FROM menu;
