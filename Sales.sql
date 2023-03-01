@@ -1,3 +1,5 @@
+-- All queries for sales table
+
 -- Prints every entry from table
 
 SELECT * FROM sales;
@@ -15,6 +17,10 @@ SELECT SUM(total_sales)
 FROM sales;
 
 
--- 
+-- Prints game days
 SELECT * FROM sales
-WHERE game_day='yes';
+WHERE total_sales > 80000;
+
+-- Prints the number of weeks that the table covers
+
+SELECT COUNT(date)/5 FROM sales;
