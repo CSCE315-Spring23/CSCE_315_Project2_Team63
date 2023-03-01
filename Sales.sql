@@ -1,3 +1,5 @@
+-- All queries for sales table
+
 -- Prints every entry from table
 
 SELECT * FROM sales;
