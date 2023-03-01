@@ -20,3 +20,7 @@ FROM sales;
 -- Prints game days
 SELECT * FROM sales
 WHERE total_sales > 80000;
+
+-- Prints the number of weeks that the table covers
+
+SELECT COUNT(date)/5 FROM sales;
