@@ -11,3 +11,6 @@ WHERE position IN ('Server', 'Cashier') AND clock_in_out_status = 'In';
 SELECT emp_id, emp_name, position, clock_in_out_status
 FROM employeedata
 WHERE pay_rate > 12;
+
+-- 
+SELECT employeedata.emp_name, employeedata.clock_in_out_status FROM employeedata JOIN orderhistory ON employeedata.emp_id = orderhistory.emp_id;
