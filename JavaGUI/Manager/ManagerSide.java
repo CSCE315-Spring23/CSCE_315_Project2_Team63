@@ -46,7 +46,7 @@ public class ManagerSide extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MenuChange();
-                intialMangOption.setVisible(false);
+                //intialMangOption.setVisible(false);
             }
         });
 
@@ -54,7 +54,7 @@ public class ManagerSide extends JFrame implements ActionListener {
           @Override
           public void actionPerformed(ActionEvent e) {
               InventoryChange();
-              intialMangOption.setVisible(false);
+              //intialMangOption.setVisible(false);
           }
       });
     
