@@ -6,6 +6,8 @@ import javax.swing.*;
 public class ManagerSide extends JFrame implements ActionListener {
     static JFrame f;
     static JFrame frame2;
+    static JFrame frame3;
+    static JFrame frame4;
     
     public static Connection conn = null;
     public static Connection conn2 = null;
@@ -129,7 +131,9 @@ public class ManagerSide extends JFrame implements ActionListener {
                   
                 }
             });
-    
+
+
+            
             // add labels and text fields to the panel
             p2.add(itemNumLabel);
             p2.add(itemNumField);
@@ -147,6 +151,195 @@ public class ManagerSide extends JFrame implements ActionListener {
         }
       });
 
+
+    //ADD
+    b3.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        frame3 = new JFrame("add item");
+        // create a new panel for editing menu items
+        JPanel p3 = new JPanel();
+        p3.setLayout(new BoxLayout(p3, BoxLayout.Y_AXIS));
+
+        // create labels and text fields for input
+        JLabel menuNameLabel = new JLabel("Menu Name:");
+        JTextField menuNameField = new JTextField(20);
+        menuNameField.setMaximumSize(menuNameField.getPreferredSize());
+        JLabel menuPriceLabel = new JLabel("Menu Price:");
+        JTextField menuPriceField = new JTextField(10);
+        menuPriceField.setMaximumSize(menuPriceField.getPreferredSize());
+
+        JButton confirmButton = new JButton("Confirm Changes");
+        confirmButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) 
+            {
+                String s = e.getActionCommand();
+                if (s.equals("Add")) {
+                frame3.setVisible(true);
+                } else if (s.equals("Confirm Changes")) {
+                // get the values entered by the user
+                String name = menuNameField.getText();
+                String price = menuPriceField.getText();
+                
+                try {
+                    Class.forName("org.postgresql.Driver");
+                    conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                        "csce315331_team_63_master", "WFHD");
+                    
+                    // create a statement object
+                    Statement stmt = conn2.createStatement();
+
+                                // get the max itemnum number from the menu table
+                    String getMaxNumSql = "SELECT MAX(itemnum) AS max_num FROM menu";
+                    ResultSet maxNumRs = stmt.executeQuery(getMaxNumSql);
+                    int num = 1;
+                    if (maxNumRs.next()) {
+                        num = maxNumRs.getInt("max_num") + 1;
+                    }
+                    // write the SQL update statement
+                    String sql = "INSERT INTO menu (itemnum, food, price) VALUES (" + num + ", '" + name + "', " + price + ");";
+                    // execute the statement
+                    int rowsUpdated = stmt.executeUpdate(sql);
+                    if (rowsUpdated > 0) {
+                    // if the update was successful, close the edit item frame
+                    frame3.setVisible(false);
+                    
+                    // get the updated data and sort it by item number
+                    sql = "SELECT * FROM menu ORDER BY itemnum";
+                    ResultSet rs = stmt.executeQuery(sql);
+                    menuItem = "";
+                    menuItemString = "";
+                    menuPrice = "";
+                    while (rs.next()) {
+                        menuItem += rs.getString("itemnum") + "\n";
+                        menuItemString += rs.getString("food") + "\n";
+                        menuPrice += rs.getString("price") + "\n";
+                    }
+                    // update the GUI JTextAreas to reflect the changes
+                    t.setText(menuItem);
+                    t2.setText(menuItemString);
+                    t3.setText(menuPrice);
+                    }
+                    
+                    try {
+                    conn2.close();
+                    JOptionPane.showMessageDialog(null,"Connection Closed.");
+                    } catch(Exception e2) {
+                    JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+                }
+            
+                }  
+                
+            }
+        });
+
+
+        
+        // add labels and text fields to the panel
+        p3.add(menuNameLabel);
+        p3.add(menuNameField);
+        p3.add(menuPriceLabel);
+        p3.add(menuPriceField);
+        p3.add(confirmButton);
+
+        // add the new panel to the frame and display it
+        frame3.add(p3);
+        frame3.setSize(200, 400);
+        frame3.show();
+        
+    }
+    });
+
+
+    //DELETE
+    b4.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            frame4 = new JFrame("delete item");
+            // create a new panel for editing menu items
+            JPanel p4 = new JPanel();
+            p4.setLayout(new BoxLayout(p4, BoxLayout.Y_AXIS));
+    
+            // create labels and text fields for input
+            JLabel itemNumLabel = new JLabel("Item Number:");
+            JTextField itemNumField = new JTextField(10);
+            itemNumField.setMaximumSize(itemNumField.getPreferredSize());
+
+
+            JButton confirmButton = new JButton("Confirm Changes");
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) 
+                {
+                  String s = e.getActionCommand();
+                  if (s.equals("Delete")) {
+                    frame2.setVisible(true);
+                  } else if (s.equals("Confirm Changes")) {
+                    // get the values entered by the user
+                    String num = itemNumField.getText();
+                  
+                    try {
+                      Class.forName("org.postgresql.Driver");
+                      conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                          "csce315331_team_63_master", "WFHD");
+                      
+                      // create a statement object
+                      Statement stmt = conn2.createStatement();
+                      // write the SQL update statement
+                      String sql = "DELETE FROM menu WHERE itemnum = " + num + ";";
+                      // execute the statement
+                      int rowsUpdated = stmt.executeUpdate(sql);
+                      if (rowsUpdated > 0) {
+                        // if the update was successful, close the edit item frame
+                        frame4.setVisible(false);
+                        
+                        // get the updated data and sort it by item number
+                        sql = "SELECT * FROM menu ORDER BY itemnum";
+                        ResultSet rs = stmt.executeQuery(sql);
+                        menuItem = "";
+                        menuItemString = "";
+                        menuPrice = "";
+                        while (rs.next()) {
+                          menuItem += rs.getString("itemnum") + "\n";
+                          menuItemString += rs.getString("food") + "\n";
+                          menuPrice += rs.getString("price") + "\n";
+                        }
+                        // update the GUI JTextAreas to reflect the changes
+                        t.setText(menuItem);
+                        t2.setText(menuItemString);
+                        t3.setText(menuPrice);
+                      }
+                      
+                      try {
+                        conn2.close();
+                        JOptionPane.showMessageDialog(null,"Connection Closed.");
+                      } catch(Exception e2) {
+                        JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                      }
+                    } catch (Exception ex) {
+                      JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+                    }
+                
+                  }  
+                  
+                }
+            });
+
+
+            
+            // add labels and text fields to the panel
+            p4.add(itemNumLabel);
+            p4.add(itemNumField);
+            p4.add(confirmButton);
+    
+            // add the new panel to the frame and display it
+            frame4.add(p4);
+            frame4.setSize(200, 400);
+            frame4.show();
+            
+        }
+      });
+    
 
       
       f.add(p);
@@ -185,7 +378,7 @@ public class ManagerSide extends JFrame implements ActionListener {
         Statement stmt = conn.createStatement();
         //String sqlStatement = ;
         //send statement to DBMS
-        ResultSet result = stmt.executeQuery("SELECT * FROM menu;"); 
+        ResultSet result = stmt.executeQuery("SELECT * FROM menu ORDER BY itemnum;"); 
         while (result.next()) 
         {
           menuItem +=  result.getString("itemnum")+"\n";
