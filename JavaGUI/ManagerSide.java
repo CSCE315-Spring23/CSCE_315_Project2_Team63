@@ -17,10 +17,17 @@ public class ManagerSide extends JFrame implements ActionListener {
     
     public static Connection conn = null;
     public static Connection conn2 = null;
-    public static String menuItem = "";
-    public static String menuItemString = "";
-    public static String menuPrice = "";
+    public static String menuItem = "Item Id: " + '\n';
+    public static String menuItemString = "Menu Item: " + '\n';
+    public static String menuPrice = "Price: " + '\n';
 
+    public static String inventoryItemNum = "Item Id: " + '\n';
+    public static String inventoryItem = "Item: " + '\n';
+    public static String inventoryQuantity = "Quantity: " + '\n';
+    public static String inventoryPrice = "Price: " + '\n';
+    public static String inventoryVendorName = "Vendor Name: " + '\n';
+    public static String inventoryUnit = "Unit: " + '\n';
+    public static String inventoryExp_date = "Expiration Date: " +'\n';
 
     public static void main(String[] args)
     {
@@ -41,6 +48,14 @@ public class ManagerSide extends JFrame implements ActionListener {
                 intialMangOption.setVisible(false);
             }
         });
+
+        inventorySettings.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              InventoryChange();
+              intialMangOption.setVisible(false);
+          }
+      });
     
         // Add components to managerPanel using GridLayout
         managerPanel.setLayout(new GridLayout(2, 1, 10, 10));
@@ -59,9 +74,200 @@ public class ManagerSide extends JFrame implements ActionListener {
         intialMangOption.setVisible(true);
     }
 
+    public static void InventoryChange()
+    {
+      runInventoryTable();
+      f = new JFrame("Inventory");
+
+      JPanel p = new JPanel();
+  
+      JLabel heading = new JLabel("INVENTORY:  ");
+      heading.setHorizontalAlignment(JLabel.CENTER); // Center align the label
+      heading.setFont(new Font("Arial", Font.BOLD, 18));
+
+      JTextArea t = new JTextArea(inventoryItemNum);
+      t.setEditable(false);
+      JTextArea t2 = new JTextArea(inventoryItem);
+      t2.setEditable(false);
+      JTextArea t3 = new JTextArea(inventoryQuantity);
+      t3.setEditable(false);
+      JTextArea t4 = new JTextArea(inventoryPrice);
+      t4.setEditable(false);
+      JTextArea t5 = new JTextArea(inventoryVendorName);
+      t5.setEditable(false);
+      JTextArea t6 = new JTextArea(inventoryUnit);
+      t6.setEditable(false);
+      JTextArea t7 = new JTextArea(inventoryExp_date);
+      t7.setEditable(false);
+
+      JButton b2 = new JButton("Restock");
+      JButton b3 = new JButton("Add");
+      JButton b4 = new JButton("Delete");
+      JButton b = new JButton("Close");
+
+
+      //Restock:
+      b2.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            frame2 = new JFrame("restock item");
+            // create a new panel for editing menu items
+            JPanel p2 = new JPanel();
+            p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+    
+            // create labels and text fields for input
+            JLabel itemNumLabel = new JLabel("Item Number:");
+            JTextField itemNumField = new JTextField(10);
+            itemNumField.setMaximumSize(itemNumField.getPreferredSize());
+
+            JLabel Quantity = new JLabel("Order amount:");
+            JTextField QuantityInput = new JTextField(10);
+            QuantityInput.setMaximumSize(QuantityInput.getPreferredSize());
+
+            JLabel Vendor = new JLabel("Vendor Name:");
+            JTextField VendorInput = new JTextField(10);
+            VendorInput.setMaximumSize(VendorInput.getPreferredSize());
+
+            JLabel Price = new JLabel("Price:");
+            JTextField PriceInput = new JTextField(10);
+            PriceInput.setMaximumSize(PriceInput.getPreferredSize());
+
+            JLabel Exp_data = new JLabel("Expiration Date:");
+            JTextField Exp_Input = new JTextField(10);
+            Exp_Input.setMaximumSize(Exp_Input.getPreferredSize());
+
+            JButton confirmButton = new JButton("Confirm Changes");
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) 
+                {
+                  String s = e.getActionCommand();
+                  if (s.equals("Restock")) {
+                    frame2.setVisible(true);
+                  } else if (s.equals("Confirm Changes")) {
+                    // get the values entered by the user
+                    String num = itemNumField.getText();
+                    String Inv_quantity = QuantityInput.getText();
+                    String Inv_vendor = VendorInput.getText();
+                    String Inv_price = PriceInput.getText();
+                    String Inv_exp = Exp_Input.getText();
+                  
+                    try {
+                      Class.forName("org.postgresql.Driver");
+                      conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                          "csce315331_team_63_master", "WFHD");
+                      
+                      // create a statement object
+                      Statement stmt = conn2.createStatement();
+                      // write the SQL update statement
+                      String sql = "UPDATE inventory_table SET quantity = '" + Inv_quantity + "', vendor_name = '" + Inv_vendor + "', price = '" + Inv_price + "', expiration_date = '" + Inv_exp + "' WHERE item_id = " + num + ";";
+                      // execute the statement
+                      int rowsUpdated = stmt.executeUpdate(sql);
+                      if (rowsUpdated > 0) {
+                        // if the update was successful, close the edit item frame
+                        frame2.setVisible(false);
+                        
+                        // get the updated data and sort it by item number
+                        sql = "SELECT * FROM inventory_table ORDER BY item_id";
+                        ResultSet rs = stmt.executeQuery(sql);
+                        inventoryItemNum = "Item Num: " + '\n';
+                        inventoryItem = "Item: " + '\n';
+                        inventoryQuantity = "Quantity: " + '\n';
+                        inventoryPrice = "Price: " + '\n';
+                        inventoryVendorName = "Vendor Name: " + '\n';
+                        inventoryUnit = "Unit: " + '\n';
+                        inventoryExp_date = "Expiration Date: " +'\n';
+                        while (rs.next()) {
+                          inventoryItemNum +=  rs.getString("item_id")+"\n";
+                          inventoryItem += rs.getString("item")+"\n";
+                          inventoryQuantity += rs.getString("quantity")+"\n";
+                          inventoryPrice +=  rs.getString("price")+"\n";
+                          inventoryVendorName += rs.getString("vendor_name")+"\n";
+                          inventoryUnit += rs.getString("units")+"\n";
+                          inventoryExp_date += rs.getString("expiration_date")+"\n";
+                        }
+                        // update the GUI JTextAreas to reflect the changes
+                        t.setText(inventoryItemNum);
+                        t2.setText(inventoryItem);
+                        t3.setText(inventoryQuantity);
+                        t4.setText(inventoryPrice);
+                        t5.setText(inventoryVendorName);
+                        t6.setText(inventoryUnit);
+                        t7.setText(inventoryExp_date);
+                      }
+                      
+                      try {
+                        conn2.close();
+                        JOptionPane.showMessageDialog(null,"Connection Closed.");
+                      } catch(Exception e2) {
+                        JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                      }
+                    } catch (Exception ex) {
+                      JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+                    }
+                
+                  }  
+                  
+                }
+            });
+
+
+            
+            // add labels and text fields to the panel
+            p2.add(itemNumLabel);
+            p2.add(itemNumField);
+            p2.add(Quantity);
+            p2.add(QuantityInput);
+            p2.add(Price);
+            p2.add(PriceInput);
+            p2.add(Vendor);
+            p2.add(VendorInput);
+            p2.add(Exp_data);
+            p2.add(Exp_Input);
+            p2.add(confirmButton);
+    
+            // add the new panel to the frame and display it
+            frame2.add(p2);
+            frame2.setSize(300, 500);
+            frame2.show();
+            
+        }
+      });
+      
+
+      // add actionlistener to button
+       b.addActionListener(s);
+       p.add(heading);
+       p.add(t);
+       p.add(t2);
+       p.add(t3);
+       p.add(t4);
+       p.add(t5);
+       p.add(t6);
+       p.add(t7);
+       p.add(b);
+       p.add(b2);
+       p.add(b3);
+       p.add(b4);
+
+
+       f.add(p);
+  
+       f.setSize(1000, 800);
+ 
+       f.show();
+ 
+       //closing the connection
+       try {
+         conn.close();
+         JOptionPane.showMessageDialog(null,"Connection Closed.");
+       } catch(Exception e) {
+         JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+       }
+
+    }
+
     public static void MenuChange()
     {
-        runTable();
+        runMenuTable();
 
         // create a new frame
         f = new JFrame("Menu");
@@ -147,9 +353,9 @@ public class ManagerSide extends JFrame implements ActionListener {
                           // get the updated data and sort it by item number
                           sql = "SELECT * FROM menu ORDER BY itemnum";
                           ResultSet rs = stmt.executeQuery(sql);
-                          menuItem = "";
-                          menuItemString = "";
-                          menuPrice = "";
+                          menuItem = "Item Id: " + '\n';
+                          menuItemString = "Menu Item: "+'\n';
+                          menuPrice = "Price: " + '\n';
                           while (rs.next()) {
                             menuItem += rs.getString("itemnum") + "\n";
                             menuItemString += rs.getString("food") + "\n";
@@ -250,9 +456,9 @@ public class ManagerSide extends JFrame implements ActionListener {
                       // get the updated data and sort it by item number
                       sql = "SELECT * FROM menu ORDER BY itemnum";
                       ResultSet rs = stmt.executeQuery(sql);
-                      menuItem = "";
-                      menuItemString = "";
-                      menuPrice = "";
+                      menuItem = "Item Id: " + '\n';
+                      menuItemString = "Menu Item: "+'\n';
+                      menuPrice = "Price: " + '\n';
                       while (rs.next()) {
                           menuItem += rs.getString("itemnum") + "\n";
                           menuItemString += rs.getString("food") + "\n";
@@ -340,9 +546,9 @@ public class ManagerSide extends JFrame implements ActionListener {
                           // get the updated data and sort it by item number
                           sql = "SELECT * FROM menu ORDER BY itemnum";
                           ResultSet rs = stmt.executeQuery(sql);
-                          menuItem = "";
-                          menuItemString = "";
-                          menuPrice = "";
+                          menuItem = "Item Id: " + '\n';
+                          menuItemString = "Menu Item: "+'\n';
+                          menuPrice = "Price: " + '\n';
                           while (rs.next()) {
                             menuItem += rs.getString("itemnum") + "\n";
                             menuItemString += rs.getString("food") + "\n";
@@ -388,7 +594,7 @@ public class ManagerSide extends JFrame implements ActionListener {
         
         f.add(p);
   
-        f.setSize(600, 400);
+        f.setSize(800, 500);
   
         f.show();
   
@@ -401,7 +607,7 @@ public class ManagerSide extends JFrame implements ActionListener {
         }
     }
 
-    public static void runTable() 
+    public static void runMenuTable() 
     {
 
       try {
@@ -427,6 +633,44 @@ public class ManagerSide extends JFrame implements ActionListener {
           menuItem +=  result.getString("itemnum")+"\n";
           menuItemString += result.getString("food")+"\n";
           menuPrice += result.getString("price")+"\n";
+        }
+      } 
+      catch (Exception e)
+      {
+        JOptionPane.showMessageDialog(null,"Error accessing Database.");
+      }
+    }
+
+    public static void runInventoryTable() 
+    {
+
+      try {
+        Class.forName("org.postgresql.Driver");
+        conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+            "csce315331_team_63_master", "WFHD");
+      } catch (Exception e) {
+        e.printStackTrace();
+        System.err.println(e.getClass().getName()+": "+e.getMessage());
+        System.exit(0);
+      }
+      //JOptionPane.showMessageDialog(null,"Opened database successfully");
+
+      try
+      {
+        //create a statement object
+        Statement stmt = conn.createStatement();
+        //String sqlStatement = ;
+        //send statement to DBMS
+        ResultSet result = stmt.executeQuery("SELECT * FROM inventory_table ORDER BY item_id;"); 
+        while (result.next()) 
+        {
+          inventoryItemNum +=  result.getString("item_id")+"\n";
+          inventoryItem += result.getString("item")+"\n";
+          inventoryQuantity += result.getString("quantity")+"\n";
+          inventoryPrice +=  result.getString("price")+"\n";
+          inventoryVendorName += result.getString("vendor_name")+"\n";
+          inventoryUnit += result.getString("units")+"\n";
+          inventoryExp_date += result.getString("expiration_date")+"\n";
         }
       } 
       catch (Exception e)
