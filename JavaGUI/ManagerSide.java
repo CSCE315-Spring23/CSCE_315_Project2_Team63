@@ -1,5 +1,6 @@
 package CSCE_315_Project2_Team63.JavaGUI;
 import java.sql.*;
+import java.util.Random;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -118,6 +119,7 @@ public class ManagerSide extends JFrame implements ActionListener {
             JLabel itemNumLabel = new JLabel("Item Number:");
             JTextField itemNumField = new JTextField(10);
             itemNumField.setMaximumSize(itemNumField.getPreferredSize());
+            
 
             JLabel Quantity = new JLabel("Order amount:");
             JTextField QuantityInput = new JTextField(10);
@@ -232,6 +234,143 @@ public class ManagerSide extends JFrame implements ActionListener {
         }
       });
       
+
+      //ADD:
+      b3.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            frame3 = new JFrame("add item");
+            // create a new panel for editing menu items
+            JPanel p3 = new JPanel();
+            p3.setLayout(new BoxLayout(p3, BoxLayout.Y_AXIS));
+    
+            // create labels and text fields for input
+            JLabel ItemName = new JLabel("Item Name:");
+            JTextField ItemInput = new JTextField(20);
+            ItemInput.setMaximumSize(ItemInput.getPreferredSize());            
+
+            JLabel Quantity = new JLabel("Order amount:");
+            JTextField QuantityInput = new JTextField(10);
+            QuantityInput.setMaximumSize(QuantityInput.getPreferredSize());
+
+            JLabel Vendor = new JLabel("Vendor Name:");
+            JTextField VendorInput = new JTextField(10);
+            VendorInput.setMaximumSize(VendorInput.getPreferredSize());
+
+            JLabel Price = new JLabel("Price:");
+            JTextField PriceInput = new JTextField(10);
+            PriceInput.setMaximumSize(PriceInput.getPreferredSize());
+
+            JLabel Units = new JLabel("Units:");
+            JTextField UnitInput = new JTextField(10);
+            UnitInput.setMaximumSize(UnitInput.getPreferredSize());
+
+            JLabel Exp_data = new JLabel("Expiration Date:");
+            JTextField Exp_Input = new JTextField(10);
+            Exp_Input.setMaximumSize(Exp_Input.getPreferredSize());
+
+            JButton confirmButton = new JButton("Confirm Changes");
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) 
+                {
+                  String s = e.getActionCommand();
+                  if (s.equals("Add")) {
+                    frame3.setVisible(true);
+                  } else if (s.equals("Confirm Changes")) {
+                    // get the values entered by the user
+                    
+                    String Inv_quantity = QuantityInput.getText();
+                    String Inv_vendor = VendorInput.getText();
+                    String Inv_price = PriceInput.getText();
+                    String Inv_exp = Exp_Input.getText();
+                    String Inv_name = ItemInput.getText();
+                    String Inv_units = UnitInput.getText();
+                  
+                    try {
+                      Class.forName("org.postgresql.Driver");
+                      conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                          "csce315331_team_63_master", "WFHD");
+                      
+                      // create a statement object
+                      Statement stmt = conn2.createStatement();
+
+                      Random rand = new Random();
+                      int num = rand.nextInt(900000) + 100000;
+
+                      // write the SQL update statement
+                      String sql = "INSERT INTO inventory_table (item_id, item, quantity, price, vendor_name, units, expiration_date) " + "VALUES (" + num + ", '" + Inv_name + "', '" + Inv_quantity + "', '" + Inv_price + "', '" + Inv_vendor + "', '" + Inv_units + "', '" + Inv_exp + "')";                      // execute the statement
+                      int rowsUpdated = stmt.executeUpdate(sql);
+                      if (rowsUpdated > 0) {
+                        // if the update was successful, close the edit item frame
+                        frame3.setVisible(false);
+                        
+                        // get the updated data and sort it by item number
+                        sql = "SELECT * FROM inventory_table";
+                        ResultSet rs = stmt.executeQuery(sql);
+                        inventoryItemNum = "Item Num: " + '\n';
+                        inventoryItem = "Item: " + '\n';
+                        inventoryQuantity = "Quantity: " + '\n';
+                        inventoryPrice = "Price: " + '\n';
+                        inventoryVendorName = "Vendor Name: " + '\n';
+                        inventoryUnit = "Unit: " + '\n';
+                        inventoryExp_date = "Expiration Date: " +'\n';
+                        while (rs.next()) {
+                          inventoryItemNum +=  rs.getString("item_id")+"\n";
+                          inventoryItem += rs.getString("item")+"\n";
+                          inventoryQuantity += rs.getString("quantity")+"\n";
+                          inventoryPrice +=  rs.getString("price")+"\n";
+                          inventoryVendorName += rs.getString("vendor_name")+"\n";
+                          inventoryUnit += rs.getString("units")+"\n";
+                          inventoryExp_date += rs.getString("expiration_date")+"\n";
+                        }
+                        // update the GUI JTextAreas to reflect the changes
+                        t.setText(inventoryItemNum);
+                        t2.setText(inventoryItem);
+                        t3.setText(inventoryQuantity);
+                        t4.setText(inventoryPrice);
+                        t5.setText(inventoryVendorName);
+                        t6.setText(inventoryUnit);
+                        t7.setText(inventoryExp_date);
+                      }
+                      
+                      try {
+                        conn2.close();
+                        JOptionPane.showMessageDialog(null,"Connection Closed.");
+                      } catch(Exception e2) {
+                        JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                      }
+                    } catch (Exception ex) {
+                      JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+                    }
+                
+                  }  
+                  
+                }
+            });
+
+
+            
+            // add labels and text fields to the panel
+            p3.add(ItemName);
+            p3.add(ItemInput);
+            p3.add(Quantity);
+            p3.add(QuantityInput);
+            p3.add(Price);
+            p3.add(PriceInput);
+            p3.add(Vendor);
+            p3.add(VendorInput);
+            p3.add(Units);
+            p3.add(UnitInput);
+            p3.add(Exp_data);
+            p3.add(Exp_Input);
+            p3.add(confirmButton);
+    
+            // add the new panel to the frame and display it
+            frame3.add(p3);
+            frame3.setSize(300, 500);
+            frame3.show();
+            
+        }
+      });
 
       // add actionlistener to button
        b.addActionListener(s);
@@ -661,7 +800,7 @@ public class ManagerSide extends JFrame implements ActionListener {
         Statement stmt = conn.createStatement();
         //String sqlStatement = ;
         //send statement to DBMS
-        ResultSet result = stmt.executeQuery("SELECT * FROM inventory_table ORDER BY item_id;"); 
+        ResultSet result = stmt.executeQuery("SELECT * FROM inventory_table;"); 
         while (result.next()) 
         {
           inventoryItemNum +=  result.getString("item_id")+"\n";
