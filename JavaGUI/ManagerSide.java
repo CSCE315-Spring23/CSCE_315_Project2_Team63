@@ -168,7 +168,7 @@ public class ManagerSide extends JFrame implements ActionListener {
                         frame2.setVisible(false);
                         
                         // get the updated data and sort it by item number
-                        sql = "SELECT * FROM inventory_table ORDER BY item_id";
+                        sql = "SELECT * FROM inventory_table";
                         ResultSet rs = stmt.executeQuery(sql);
                         inventoryItemNum = "Item Num: " + '\n';
                         inventoryItem = "Item: " + '\n';
@@ -372,6 +372,106 @@ public class ManagerSide extends JFrame implements ActionListener {
         }
       });
 
+      //DELETE:
+      b4.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            frame4 = new JFrame("delete item");
+            // create a new panel for editing menu items
+            JPanel p4 = new JPanel();
+            p4.setLayout(new BoxLayout(p4, BoxLayout.Y_AXIS));
+    
+            // create labels and text fields for input
+            JLabel ItemNum = new JLabel("Item Num:");
+            JTextField ItemNumInput = new JTextField(20);
+            ItemNumInput.setMaximumSize(ItemNumInput.getPreferredSize());            
+
+            JButton confirmButton = new JButton("Confirm Changes");
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) 
+                {
+                  String s = e.getActionCommand();
+                  if (s.equals("Delete")) {
+                    frame4.setVisible(true);
+                  } else if (s.equals("Confirm Changes")) {
+                    // get the values entered by the user
+                    
+                    String Inv_ItemNum = ItemNumInput.getText();
+                  
+                    try {
+                      Class.forName("org.postgresql.Driver");
+                      conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                          "csce315331_team_63_master", "WFHD");
+                      
+                      // create a statement object
+                      Statement stmt = conn2.createStatement();
+
+                      // write the SQL delete statement
+                      String sql = "DELETE FROM inventory_table WHERE item_id = " + Inv_ItemNum + ";";                    // execute the statement
+                      int rowsUpdated = stmt.executeUpdate(sql);
+                      if (rowsUpdated > 0) {
+                        // if the update was successful, close the edit item frame
+                        frame4.setVisible(false);
+                        
+                        // get the updated data and sort it by item number
+                        sql = "SELECT * FROM inventory_table";
+                        ResultSet rs = stmt.executeQuery(sql);
+                        inventoryItemNum = "Item Num: " + '\n';
+                        inventoryItem = "Item: " + '\n';
+                        inventoryQuantity = "Quantity: " + '\n';
+                        inventoryPrice = "Price: " + '\n';
+                        inventoryVendorName = "Vendor Name: " + '\n';
+                        inventoryUnit = "Unit: " + '\n';
+                        inventoryExp_date = "Expiration Date: " +'\n';
+                        while (rs.next()) {
+                          inventoryItemNum +=  rs.getString("item_id")+"\n";
+                          inventoryItem += rs.getString("item")+"\n";
+                          inventoryQuantity += rs.getString("quantity")+"\n";
+                          inventoryPrice +=  rs.getString("price")+"\n";
+                          inventoryVendorName += rs.getString("vendor_name")+"\n";
+                          inventoryUnit += rs.getString("units")+"\n";
+                          inventoryExp_date += rs.getString("expiration_date")+"\n";
+                        }
+                        // update the GUI JTextAreas to reflect the changes
+                        t.setText(inventoryItemNum);
+                        t2.setText(inventoryItem);
+                        t3.setText(inventoryQuantity);
+                        t4.setText(inventoryPrice);
+                        t5.setText(inventoryVendorName);
+                        t6.setText(inventoryUnit);
+                        t7.setText(inventoryExp_date);
+                      }
+                      
+                      try {
+                        conn2.close();
+                        JOptionPane.showMessageDialog(null,"Connection Closed.");
+                      } catch(Exception e2) {
+                        JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                      }
+                    } catch (Exception ex) {
+                      JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+                    }
+                
+                  }  
+                  
+                }
+            });
+
+
+            
+            // add labels and text fields to the panel
+            p4.add(ItemNum);
+            p4.add(ItemNumInput);
+            p4.add(confirmButton);
+    
+            // add the new panel to the frame and display it
+            frame4.add(p4);
+            frame4.setSize(300, 500);
+            frame4.show();
+            
+        }
+      });
+
+
       // add actionlistener to button
        b.addActionListener(s);
        p.add(heading);
@@ -443,7 +543,7 @@ public class ManagerSide extends JFrame implements ActionListener {
   
   
          //EDIT
-         b2.addActionListener(new ActionListener() {
+      b2.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
               frame2 = new JFrame("edit item");
               // create a new panel for editing menu items
