@@ -9,9 +9,12 @@ import javax.swing.*;
 public class Order extends JFrame {
     // main
     public static void main(String[] args){
-        // Frame and panel for button layout
+        // Frame and panel for button layout: Centered with menu items at the top and close and delete at the bottom.
         JFrame frame = new JFrame("Order History");
-        JPanel panel = new JPanel(new FlowLayout());
+        frame.setLayout(new BorderLayout());
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
+        JPanel buttonContainer = new JPanel();
+        buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.X_AXIS));
 
         // Buttons for each menu item
         JButton bowls = new JButton("Bowls");
@@ -19,11 +22,18 @@ public class Order extends JFrame {
         JButton tacos = new JButton("Tacos");
         JButton sides_and_drinks = new JButton("Sides&Drinks");
 
-        // Add buttons to panel for layout purposes
-        panel.add(bowls);
-        panel.add(burritos);
-        panel.add(tacos);
-        panel.add(sides_and_drinks);
+        // Add buttons to panel with spacing
+        buttonContainer.add(Box.createHorizontalGlue());
+        buttonContainer.add(bowls);
+        buttonContainer.add(Box.createHorizontalStrut(10));
+        buttonContainer.add(burritos);
+        buttonContainer.add(Box.createHorizontalStrut(10));
+        buttonContainer.add(tacos);
+        buttonContainer.add(Box.createHorizontalStrut(10));
+        buttonContainer.add(sides_and_drinks);
+        buttonContainer.add(Box.createHorizontalGlue());
+        
+        panel.add(buttonContainer);
 
         // Close button to terminate the program
         JButton close = new JButton("Close");
@@ -37,7 +47,7 @@ public class Order extends JFrame {
         panel.add(close);
 
         // Add frame to panel to show on screen
-        frame.add(panel);
+        frame.add(panel, BorderLayout.NORTH);
         frame.pack();
         frame.setVisible(true);
 
