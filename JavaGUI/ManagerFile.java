@@ -6,7 +6,9 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-public class ManagerFile{
+// public class ManagerFile extends JFrame{
+
+public class ManagerFile {
 
     static JFrame intialMangOption;
     static JFrame f;

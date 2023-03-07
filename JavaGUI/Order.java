@@ -11,27 +11,15 @@ import java.io.*;
 import java.util.*;
 
 // implements ActionListener
-public class Order extends JFrame implements ActionListener {
-    private JTextArea receiptArea;
-    private JButton chicken_taco_button;
-    private JButton steak_taco_button;
-    private JButton beef_taco_button;
-    private JButton veggie_taco_button;
-    private JButton chips_and_guac;
-    private JButton chips_and_queso;
-    private JButton chips_and_salsa;
-    private JButton drink;
-    private JButton burrito_steak_button;
-    private JButton burrito_beef_button;
-    private JButton burrito_veg_button;
-    private JButton burrito_chicken_button;
-    private JButton bowl_chicken_button;
-    private JButton bowl_steak_button;
-    private JButton bowl_beef_button;
-    private JButton bowl_veg_button;
-    private JButton rainbow_button;
-    private JButton checkoutButton;
-    private double total = 0;
+public class Order {
+    // main
+    public static void server() {
+        // Frame and panel for button layout: Centered with menu items at the top and close and delete at the bottom.
+        JFrame frame = new JFrame("Order History");
+        frame.setLayout(new BorderLayout());
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
+        JPanel buttonContainer = new JPanel();
+        buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.X_AXIS));
 
     public Order() {
         super("Point of Sale");
