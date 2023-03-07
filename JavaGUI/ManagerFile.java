@@ -1,20 +1,20 @@
-package CSCE_315_Project2_Team63.JavaGUI.Manager;
+//package CSCE_315_Project2_Team63.JavaGUI.Manager;
 import java.sql.*;
 import java.util.Random;
 import java.awt.event.*;
 import javax.swing.*;
-
 import java.awt.Font;
 import java.awt.GridLayout;
 
-public class ManagerSide extends JFrame implements ActionListener {
+public class ManagerFile{
+
     static JFrame intialMangOption;
     static JFrame f;
     static JFrame frame2;
     static JFrame frame3;
     static JFrame frame4;
 
-    public static ManagerSide s = new ManagerSide();
+    public static ManagerFile s = new ManagerFile();
     
     public static Connection conn = null;
     public static Connection conn2 = null;
@@ -30,7 +30,12 @@ public class ManagerSide extends JFrame implements ActionListener {
     public static String inventoryUnit = "Unit: " + '\n';
     public static String inventoryExp_date = "Expiration Date: " +'\n';
 
-    public static void main(String[] args)
+    public ManagerFile()
+    {
+      System.out.print("Manager Process");
+    }
+
+    public static void ManagerDashboard()
     {
         intialMangOption = new JFrame("Manager Options");
         JPanel managerPanel = new JPanel();
@@ -473,7 +478,7 @@ public class ManagerSide extends JFrame implements ActionListener {
 
 
       // add actionlistener to button
-       b.addActionListener(s);
+       b.addActionListener((ActionListener) s);
        p.add(heading);
        p.add(t);
        p.add(t2);
@@ -531,7 +536,7 @@ public class ManagerSide extends JFrame implements ActionListener {
         
   
         // add actionlistener to button
-         b.addActionListener(s);
+         b.addActionListener((ActionListener) s);
          p.add(heading);
          p.add(t);
          p.add(t2);

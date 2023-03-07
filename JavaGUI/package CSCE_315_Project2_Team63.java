@@ -1,3 +1,4 @@
+package CSCE_315_Project2_Team63.JavaGUI;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.*;
@@ -16,9 +17,9 @@ import java.util.*;
 // make a function that can show the total sum of the existing order actively
 
 // implements ActionListener
-public class Order {
+public class Order extends JFrame {
     // main
-    public static void server() {
+    public static void main(String[] args){
         // Frame and panel for button layout: Centered with menu items at the top and close and delete at the bottom.
         JFrame frame = new JFrame("Order History");
         frame.setLayout(new BorderLayout());
@@ -110,7 +111,7 @@ public class Order {
                     Statement stmt = conn.createStatement();
                     //create an SQL statement
                     //TODO Step 2
-                    String sqlStatement = "SELECT * FROM menu WHERE food LIKE '%bowl%' AND food NOTLIKE '%custom%';";
+                    String sqlStatement = "SELECT * FROM menu WHERE food LIKE '%bowl%';";
                     //send statement to DBMS
                     ResultSet result = stmt.executeQuery(sqlStatement);
                     while (result.next()) {
@@ -124,7 +125,7 @@ public class Order {
                 for (String food : foodlist) {
                     JButton button = new JButton(food);
                     button.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent f) {
+                        public void actionPerformed(ActionEvent e) {
                             list.add(button);
                         }
                     });
