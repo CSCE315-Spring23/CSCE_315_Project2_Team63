@@ -11,10 +11,13 @@ import java.io.*;
 import java.util.*;
 
 // TO-DO:
+// inventory is deleting per item from the table
+// order history is appending a new item with employeeid, date, customer name, order, total
+// sales table add to the existing date given
 public class Order extends JFrame implements ActionListener {
     private JTextArea receiptArea;
     private JTextField employeeID, date, name;
-    private JLabel employee_label, date_label, name_label;
+    private JLabel employee_label, date_label, name_label, total_price;
     private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
     private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
     private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
@@ -30,9 +33,11 @@ public class Order extends JFrame implements ActionListener {
         employeeID = new JTextField(10);
         name = new JTextField(10);
         date = new JTextField(10);
+
         employee_label = new JLabel("Employee ID: ");
         date_label = new JLabel("Date(XXXX-XX-XX): ");
         name_label = new JLabel("Customer name: ");
+        total_price = new JLabel("Total price: $0.00");
         
         receiptArea.setEditable(false);
     
@@ -111,6 +116,9 @@ public class Order extends JFrame implements ActionListener {
 
         getContentPane().add(buttonPanel, BorderLayout.NORTH);
         getContentPane().add(receiptArea, BorderLayout.CENTER);
+        
+        checkoutPanel.add(total_price);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
 
         checkoutPanel.add(checkoutButton);
         getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
@@ -138,106 +146,135 @@ public class Order extends JFrame implements ActionListener {
             double price = 7.89;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_steak_button) {
             String item = "Marinated Steak Burrito";
             double price = 9.19;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == steak_taco_button) {
             String item = "Marinated Steak Taco";
             double price = 8.89;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == drink) {
             String item = "Fountain Drink";
             double price = 2.45;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == beef_taco_button) {
             String item = "Beef Taco";
             double price = 8.79;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_chicken_button) {
             String item = "Chicken Burrito";
             double price = 8.69;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == veggie_taco_button) {
             String item = "Grilled Vegetable Taco";
             double price = 7.89;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_beef_button) {
             String item = "Grilled Vegetable Taco";
             double price = 7.89;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == chips_and_guac) {
             String item = "Chips-and-Guac";
             double price = 3.69;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == chips_and_queso) {
             String item = "Chips-and-Queso";
             double price = 3.49;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == chips_and_salsa) {
             String item = "Chips-and-Salsa";
             double price = 2.19;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_veg_button) {
             String item = "Grilled Vegetable Burrito";
             double price = 8.29;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_veg_button) {
             String item = "Grilled Vegetable Bowl";
             double price = 8.29;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_beef_button) {
             String item = "Beef Bowl";
             double price = 8.99;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_steak_button) {
             String item = "Marinated Steak Bowl";
             double price = 9.19;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_chicken_button) {
             String item = "Chicken Bowl";
             double price = 8.69;
             total += price;
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == checkoutButton) {
-            String totalLine = String.format("Total:\t$%.2f\n", total);
-            receiptArea.append(totalLine);
             String employee = employeeID.getText();
             String day = date.getText();
             total = 0;
-            System.out.println("Employee ID: " + employee);
-            System.out.println("Date: " + day);
-            System.out.println("Customer: " + name);
+            total_price.setText("Total price: $0.00");
+            receiptArea.setText("");
         }
     }
 
