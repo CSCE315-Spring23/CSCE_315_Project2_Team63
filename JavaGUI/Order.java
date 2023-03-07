@@ -10,31 +10,30 @@ import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.util.*;
 
+// TO-DO:
 public class Order extends JFrame implements ActionListener {
     private JTextArea receiptArea;
-    private JButton chicken_taco_button;
-    private JButton steak_taco_button;
-    private JButton beef_taco_button;
-    private JButton veggie_taco_button;
-    private JButton chips_and_guac;
-    private JButton chips_and_queso;
-    private JButton chips_and_salsa;
-    private JButton drink;
-    private JButton burrito_steak_button;
-    private JButton burrito_beef_button;
-    private JButton burrito_veg_button;
-    private JButton burrito_chicken_button;
-    private JButton bowl_chicken_button;
-    private JButton bowl_steak_button;
-    private JButton bowl_beef_button;
-    private JButton bowl_veg_button;
+    private JTextField employeeID, date, name;
+    private JLabel employee_label, date_label, name_label;
+    private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
+    private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
+    private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
+    private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button;
 
     private JButton checkoutButton;
     private double total = 0;
+
     public Order() {
-        super("Point of Sale");
+        super("Order");
         // Create text area for displaying the receipt
         receiptArea = new JTextArea(10, 30);
+        employeeID = new JTextField(10);
+        name = new JTextField(10);
+        date = new JTextField(10);
+        employee_label = new JLabel("Employee ID: ");
+        date_label = new JLabel("Date(XXXX-XX-XX): ");
+        name_label = new JLabel("Customer name: ");
+        
         receiptArea.setEditable(false);
     
         // Create buttons for adding items and checking out
@@ -109,10 +108,23 @@ public class Order extends JFrame implements ActionListener {
         buttonPanel.add(bowl_veg_button);
     
         JPanel checkoutPanel = new JPanel(new FlowLayout());
-        checkoutPanel.add(checkoutButton);
-    
+
         getContentPane().add(buttonPanel, BorderLayout.NORTH);
         getContentPane().add(receiptArea, BorderLayout.CENTER);
+
+        checkoutPanel.add(checkoutButton);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(employee_label);
+        checkoutPanel.add(employeeID);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(date_label);
+        checkoutPanel.add(date);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(name_label);
+        checkoutPanel.add(name);
         getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
     
         pack();
@@ -220,7 +232,12 @@ public class Order extends JFrame implements ActionListener {
         } else if (e.getSource() == checkoutButton) {
             String totalLine = String.format("Total:\t$%.2f\n", total);
             receiptArea.append(totalLine);
+            String employee = employeeID.getText();
+            String day = date.getText();
             total = 0;
+            System.out.println("Employee ID: " + employee);
+            System.out.println("Date: " + day);
+            System.out.println("Customer: " + name);
         }
     }
 
