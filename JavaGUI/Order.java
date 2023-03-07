@@ -9,15 +9,12 @@ import javax.swing.DefaultListModel;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
-<<<<<<< HEAD
 
 //TO-DO: create a list for each menu category and make buttons for them.
 // when you click the button it should add to an ongoing list that is shown in the middle of the screen and close the existing window
 // add a possibile way to increment and decrement each item in the list 
 // make a button to confirm order. the confirm button should update the tables sales and order history
 // make a function that can show the total sum of the existing order actively
-=======
->>>>>>> 4791d9fd3e9b882e79ac11d565caa713e5304127
 
 // implements ActionListener
 public class Order extends JFrame {
@@ -34,11 +31,7 @@ public class Order extends JFrame {
         Vector<String> food_names;
         Vector<Integer> prices;
 
-<<<<<<< HEAD
         //-------------------- Menu buttons to add items to the list -----------------------
-=======
-        // Buttons for each menu item
->>>>>>> 4791d9fd3e9b882e79ac11d565caa713e5304127
         JButton bowls = new JButton("Bowls");
         JButton burritos = new JButton("Burritos");
         JButton tacos = new JButton("Tacos");
@@ -87,234 +80,6 @@ public class Order extends JFrame {
                 System.exit(0); //terminates program
             }   
         });
-<<<<<<< HEAD
-=======
-
-
-        bowls.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent E){
-                Connection conn = null;
-                try {
-                    Class.forName("org.postgresql.Driver");
-                    conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
-                       "csce315331_team_63_master", "WFHD");
-                  } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(e.getClass().getName()+": "+e.getMessage());
-                    System.exit(0);
-                  }
-
-                  String name = "";
-
-                  JFrame f = new JFrame();
-
-                  JPanel p = new JPanel();
-
-                    try{
-                        //create a statement object
-                        Statement stmt = conn.createStatement();
-                        //create an SQL statement
-                        //TODO Step 2
-                        String sqlStatement = "SELECT * FROM menu WHERE food LIKE '%bowl%';";
-                        //send statement to DBMS
-                        ResultSet result = stmt.executeQuery(sqlStatement);
-                        while (result.next()) {
-                        name += result.getString("food")+"\n";
-                        }
-                    } catch (Exception e){
-                        JOptionPane.showMessageDialog(null,"Error accessing Database.");
-                    }
-
-
-                    JTextArea t = new JTextArea(name);
-
-                    p.add(t);
-
-                    f.add(p);
-
-                    f.add(p, BorderLayout.NORTH);
-                    f.pack();
-                    f.setVisible(true);
-
-                    
-            }
-
-        });
-
-
-        burritos.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent E){
-                Connection conn = null;
-                try {
-                    Class.forName("org.postgresql.Driver");
-                    conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
-                       "csce315331_team_63_master", "WFHD");
-                  } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(e.getClass().getName()+": "+e.getMessage());
-                    System.exit(0);
-                  }
-
-                  String name = "";
-
-                  JFrame f = new JFrame();
-
-                  JPanel p = new JPanel();
-
-                    try{
-                        //create a statement object
-                        Statement stmt = conn.createStatement();
-                        //create an SQL statement
-                        //TODO Step 2
-                        String sqlStatement = "SELECT * FROM menu WHERE food LIKE '%burrito%';";
-                        //send statement to DBMS
-                        ResultSet result = stmt.executeQuery(sqlStatement);
-                        while (result.next()) {
-                        name += result.getString("food")+"\n";
-                        }
-                    } catch (Exception e){
-                        JOptionPane.showMessageDialog(null,"Error accessing Database.");
-                    }
-
-
-                    JTextArea t = new JTextArea(name);
-
-                    p.add(t);
-
-                    f.add(p);
-
-                    f.add(p, BorderLayout.NORTH);
-                    f.pack();
-                    f.setVisible(true);
-
-                    
-            }
-
-        });
-
-
-
-        tacos.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent E){
-                Connection conn = null;
-                try {
-                    Class.forName("org.postgresql.Driver");
-                    conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
-                       "csce315331_team_63_master", "WFHD");
-                  } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(e.getClass().getName()+": "+e.getMessage());
-                    System.exit(0);
-                  }
-
-                  String name = "";
-
-                  JFrame f = new JFrame();
-
-                  JPanel p = new JPanel();
-
-                    try{
-                        //create a statement object
-                        Statement stmt = conn.createStatement();
-                        //create an SQL statement
-                        //TODO Step 2
-                        String sqlStatement = "SELECT * FROM menu WHERE food LIKE '%taco%';";
-                        //send statement to DBMS
-                        ResultSet result = stmt.executeQuery(sqlStatement);
-                        while (result.next()) {
-                        name += result.getString("food")+"\n";
-                        }
-                    } catch (Exception e){
-                        JOptionPane.showMessageDialog(null,"Error accessing Database.");
-                    }
-
-
-                    JTextArea t = new JTextArea(name);
-
-                    p.add(t);
-
-                    f.add(p);
-
-                    f.add(p, BorderLayout.NORTH);
-                    f.pack();
-                    f.setVisible(true);
-
-                    
-            }
-
-        });
-
-
-
-        sides_and_drinks.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent E){
-
-
-                Connection conn = null;
-                try {
-                    Class.forName("org.postgresql.Driver");
-                    conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
-                       "csce315331_team_63_master", "WFHD");
-                  } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(e.getClass().getName()+": "+e.getMessage());
-                    System.exit(0);
-                  }
-
-                  String name = "";
-
-                  JFrame f = new JFrame();
-
-                  JPanel p = new JPanel();
-
-                    try{
-                        //create a statement object
-                        Statement stmt = conn.createStatement();
-                        //create an SQL statement
-                        //TODO Step 2
-                        String sqlStatement = "SELECT * FROM menu WHERE (food LIKE '%drink%' OR food LIKE '%chip%' OR food LIKE '%rainbow%');";
-                        //send statement to DBMS
-                        ResultSet result = stmt.executeQuery(sqlStatement);
-                        while (result.next()) {
-                        name += result.getString("food")+"\n";
-                        }
-                    } catch (Exception e){
-                        JOptionPane.showMessageDialog(null,"Error accessing Database.");
-                    }
-
-
-                    JTextArea t = new JTextArea(name);
-                    
-
-                    p.add(t);
-
-                    f.add(p);
-
-                    f.add(p, BorderLayout.NORTH);
-                    f.pack();
-                    f.setVisible(true);
-
-                    
-            }
-
-        });
-
-
-
-        
-        panel.add(close);
-        panel.add(bowls);
-        panel.add(burritos);
-        panel.add(tacos);
-        panel.add(sides_and_drinks);
-
-        // Add frame to panel to show on screen
-        frame.add(panel, BorderLayout.NORTH);
-        frame.pack();
-        frame.setVisible(true);
-
-        // Listeners
->>>>>>> 4791d9fd3e9b882e79ac11d565caa713e5304127
         // Listens when close is activated in frame
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -507,12 +272,4 @@ public class Order extends JFrame {
         frame.pack();
         frame.setVisible(true);
     }
-<<<<<<< HEAD
-=======
-
-
-    // connect run all functions
-
-    // close
->>>>>>> 4791d9fd3e9b882e79ac11d565caa713e5304127
 }
