@@ -16,11 +16,17 @@ import java.util.*;
 // make a function that can show the total sum of the existing order actively
 
 // implements ActionListener
-public class Order {
+public class Order extends JFrame {
+    public Order() {
+        // setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    }
     // main
     public static void server() {
         // Frame and panel for button layout: Centered with menu items at the top and close and delete at the bottom.
         JFrame frame = new JFrame("Order History");
+        // frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
         JPanel buttonContainer = new JPanel();

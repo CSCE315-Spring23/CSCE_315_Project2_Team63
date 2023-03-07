@@ -5,8 +5,8 @@ public class Main{
     {
         // ManagerFile file = new ManagerFile();
         // file.ManagerDashboard();
-        Order file = new Order();
-        file.server();
+        HomePage homePage = new HomePage();
+        homePage.setVisible(true);
     }
 
 }
