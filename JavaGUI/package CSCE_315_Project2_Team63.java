@@ -125,7 +125,7 @@ public class Order extends JFrame {
                 for (String food : foodlist) {
                     JButton button = new JButton(food);
                     button.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent f) {
+                        public void actionPerformed(ActionEvent e) {
                             list.add(button);
                         }
                     });
