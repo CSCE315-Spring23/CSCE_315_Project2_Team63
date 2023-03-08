@@ -10,7 +10,7 @@ import java.util.*;
 import java.text.DecimalFormat;
 
 public class Order extends JFrame implements ActionListener {
-    public static Connection connorder = null;
+    public static Connection conn2 = null;
     private JTextArea receiptArea;
     private JTextField employeeID, date, name;
     private JLabel employee_label, date_label, name_label, total_price;
@@ -18,6 +18,7 @@ public class Order extends JFrame implements ActionListener {
     private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
     private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
     private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button, cancel;
+    private String itemList = "";
 
     private JButton checkoutButton;
     private double total = 0;
@@ -150,6 +151,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Chicken Taco";
             double price = 7.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -158,6 +160,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Marinated Steak Burrito";
             double price = 9.19;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total);
@@ -166,6 +169,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Marinated Steak Taco";
             double price = 8.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -174,6 +178,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Fountain Drink";
             double price = 2.45;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -182,6 +187,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Beef Taco";
             double price = 8.79;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -190,6 +196,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Chicken Burrito";
             double price = 8.69;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -198,6 +205,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Grilled Vegetable Taco";
             double price = 7.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -206,6 +214,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Grilled Vegetable Taco";
             double price = 7.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -214,6 +223,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Chips-and-Guac";
             double price = 3.69;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -222,6 +232,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Chips-and-Queso";
             double price = 3.49;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -230,6 +241,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Chips-and-Salsa";
             double price = 2.19;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -238,6 +250,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Grilled Vegetable Burrito";
             double price = 8.29;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -246,6 +259,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Grilled Vegetable Bowl";
             double price = 8.29;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -254,6 +268,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Beef Bowl";
             double price = 8.99;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -262,6 +277,7 @@ public class Order extends JFrame implements ActionListener {
             String item = "Marinated Steak Bowl";
             double price = 9.19;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
@@ -270,28 +286,49 @@ public class Order extends JFrame implements ActionListener {
             String item = "Chicken Bowl";
             double price = 8.69;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == checkoutButton) {
-            String prev_day = "";
-            if(isFirst == false) {
-                prev_day = date.getText();
-            }
+            // String prev_day = "";
+            // if(isFirst == false) {
+            //     prev_day = date.getText();
+            // }
             String employee = employeeID.getText();
             String day = date.getText();
             String customer = name.getText();
 
-            complete_total += total;
+            try {
+                Class.forName("org.postgresql.Driver");
+                conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                    "csce315331_team_63_master", "WFHD");
 
-            if(employee.isEmpty() || day.isEmpty() || customer.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Please enter into all text entries");
-            } else {
-                total = 0;
-                total_price.setText("Total price: $0.00");
-                receiptArea.setText("");
+                Statement stmt = conn2.createStatement();
+                stmt.executeUpdate("INSERT INTO orderhistory (emp_id, date, customer_name, order_history, total) VALUES ('" + employee + "', '" + day + "', '" + customer + "', '" + itemList + "', '" + total + "')");
+                //stmt.executeUpdate("INSERT INTO sales (date, total_sales) VALUES ('" + day + "', '" + total + "')");
+
+            } catch (Exception e2) {
+                e2.printStackTrace();
+                System.err.println(e.getClass().getName()+": "+e2.getMessage());
+                System.exit(0);
             }
+        
+            total = 0;
+            itemList = "";
+            total_price.setText("Total price: $0.00");
+            receiptArea.setText("");
+
+            // complete_total += total;
+
+            // if(employee.isEmpty() || day.isEmpty() || customer.isEmpty()){
+            //     JOptionPane.showMessageDialog(null, "Please enter into all text entries");
+            // } else {
+            //     total = 0;
+            //     total_price.setText("Total price: $0.00");
+            //     receiptArea.setText("");
+            // }
 
             // update sales
             // if(prev_day != day){
@@ -323,6 +360,7 @@ public class Order extends JFrame implements ActionListener {
             employeeID.setText("");
             date.setText("");
             name.setText("");
+            itemList = "";
         }
     }
 
