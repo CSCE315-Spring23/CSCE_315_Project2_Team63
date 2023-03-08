@@ -7,5 +7,7 @@ public class Main{
         // file.ManagerDashboard();
         HomePage homePage = new HomePage();
         homePage.setVisible(true);
+        // Custom test = new Custom();
+        
     }
 }
