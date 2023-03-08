@@ -1,30 +1,29 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.*;
-import java.util.Random;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.DefaultListModel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.*;
 import java.util.*;
+import java.text.DecimalFormat;
 
-// TO-DO:
-// inventory is deleting per item from the table
-// order history is appending a new item with employeeid, date, customer name, order, total
-// sales table add to the existing date given
 public class Order extends JFrame implements ActionListener {
+    public static Connection connorder = null;
     private JTextArea receiptArea;
     private JTextField employeeID, date, name;
     private JLabel employee_label, date_label, name_label, total_price;
     private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
     private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
     private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
-    private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button;
+    private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button, cancel;
 
     private JButton checkoutButton;
     private double total = 0;
+    private double complete_total = 0;
+    // private Boolean isFirst = false;
+    // private String date_ = "";
 
     public Order() {
         super("Order");
@@ -78,20 +77,23 @@ public class Order extends JFrame implements ActionListener {
         burrito_chicken_button = new JButton("Chicken Burrito - $8.69");
         burrito_chicken_button.addActionListener(this);
     
-        bowl_steak_button = new JButton("Steak Burrito - $9.19");
+        bowl_steak_button = new JButton("Steak Bowl- $9.19");
         bowl_steak_button.addActionListener(this);
     
-        bowl_beef_button = new JButton("Beef Burrito - $8.99");
+        bowl_beef_button = new JButton("Beef Bowl - $8.99");
         bowl_beef_button.addActionListener(this);
     
-        bowl_veg_button = new JButton("Veggie Burrito - $8.29");
+        bowl_veg_button = new JButton("Veggie Bowl - $8.29");
         bowl_veg_button.addActionListener(this);
     
-        bowl_chicken_button = new JButton("Chicken Burrito - $8.69");
+        bowl_chicken_button = new JButton("Chicken Bowl - $8.69");
         bowl_chicken_button.addActionListener(this);
     
         checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(this);
+
+        cancel = new JButton("Cancel Order");
+        cancel.addActionListener(this);
     
         // Add components to the frame
         JPanel buttonPanel = new JPanel(new GridLayout(2, 8));
@@ -133,6 +135,9 @@ public class Order extends JFrame implements ActionListener {
 
         checkoutPanel.add(name_label);
         checkoutPanel.add(name);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(cancel);
         getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
     
         pack();
@@ -270,11 +275,54 @@ public class Order extends JFrame implements ActionListener {
             total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == checkoutButton) {
+            String prev_day = "";
+            if(isFirst == false) {
+                prev_day = date.getText();
+            }
             String employee = employeeID.getText();
             String day = date.getText();
+            String customer = name.getText();
+
+            complete_total += total;
+
+            if(employee.isEmpty() || day.isEmpty() || customer.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Please enter into all text entries");
+            } else {
+                total = 0;
+                total_price.setText("Total price: $0.00");
+                receiptArea.setText("");
+            }
+
+            // update sales
+            // if(prev_day != day){
+            //     try {
+            //         Class.forName("org.postgresql.Driver");
+            //         connorder = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63", "csce315331_team_63_master", "WFHD");
+            //         //create a statement object
+            //         Statement stmt = connorder.createStatement();
+            //         // stmt.executeUpdate("UPDATE sales (date, total_sales) VALUES ('" + prev_day + "', '" + complete_total + "')");
+            //         stmt.executeUpdate("UPDATE sales SET date=")
+            //         complete_total = 0;
+            //         isFirst = false;
+            //     } catch (Exception e2) {
+            //         e2.printStackTrace();
+            //         JOptionPane.showMessageDialog(null,"Error accessing Database.");
+            //         System.exit(0);
+            //     }
+            // }
+            // else {
+            //     // previous day
+            //     prev_day = day;
+            //     isFirst = true;
+            // }
+
+        } else if(e.getSource() == cancel) {//
             total = 0;
             total_price.setText("Total price: $0.00");
             receiptArea.setText("");
+            employeeID.setText("");
+            date.setText("");
+            name.setText("");
         }
     }
 
