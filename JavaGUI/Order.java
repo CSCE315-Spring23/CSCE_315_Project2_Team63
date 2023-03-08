@@ -16,6 +16,7 @@ public class Order extends JFrame implements ActionListener {
     private JLabel employee_label, date_label, name_label, total_price;
     private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
     private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
+    private JButton rainbow, custom;
     private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
     private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button, cancel;
     private String itemList = "";
@@ -23,7 +24,7 @@ public class Order extends JFrame implements ActionListener {
     private JButton checkoutButton;
     private double total = 0;
     private double complete_total = 0;
-    // private Boolean isFirst = false;
+    private Boolean isFirst = false;
     // private String date_ = "";
 
     public Order() {
@@ -42,53 +43,59 @@ public class Order extends JFrame implements ActionListener {
         receiptArea.setEditable(false);
     
         // Create buttons for adding items and checking out
-        chicken_taco_button = new JButton("Chicken Taco - $7.89");
+        chicken_taco_button = new JButton("tacos_chili-rubbed-chicken - $7.89");
         chicken_taco_button.addActionListener(this);
     
-        steak_taco_button = new JButton("Steak Taco - $8.89");
+        steak_taco_button = new JButton("tacos-marinated-steak - $8.89");
         steak_taco_button.addActionListener(this);
     
-        beef_taco_button = new JButton("Beef Taco - $8.79");
+        beef_taco_button = new JButton("tacos_seasoned-beef - $8.79");
         beef_taco_button.addActionListener(this);
     
-        veggie_taco_button = new JButton("Veggie Taco - $7.89");
+        veggie_taco_button = new JButton("tacos_grilled-vegetable-medley - $7.89");
         veggie_taco_button.addActionListener(this);
         
-        chips_and_guac = new JButton("Chips-and-guac - $3.69");
+        chips_and_guac = new JButton("chips-and-guac - $3.69");
         chips_and_guac.addActionListener(this);
     
-        chips_and_salsa = new JButton("Chips-and-salsa - $2.19");
+        chips_and_salsa = new JButton("chips-and-salsa - $2.19");
         chips_and_salsa.addActionListener(this);
     
-        chips_and_queso = new JButton("Chips-and-queso - $3.49");
+        chips_and_queso = new JButton("chips-and-queso - $3.49");
         chips_and_queso.addActionListener(this);
         
-        drink = new JButton("Drink - $2.45");
+        drink = new JButton("fountain-drink - $2.45");
         drink.addActionListener(this);
     
-        burrito_steak_button = new JButton("Steak Burrito - $9.19");
+        burrito_steak_button = new JButton("burrito_marinated-steak - $9.19");
         burrito_steak_button.addActionListener(this);
     
-        burrito_beef_button = new JButton("Beef Burrito - $8.99");
+        burrito_beef_button = new JButton("burrito_seasoned-beef - $8.99");
         burrito_beef_button.addActionListener(this);
     
-        burrito_veg_button = new JButton("Veggie Burrito - $8.29");
+        burrito_veg_button = new JButton("burrito_grilled-vegetable-medley - $8.29");
         burrito_veg_button.addActionListener(this);
     
-        burrito_chicken_button = new JButton("Chicken Burrito - $8.69");
+        burrito_chicken_button = new JButton("burrito_chili-rubbed-chicken - $8.69");
         burrito_chicken_button.addActionListener(this);
     
-        bowl_steak_button = new JButton("Steak Bowl- $9.19");
+        bowl_steak_button = new JButton("bowl_marinated-steak - $9.19");
         bowl_steak_button.addActionListener(this);
     
-        bowl_beef_button = new JButton("Beef Bowl - $8.99");
+        bowl_beef_button = new JButton("bowl_seasoned-beef - $8.99");
         bowl_beef_button.addActionListener(this);
     
-        bowl_veg_button = new JButton("Veggie Bowl - $8.29");
+        bowl_veg_button = new JButton("bowl_grilled-vegetable-medley - $8.29");
         bowl_veg_button.addActionListener(this);
     
-        bowl_chicken_button = new JButton("Chicken Bowl - $8.69");
+        bowl_chicken_button = new JButton("bowl_chili-rubbed-chicken - $8.69");
         bowl_chicken_button.addActionListener(this);
+
+        custom = new JButton("Custom");
+        custom.addActionListener(this);
+
+        rainbow = new JButton("eat-the-rainbow - $20");
+        rainbow.addActionListener(this);
     
         checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(this);
@@ -97,7 +104,7 @@ public class Order extends JFrame implements ActionListener {
         cancel.addActionListener(this);
     
         // Add components to the frame
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 8));
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 6));
         buttonPanel.add(chips_and_queso);
         buttonPanel.add(chips_and_guac);
         buttonPanel.add(chips_and_salsa);
@@ -114,6 +121,8 @@ public class Order extends JFrame implements ActionListener {
         buttonPanel.add(bowl_chicken_button);
         buttonPanel.add(bowl_steak_button);
         buttonPanel.add(bowl_veg_button);
+        buttonPanel.add(rainbow);
+        buttonPanel.add(custom);
     
         JPanel checkoutPanel = new JPanel(new FlowLayout());
 
@@ -291,14 +300,39 @@ public class Order extends JFrame implements ActionListener {
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
+        } else if (e.getSource() == rainbow) {
+            String item = "Eat-the-rainbow";
+            double price = 20;
+            total += price;
+            itemList += item + ", ";
+            String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
+            receiptArea.append(receiptLine);
+        } else if (e.getSource() == custom) {
+            String item = "Custom";
+            double price = 8.69; // up to you
+            total += price;
+            itemList += item + ", ";
+            String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
+            receiptArea.append(receiptLine);
         } else if (e.getSource() == checkoutButton) {
-            // String prev_day = "";
-            // if(isFirst == false) {
-            //     prev_day = date.getText();
-            // }
+            String prev_day = "";
             String employee = employeeID.getText();
             String day = date.getText();
             String customer = name.getText();
+            if(isFirst == false) {
+                prev_day = day;
+            }
+
+            if(employee.isEmpty() || day.isEmpty() || customer.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Please enter into all text entries");
+            } else {
+                total_price.setText("Total price: $0.00");
+                receiptArea.setText("");
+            }
 
             try {
                 Class.forName("org.postgresql.Driver");
@@ -306,53 +340,28 @@ public class Order extends JFrame implements ActionListener {
                     "csce315331_team_63_master", "WFHD");
 
                 Statement stmt = conn2.createStatement();
-                stmt.executeUpdate("INSERT INTO orderhistory (emp_id, date, customer_name, order_history, total) VALUES ('" + employee + "', '" + day + "', '" + customer + "', '" + itemList + "', '" + total + "')");
-                //stmt.executeUpdate("INSERT INTO sales (date, total_sales) VALUES ('" + day + "', '" + total + "')");
+                stmt.executeUpdate("INSERT INTO orderhistory (emp_id, date, customer_name, order_history, total) VALUES ('" + employee + "', '" + day + "', '" + customer + "', '" + itemList + "', '" + total + "');");
 
+                if(prev_day.equals(day)){
+                    complete_total += total;
+                    stmt.executeUpdate("UPDATE sales SET total_sales = " + complete_total + " WHERE date = '" + prev_day + "'");
+                }
+                else {
+                    stmt.executeUpdate("INSERT INTO sales (date, total_sales) VALUES ('" + prev_day + "', '" + complete_total + "')");
+                    isFirst = false;
+                    complete_total = 0;
+                }
             } catch (Exception e2) {
                 e2.printStackTrace();
                 System.err.println(e.getClass().getName()+": "+e2.getMessage());
                 System.exit(0);
             }
         
-            total = 0;
             itemList = "";
+            total = 0;
             total_price.setText("Total price: $0.00");
             receiptArea.setText("");
-
-            // complete_total += total;
-
-            // if(employee.isEmpty() || day.isEmpty() || customer.isEmpty()){
-            //     JOptionPane.showMessageDialog(null, "Please enter into all text entries");
-            // } else {
-            //     total = 0;
-            //     total_price.setText("Total price: $0.00");
-            //     receiptArea.setText("");
-            // }
-
-            // update sales
-            // if(prev_day != day){
-            //     try {
-            //         Class.forName("org.postgresql.Driver");
-            //         connorder = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63", "csce315331_team_63_master", "WFHD");
-            //         //create a statement object
-            //         Statement stmt = connorder.createStatement();
-            //         // stmt.executeUpdate("UPDATE sales (date, total_sales) VALUES ('" + prev_day + "', '" + complete_total + "')");
-            //         stmt.executeUpdate("UPDATE sales SET date=")
-            //         complete_total = 0;
-            //         isFirst = false;
-            //     } catch (Exception e2) {
-            //         e2.printStackTrace();
-            //         JOptionPane.showMessageDialog(null,"Error accessing Database.");
-            //         System.exit(0);
-            //     }
-            // }
-            // else {
-            //     // previous day
-            //     prev_day = day;
-            //     isFirst = true;
-            // }
-
+            prev_day = day;
         } else if(e.getSource() == cancel) {//
             total = 0;
             total_price.setText("Total price: $0.00");
