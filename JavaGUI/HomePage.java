@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.*;
 
+// @author: Ayo Fatoye
+
 public class HomePage extends JFrame {
 
     public HomePage() {
@@ -12,6 +14,8 @@ public class HomePage extends JFrame {
         JButton serverButton = new JButton("Server");
         
         serverButton.addActionListener(new ActionListener() {
+            // @param e the ActionEvent object generated when the button is click 
+            // when the server button is clicked, create a new Order object and display the Order window.
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Da Server button triggers instance of a lovely order screen window by Daniel and Connor");
                 Order _order = new Order();
@@ -25,6 +29,7 @@ public class HomePage extends JFrame {
 
         JButton managerButton = new JButton("Manager");
         managerButton.addActionListener(new ActionListener() {
+            // @param e the ActionEvent object generate when the button is clicked 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Server button triggers instance of a lovely manager window by Ravish");
                 
@@ -33,7 +38,7 @@ public class HomePage extends JFrame {
                 file.ManagerDashboard();
             }
         });
-
+        // add the buttons to the content pane
         JPanel contentPane = new JPanel();
         contentPane.add(serverButton);
         contentPane.add(managerButton);
