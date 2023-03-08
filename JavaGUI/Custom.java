@@ -5,8 +5,12 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Custom {
+
+    // initialize window and overall panel
     private JFrame frame;
     private JPanel panel;
+
+    // initialize interactive parts
     ArrayList<JCheckBox> styles = new ArrayList<JCheckBox>();
     ArrayList<JCheckBox> bases = new ArrayList<JCheckBox>();
     ArrayList<JCheckBox> proteins = new ArrayList<JCheckBox>();
@@ -14,20 +18,25 @@ public class Custom {
     ArrayList<JCheckBox> toppings = new ArrayList<JCheckBox>();
     ArrayList<JCheckBox> extras = new ArrayList<JCheckBox>();
 
-    //private arrayList(JCheckBox);
     private JButton addButton;
 
+    // list of strings that will keep track of selected items
     public ArrayList<String> to_return = new ArrayList<String>();
 
-    public Custom() {
+    public Custom() { // default constructor 
+
+        // window setup
         frame = new JFrame("Order");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 400);
+        frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
 
+        // this panel will hold each of the ingredient panels
         panel = new JPanel();
         panel.setLayout(new GridLayout(6, 1));
+        panel.setSize(500, 600);
 
+        // style options
         JPanel stylePanel = new JPanel();
         stylePanel.setBorder(BorderFactory.createTitledBorder("Style"));
         styles.add(new JCheckBox("Bowl"));
@@ -36,8 +45,11 @@ public class Custom {
         for (JCheckBox style : styles) {
             stylePanel.add(style);
         }
+        stylePanel.revalidate();
+        stylePanel.repaint();
         panel.add(stylePanel);
 
+        // base options
         JPanel basePanel = new JPanel();
         basePanel.setBorder(BorderFactory.createTitledBorder("Base"));
         bases.add(new JCheckBox("White Rice"));
@@ -47,8 +59,11 @@ public class Custom {
         for (JCheckBox base : bases) {
             basePanel.add(base);
         }
+        basePanel.revalidate();
+        basePanel.repaint();
         panel.add(basePanel);
 
+        // protein options
         JPanel proteinPanel = new JPanel();
         proteinPanel.setBorder(BorderFactory.createTitledBorder("Protein"));
         proteins.add(new JCheckBox("Chicken"));
@@ -58,8 +73,11 @@ public class Custom {
         for (JCheckBox protein : proteins) {
             proteinPanel.add(protein);
         }
+        proteinPanel.revalidate();
+        proteinPanel.repaint();
         panel.add(proteinPanel);
 
+        // vegetable options
         JPanel vegetablePanel = new JPanel();
         vegetablePanel.setBorder(BorderFactory.createTitledBorder("Vegetables"));
         vegetables.add(new JCheckBox("Spring Mix"));
@@ -68,8 +86,11 @@ public class Custom {
         for (JCheckBox vegetable : vegetables) {
             vegetablePanel.add(vegetable);
         }
+        vegetablePanel.revalidate();
+        vegetablePanel.repaint();
         panel.add(vegetablePanel);
 
+        // topping options
         JPanel toppingPanel = new JPanel();
         toppingPanel.setBorder(BorderFactory.createTitledBorder("Toppings"));
         toppings.add(new JCheckBox("Mozzarella Cheese"));
@@ -96,6 +117,7 @@ public class Custom {
         toppingPanel.repaint();
         panel.add(toppingPanel);
 
+        // extra options
         JPanel extraPanel = new JPanel();
         extraPanel.setBorder(BorderFactory.createTitledBorder("Extras"));
         extras.add(new JCheckBox("Guacamole"));
@@ -114,6 +136,7 @@ addButton.addActionListener(new ActionListener() {
 
         to_return.add("Custom");
 
+        // loop through each list of buttons, push selected items to string
         for(JCheckBox style : styles) {
             if (style.isSelected()) {
                 to_return.add(style.getText());
@@ -162,6 +185,6 @@ frame.setVisible(true);
 }
 
 public static void main(String[] args) {
-new Custom();
+    new Custom();
 }
 }
