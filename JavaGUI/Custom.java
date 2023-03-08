@@ -184,6 +184,11 @@ frame.add(panel);
 frame.setVisible(true);
 }
 
+public ArrayList<String> getReturn() {
+
+    return to_return;
+}
+
 public static void main(String[] args) {
     new Custom();
 }
