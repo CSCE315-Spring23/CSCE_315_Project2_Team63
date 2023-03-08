@@ -15,10 +15,13 @@ public class HomePage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Da Server button triggers instance of a lovely order screen window by Daniel and Connor");
                 Order _order = new Order();
+                // _order.server();
+
+
                 // _order.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 // _order.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 _order.setVisible(true);
-                _order.server();
+                // _order.server();
                 // _order.ManagerDashboard();
             }
         });
