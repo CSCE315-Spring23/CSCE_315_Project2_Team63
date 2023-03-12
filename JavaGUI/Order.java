@@ -11,15 +11,18 @@ import java.text.DecimalFormat;
 
 public class Order extends JFrame implements ActionListener {
     public static Connection conn2 = null;
+    public static Connection conn = null;
     private JTextArea receiptArea;
     private JTextField employeeID, date, name;
     private JLabel employee_label, date_label, name_label, total_price;
-    private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
-    private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
-    private JButton rainbow, custom;
-    private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
-    private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button, cancel;
+    //private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
+    //private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
+    //private JButton rainbow, custom;
+    //private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
+    //private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button
+    private JButton cancel;
     private String itemList = "";
+    private static JPanel buttonPanel;
 
     Vector<Double> quant = new Vector<Double>();
     Vector<String> ingredient = new Vector<String>();
@@ -31,7 +34,6 @@ public class Order extends JFrame implements ActionListener {
     private double complete_total = 0;
     private String prev_day = "N/A";
     private ArrayList<ArrayList<String> > custom_list = new ArrayList<ArrayList<String> >();
-    // private String date_ = "";
 
     public Order() {
         super("Point of Sale");
@@ -47,9 +49,11 @@ public class Order extends JFrame implements ActionListener {
         total_price = new JLabel("Total price: $0.00");
         
         receiptArea.setEditable(false);
+
+
     
         // Create buttons for adding items and checking out
-        chicken_taco_button = new JButton("tacos_chili-rubbed-chicken - $7.89");
+       /*  chicken_taco_button = new JButton("tacos_chili-rubbed-chicken - $7.89");
         chicken_taco_button.addActionListener(this);
     
         steak_taco_button = new JButton("tacos-marinated-steak - $8.89");
@@ -97,11 +101,13 @@ public class Order extends JFrame implements ActionListener {
         bowl_chicken_button = new JButton("bowl_chili-rubbed-chicken - $8.69");
         bowl_chicken_button.addActionListener(this);
 
+
         custom = new JButton("Custom");
         custom.addActionListener(this);
 
         rainbow = new JButton("eat-the-rainbow - $20");
         rainbow.addActionListener(this);
+        */
     
         checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(this);
@@ -110,8 +116,9 @@ public class Order extends JFrame implements ActionListener {
         cancel.addActionListener(this);
     
         // Add components to the frame
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 6));
-        buttonPanel.add(chips_and_queso);
+        buttonPanel = new JPanel(new GridLayout(3, 6));
+        runMenuAndButton();
+        /*buttonPanel.add(chips_and_queso);
         buttonPanel.add(chips_and_guac);
         buttonPanel.add(chips_and_salsa);
         buttonPanel.add(chicken_taco_button);
@@ -128,7 +135,7 @@ public class Order extends JFrame implements ActionListener {
         buttonPanel.add(bowl_steak_button);
         buttonPanel.add(bowl_veg_button);
         buttonPanel.add(rainbow);
-        buttonPanel.add(custom);
+        buttonPanel.add(custom);*/
     
         JPanel checkoutPanel = new JPanel(new FlowLayout());
 
@@ -161,7 +168,7 @@ public class Order extends JFrame implements ActionListener {
         setVisible(true);
     }
     
-    public void actionPerformed(ActionEvent e) {
+    public static void STATICactionPerformed(ActionEvent e) {
         if (e.getSource() == chicken_taco_button) {
 
             ingredient.add("pinto beans");
@@ -1342,6 +1349,52 @@ public class Order extends JFrame implements ActionListener {
         } catch (SQLException e2) {
             System.out.println("Database connection error: " + e2.getMessage());
         }
+    }
+
+    public static void runMenuAndButton() 
+    {
+
+      try {
+        Class.forName("org.postgresql.Driver");
+        conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+            "csce315331_team_63_master", "WFHD");
+      } catch (Exception e) {
+        e.printStackTrace();
+        System.err.println(e.getClass().getName()+": "+e.getMessage());
+        System.exit(0);
+      }
+      //JOptionPane.showMessageDialog(null,"Opened database successfully");
+
+      try
+      {
+        ArrayList<String> menuItemNum = new ArrayList<>();
+        ArrayList<String> menuName = new ArrayList<>();
+        ArrayList<String> menuCost = new ArrayList<>();
+        //create a statement object
+        Statement stmt = conn.createStatement();
+        //String sqlStatement = ;
+        //send statement to DBMS
+        ResultSet result = stmt.executeQuery("SELECT * FROM menu ORDER BY itemnum;"); 
+        while (result.next()) 
+        {
+            menuItemNum.add(result.getString("itemnum"));
+            menuName.add(result.getString("food"));
+            menuCost.add(result.getString("price"));
+        }
+        for(int i = 0; i < menuItemNum.size(); i++) 
+        {
+            String buttonLabel = menuName.get(i) + " - $" + menuCost.get(i);
+            String buttonName = menuName.get(i);
+            JButton button = new JButton(buttonLabel);
+            button.setName(buttonName);
+            button.addActionListener(e -> Order.STATICactionPerformed(e));
+            buttonPanel.add(button);
+        }
+      } 
+      catch (Exception e)
+      {
+        JOptionPane.showMessageDialog(null,"Error accessing Database.");
+      }
     }
  
 }
