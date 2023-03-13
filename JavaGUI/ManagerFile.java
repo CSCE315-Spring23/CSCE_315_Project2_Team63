@@ -54,6 +54,7 @@ public class ManagerFile implements ActionListener{
         managerTitle.setFont(new Font("Arial", Font.BOLD, 24));
         JButton menuSettings = new JButton("MENU SETTINGS");
         JButton inventorySettings = new JButton("INVENTORY SETTINGS");
+        JButton salesReport = new JButton("SALES REPORT");
     
         // Add ActionListener to menuSettings button
         menuSettings.addActionListener(new ActionListener() {
@@ -72,12 +73,19 @@ public class ManagerFile implements ActionListener{
           }
       });
     
+        salesReport.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              salesReport();
+          }
+      });
         // Add components to managerPanel using GridLayout
         managerPanel.setLayout(new GridLayout(2, 1, 10, 10));
         managerPanel.add(managerTitle);
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         buttonPanel.add(menuSettings);
         buttonPanel.add(inventorySettings);
+        buttonPanel.add(salesReport);
         managerPanel.add(buttonPanel);
     
         // Add managerPanel to frame
@@ -91,6 +99,13 @@ public class ManagerFile implements ActionListener{
 
     public static void InventoryChange()
     {
+      inventoryItemNum = "Item Id: " + '\n';
+      inventoryItem = "Item: " + '\n';
+      inventoryQuantity = "Quantity: " + '\n';
+      inventoryPrice = "Price: " + '\n';
+      inventoryVendorName = "Vendor Name: " + '\n';
+      inventoryUnit = "Unit: " + '\n';
+      inventoryExp_date = "Expiration Date: " +'\n';
       runInventoryTable();
       f = new JFrame("Inventory");
 
@@ -519,6 +534,10 @@ public class ManagerFile implements ActionListener{
 
     public static void MenuChange()
     {
+
+        menuItem = "Item Id: " + '\n';
+        menuItemString = "Menu Item: " + '\n';
+        menuPrice = "Price: " + '\n';
         runMenuTable();
 
         // create a new frame
@@ -1020,6 +1039,100 @@ public class ManagerFile implements ActionListener{
       {
         JOptionPane.showMessageDialog(null,"Error accessing Database.");
       }
+    }
+
+    public static void salesReport()
+    {
+      JFrame salesFrame = new JFrame("Sales Report");
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+  
+      // create a label and text field for starting date
+      JLabel startLabel = new JLabel("Starting Date: ");
+      JTextField startDateField = new JTextField(10);
+      JPanel startPanel = new JPanel();
+      startPanel.add(startLabel);
+      startPanel.add(startDateField);
+  
+      // create a label and text field for ending date
+      JLabel endLabel = new JLabel("Ending Date: ");
+      JTextField endDateField = new JTextField(10);
+      JPanel endPanel = new JPanel();
+      endPanel.add(endLabel);
+      endPanel.add(endDateField);
+  
+      // create a confirm button
+      JButton confirmButton = new JButton("Confirm");
+  
+      // create text areas for displaying orders and total
+      JTextArea allOrderArea = new JTextArea(10, 30);
+      allOrderArea.setEditable(false);
+      JScrollPane allOrderScroll = new JScrollPane(allOrderArea);
+      JTextArea totalArea = new JTextArea(1, 30);
+      totalArea.setEditable(false);
+      JScrollPane totalScroll = new JScrollPane(totalArea);
+  
+      // add components to the panel
+      p2.add(startPanel);
+      p2.add(endPanel);
+      p2.add(confirmButton);
+      p2.add(allOrderScroll);
+      p2.add(totalScroll);
+  
+      // add the panel to the frame
+      salesFrame.getContentPane().add(p2);
+  
+      // set the size and make the frame visible
+      salesFrame.setSize(400, 400);
+      salesFrame.setVisible(true);
+
+        confirmButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) 
+          {
+              // retrieve starting and ending dates
+              String startDate = startDateField.getText();    
+              String endDate = endDateField.getText();    
+
+              try {
+                  Class.forName("org.postgresql.Driver");
+                  conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                      "csce315331_team_63_master", "WFHD");
+
+                  // create a statement object
+                  Statement stmt = conn2.createStatement();
+                  // write the SQL query to retrieve order history between specified dates
+                  String sql = "SELECT order_history, total FROM orderhistory WHERE date >= '" + startDate + "' AND date <= '" + endDate + "'";
+                  ResultSet rs = stmt.executeQuery(sql);
+
+                  // display order history in the allOrder text area
+                  allOrderArea.setText("");
+                  while (rs.next()) {
+                      String orderHistory = rs.getString("order_history");
+                      String price = rs.getString("total");
+                      allOrderArea.append(orderHistory + " : " + price + "\n");
+                  }
+
+                  // retrieve and display total in the total text area
+                  rs = stmt.executeQuery("SELECT SUM(total) AS total FROM orderhistory WHERE date >= '" + startDate + "' AND date <= '" + endDate + "'");
+                  if (rs.next()) {
+                      double total = rs.getDouble("total");
+                      totalArea.setText("Total: $" + String.format("%.2f", total));
+                  } else {
+                      totalArea.setText("Total: $0.00");
+                  }
+
+                  try {
+                      conn2.close();
+                      JOptionPane.showMessageDialog(null,"Connection Closed.");
+                  } catch(Exception e2) {
+                      JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                  }
+              } catch (Exception ex) {
+                  JOptionPane.showMessageDialog(null, "Error retrieving");
+              }  
+          }
+      });
     }
 
     // if button is pressed
