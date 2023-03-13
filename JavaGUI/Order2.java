@@ -17,38 +17,38 @@ public class Order2 extends JFrame implements ActionListener {
     private static JLabel employee_label, date_label, name_label, total_price;
     private static JButton cancel,custom;
     private static String itemList = "";
-    private static JPanel buttonPanel;
+    private static JPanel buttonPanel = new JPanel(new GridLayout(4, 5));;
 
 
-    public static HashMap<String, String> hashMap = new HashMap<String, String>() {{
+    public static HashMap<String, String> hashMap = new HashMap<String, String>(); //{{
         
-        //BURRITO:
-        put("burrito_seasoned-beef", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:ground beef");
-        put("burrito_marinated-steak", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:steak");
-        put("burrito_grilled-vegetable-medley", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:fajita vegetables");
-        put("burrito_chili-rubbed-chicken", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:chicken");
+    //     //BURRITO:
+    //     put("burrito_seasoned-beef", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:ground beef");
+    //     put("burrito_marinated-steak", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:steak");
+    //     put("burrito_grilled-vegetable-medley", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:fajita vegetables");
+    //     put("burrito_chili-rubbed-chicken", "0.175:black beans,0.127:spring mix,0.1005:mozzarella cheese,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags,1.0:aluminum foil,1.0:gloves,0.098:lime juice,0.155:chicken");
 
-        //TACO:
-        put("tacos_seasoned-beef", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:ground beef");
-        put("tacos_marinated-steak", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:steak");
-        put("tacos_grilled-vegetable-medley", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:fajita vegetables");
-        put("tacos_chili-rubbed-chicken", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:chicken");
+    //     //TACO:
+    //     put("tacos_seasoned-beef", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:ground beef");
+    //     put("tacos_marinated-steak", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:steak");
+    //     put("tacos_grilled-vegetable-medley", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:fajita vegetables");
+    //     put("tacos_chili-rubbed-chicken", "0.375:pinto beans,0.327:romaine lettuce,0.1875:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.355:sour cream,0.305:jalapeno ranch,0.215:red sauce,0.315:black olives,0.119:lime,0.109:italian dressing,3.0:small tortilla,1.0:paper bags,3.0:aluminum foil,1.0:gloves,0.098:lime juice,0.355:chicken");
     
-        //BOWLS:
-        put("bowl_seasoned-beef", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:ground beef");
-        put("bowl_marinated-steak", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:steak");
-        put("bowl_grilled-vegetable-medley", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:fajita vegetables");
-        put("bowl_chili-rubbed-chicken", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:chicken");
+    //     //BOWLS:
+    //     put("bowl_seasoned-beef", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:ground beef");
+    //     put("bowl_marinated-steak", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:steak");
+    //     put("bowl_grilled-vegetable-medley", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:fajita vegetables");
+    //     put("bowl_chili-rubbed-chicken", "0.175:brown rice,0.175:white rice,0.127:iceburg lettuce,0.1005:mozzarella cheese,0.1005:mixed cheddar,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:cardboard bowls + tops,1.0:paper bags,1.0:gloves,1.0:bags of cutlery,0.098:lime juice,0.155:chicken");
     
-        //CHIPS:
-        put("chips-and-guac","0.09375:nacho chips,0.0625:guacamole,2.0:sauce containers");
-        put("chips-and-salsa","0.09375:nacho chips,0.0625:corn salsa,0.0625:salse verde,2.0:sauce containers");
-        put("chips-and-queso","0.09375:nacho chips,0.0625:queso,2.0:sauce containers");
+    //     //CHIPS:
+    //     put("chips-and-guac","0.09375:nacho chips,0.0625:guacamole,2.0:sauce containers");
+    //     put("chips-and-salsa","0.09375:nacho chips,0.0625:corn salsa,0.0625:salse verde,2.0:sauce containers");
+    //     put("chips-and-queso","0.09375:nacho chips,0.0625:queso,2.0:sauce containers");
 
-        put("fountain-drink","1.0:fountain drink cups");
-        put("eat-the-rainbow","0.175:brown rice,0.175:white rice,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags");
+    //     put("fountain-drink","1.0:fountain drink cups");
+    //     put("eat-the-rainbow","0.175:brown rice,0.175:white rice,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags");
 
-    }};
+    // }};
 
 
     public static Vector<Double> quant = new Vector<Double>();
@@ -89,7 +89,6 @@ public class Order2 extends JFrame implements ActionListener {
         cancel.addActionListener(e -> Order2.STATICactionPerformed(e));
     
         // Add components to the frame
-        buttonPanel = new JPanel(new GridLayout(4, 5));
         buttonPanel.add(custom);
         runMenuAndButton();
     
@@ -278,6 +277,10 @@ public class Order2 extends JFrame implements ActionListener {
             String buttonText = clickedButton.getText(); 
             String itemName = buttonText.substring(0,buttonText.indexOf(" -")).trim();
             double price = Double.parseDouble(buttonText.substring(buttonText.indexOf("$")+1).trim());
+            System.out.println(itemName);
+            System.out.println(price);
+            System.out.println("HASHMAP: ");
+
             if(hashMap.containsKey(itemName))
             {
                 String recipe = hashMap.get(itemName);
@@ -304,7 +307,7 @@ public class Order2 extends JFrame implements ActionListener {
         }
     }
 
-
+    //method that goes through the hashmap and menu, any element in menu that is not in hashmap, it creates a new button for that
 
     public static void onUpdate(ArrayList<String> updatedList) {
         System.out.println("adding, " + updatedList);
@@ -365,35 +368,86 @@ public class Order2 extends JFrame implements ActionListener {
         ArrayList<String> menuItemNum = new ArrayList<>();
         ArrayList<String> menuName = new ArrayList<>();
         ArrayList<String> menuCost = new ArrayList<>();
+        ArrayList<String> ingridentList = new ArrayList<>();
+
         //create a statement object
         Statement stmt = conn.createStatement();
         //String sqlStatement = ;
         //send statement to DBMS
-        ResultSet result = stmt.executeQuery("SELECT * FROM menu ORDER BY itemnum;"); 
+        ResultSet result = stmt.executeQuery("SELECT * FROM menu2 ORDER BY itemnum;"); 
         while (result.next()) 
         {
             menuItemNum.add(result.getString("itemnum"));
             menuName.add(result.getString("food"));
             menuCost.add(result.getString("price"));
+            ingridentList.add(result.getString("ingridents"));
         }
         for(int i = 0; i < menuItemNum.size(); i++) 
         {
-            if(!menuName.get(i).toLowerCase().contains("custom"))
+            if(!menuName.get(i).toLowerCase().contains("custom") && !(hashMap.containsKey(menuName.get(i))))
             {
                 String buttonLabel = menuName.get(i) + " - $" + menuCost.get(i);
                 String buttonName = menuName.get(i);
                 JButton button = new JButton(buttonLabel);
                 button.setName(buttonName);
+                hashMap.put(menuName.get(i),ingridentList.get(i));
                 button.addActionListener(e -> Order2.STATICactionPerformed(e));
                 buttonPanel.add(button);
             }
         }
+
       } 
       catch (Exception e)
       {
         JOptionPane.showMessageDialog(null,"Error accessing Database.");
       }
     }
+
+    public static void DeleteAndRepopulate()
+    {
+        //empty out the button panel, empty out the hashmap, call runMenuAndButton();
+        buttonPanel.removeAll();
+        hashMap.clear(); 
+        runMenuAndButton();
+    }
+    // public static void addButton(String n, String p, String entry)
+    // {
+    //     System.out.println("IN ORDER2 METHOD");
+    //     n = n.trim();
+    //     p = p.trim();
+    //     entry = entry.trim();
+
+    //     System.out.println(n);
+    //     System.out.println(p);
+    //     System.out.println(entry);
+
+    //     if(!(hashMap.containsKey(n)))
+    //     {   
+    //         System.out.println("new item added");
+    //         hashMap.put(n,entry);
+
+    //         Set<String> keys = hashMap.keySet();
+
+    //         // Iterate over the keys and print each one
+    //         for (String key : keys) {
+    //             System.out.println(key);
+    //         }
+
+    //         System.out.println("After button in HashMap");
+    //         String buttonLabel = n + " - $" + p;
+    //         String buttonName = n;
+    //         JButton button = new JButton(buttonLabel);
+    //         button.setName(buttonName);
+    //         button.addActionListener(e -> Order2.STATICactionPerformed(e));
+    //         System.out.println("Before putting the button");
+    //         buttonPanel.add(button);
+    //         System.out.println("After putting the button");
+    //     }
+    //     else
+    //     {
+    //         System.out.println("Item already exist");
+    //     }
+    // }
 
     @Override
     public void actionPerformed(ActionEvent e) {

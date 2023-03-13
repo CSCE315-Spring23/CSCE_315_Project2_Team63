@@ -1,8 +1,13 @@
 //package CSCE_315_Project2_Team63.JavaGUI.Manager;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.awt.event.*;
 import javax.swing.*;
+
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -31,6 +36,8 @@ public class ManagerFile implements ActionListener{
     public static String inventoryVendorName = "Vendor Name: " + '\n';
     public static String inventoryUnit = "Unit: " + '\n';
     public static String inventoryExp_date = "Expiration Date: " +'\n';
+
+    public static String hashmapEntry = "";
 
     public ManagerFile()
     {
@@ -370,7 +377,6 @@ public class ManagerFile implements ActionListener{
             p3.add(Exp_data);
             p3.add(Exp_Input);
             p3.add(confirmButton);
-    
             // add the new panel to the frame and display it
             frame3.add(p3);
             frame3.setSize(300, 500);
@@ -589,7 +595,8 @@ public class ManagerFile implements ActionListener{
                         // create a statement object
                         Statement stmt = conn2.createStatement();
                         // write the SQL update statement
-                        String sql = "UPDATE menu SET food = '" + name + "', price = " + price + " WHERE itemnum = " + num + ";";
+                        String sql = "UPDATE menu2 SET food = '" + name + "', price = " + price + " WHERE itemnum = " + num + ";";
+                        Order2.DeleteAndRepopulate();
                         // execute the statement
                         int rowsUpdated = stmt.executeUpdate(sql);
                         if (rowsUpdated > 0) {
@@ -597,7 +604,7 @@ public class ManagerFile implements ActionListener{
                           frame2.setVisible(false);
                           
                           // get the updated data and sort it by item number
-                          sql = "SELECT * FROM menu ORDER BY itemnum";
+                          sql = "SELECT * FROM menu2 ORDER BY itemnum";
                           ResultSet rs = stmt.executeQuery(sql);
                           menuItem = "Item Id: " + '\n';
                           menuItemString = "Menu Item: "+'\n';
@@ -685,22 +692,26 @@ public class ManagerFile implements ActionListener{
                       Statement stmt = conn2.createStatement();
   
                                   // get the max itemnum number from the menu table
-                      String getMaxNumSql = "SELECT MAX(itemnum) AS max_num FROM menu";
+                      String getMaxNumSql = "SELECT MAX(itemnum) AS max_num FROM menu2";
                       ResultSet maxNumRs = stmt.executeQuery(getMaxNumSql);
                       int num = 1;
                       if (maxNumRs.next()) {
                           num = maxNumRs.getInt("max_num") + 1;
                       }
                       // write the SQL update statement
-                      String sql = "INSERT INTO menu (itemnum, food, price) VALUES (" + num + ", '" + name + "', " + price + ");";
+                      String sql = "INSERT INTO menu2 (itemnum, food, price, ingridents) VALUES (" + num + ", '" + name + "', " + price + ", '" + hashmapEntry + "');";
                       // execute the statement
+                      Order2.runMenuAndButton();
+                      // 
+                      hashmapEntry = "";
+                      
                       int rowsUpdated = stmt.executeUpdate(sql);
                       if (rowsUpdated > 0) {
                       // if the update was successful, close the edit item frame
                       frame3.setVisible(false);
                       
                       // get the updated data and sort it by item number
-                      sql = "SELECT * FROM menu ORDER BY itemnum";
+                      sql = "SELECT * FROM menu2 ORDER BY itemnum";
                       ResultSet rs = stmt.executeQuery(sql);
                       menuItem = "Item Id: " + '\n';
                       menuItemString = "Menu Item: "+'\n';
@@ -739,10 +750,14 @@ public class ManagerFile implements ActionListener{
           p3.add(menuPriceLabel);
           p3.add(menuPriceField);
           p3.add(confirmButton);
+          JPanel p3a = new JPanel();
+          inventoryCheckbox(p3a);
   
           // add the new panel to the frame and display it
+          frame3.setLayout(new GridLayout(2, 1));
           frame3.add(p3);
-          frame3.setSize(200, 400);
+          frame3.add(p3a);
+          frame3.setSize(600, 800);
           frame3.show();
           
       }
@@ -782,7 +797,10 @@ public class ManagerFile implements ActionListener{
                         // create a statement object
                         Statement stmt = conn2.createStatement();
                         // write the SQL update statement
-                        String sql = "DELETE FROM menu WHERE itemnum = " + num + ";";
+                        String sql = "DELETE FROM menu2 WHERE itemnum = " + num + ";";
+
+                        Order2.DeleteAndRepopulate();
+
                         // execute the statement
                         int rowsUpdated = stmt.executeUpdate(sql);
                         if (rowsUpdated > 0) {
@@ -790,7 +808,7 @@ public class ManagerFile implements ActionListener{
                           frame4.setVisible(false);
                           
                           // get the updated data and sort it by item number
-                          sql = "SELECT * FROM menu ORDER BY itemnum";
+                          sql = "SELECT * FROM menu2 ORDER BY itemnum";
                           ResultSet rs = stmt.executeQuery(sql);
                           menuItem = "Item Id: " + '\n';
                           menuItemString = "Menu Item: "+'\n';
@@ -873,7 +891,7 @@ public class ManagerFile implements ActionListener{
         Statement stmt = conn.createStatement();
         //String sqlStatement = ;
         //send statement to DBMS
-        ResultSet result = stmt.executeQuery("SELECT * FROM menu ORDER BY itemnum;"); 
+        ResultSet result = stmt.executeQuery("SELECT * FROM menu2 ORDER BY itemnum;"); 
         while (result.next()) 
         {
           menuItem +=  result.getString("itemnum")+"\n";
@@ -918,6 +936,85 @@ public class ManagerFile implements ActionListener{
           inventoryUnit += result.getString("units")+"\n";
           inventoryExp_date += result.getString("expiration_date")+"\n";
         }
+      } 
+      catch (Exception e)
+      {
+        JOptionPane.showMessageDialog(null,"Error accessing Database.");
+      }
+    }
+
+    public static void inventoryCheckbox(JPanel buttonPanel)
+    {
+      try {
+        Class.forName("org.postgresql.Driver");
+        conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+            "csce315331_team_63_master", "WFHD");
+      } catch (Exception e) {
+        e.printStackTrace();
+        System.err.println(e.getClass().getName()+": "+e.getMessage());
+        System.exit(0);
+      }
+      //JOptionPane.showMessageDialog(null,"Opened database successfully");
+
+      try
+      {
+        ArrayList<String> inventory_values = new ArrayList<>();
+
+        //create a statement object
+        Statement stmt = conn.createStatement();
+        //String sqlStatement = ;
+        //send statement to DBMS
+        ResultSet result = stmt.executeQuery("SELECT * FROM inventory_table;"); 
+        while (result.next()) 
+        {
+          inventory_values.add(result.getString("item"));
+        }
+        int numItems = inventory_values.size();
+        int numCols = 2; // Number of columns in the grid
+        int numRows = (numItems + numCols - 1) / numCols; // Calculate number of rows needed
+        buttonPanel.setLayout(new GridLayout(numRows, numCols));
+        
+        ArrayList<JTextField> textFields = new ArrayList<JTextField>();
+        ArrayList<JCheckBox> checkboxes = new ArrayList<JCheckBox>();
+        
+        for (int i = 0; i < numItems; i++) {
+            String checkboxName = inventory_values.get(i);
+            JCheckBox checkbox = new JCheckBox(checkboxName);
+            JTextField textField = new JTextField();
+            textField.setColumns(10);
+            textField.setVisible(false);
+            textFields.add(textField);
+            checkboxes.add(checkbox);
+            final int index = i;
+            checkbox.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    textFields.get(index).setVisible(true);
+                } else {
+                    textFields.get(index).setVisible(false);
+                }
+            });
+            buttonPanel.add(checkbox);
+            buttonPanel.add(textField);
+        }
+        
+        JButton confirmButton = new JButton("Confirm Inventory Item");
+        confirmButton.addActionListener(e -> {
+          for (int i = 0; i < numItems; i++) {
+              JCheckBox checkbox = checkboxes.get(i);
+              JTextField textField = textFields.get(i);
+              if (checkbox.isSelected()) {
+                  String checkboxName = checkbox.getText();
+                  String textFieldValue = textField.getText();
+                  hashmapEntry += textFieldValue + ":" + checkboxName +",";
+              }
+              textField.setText(""); // reset text field to empty string
+              checkbox.setSelected(false); // uncheck checkbox
+              checkbox.setEnabled(false); // disable checkbox
+          }
+          hashmapEntry = hashmapEntry.trim().substring(0,hashmapEntry.length()-1);
+          System.out.println(hashmapEntry);
+      });
+        buttonPanel.add(confirmButton);
       } 
       catch (Exception e)
       {
