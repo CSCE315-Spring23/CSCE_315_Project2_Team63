@@ -55,7 +55,8 @@ public class ManagerFile implements ActionListener{
         JButton menuSettings = new JButton("MENU SETTINGS");
         JButton inventorySettings = new JButton("INVENTORY SETTINGS");
         JButton salesReport = new JButton("SALES REPORT");
-    
+        JButton restockReport = new JButton("RESTOCK REPORT");
+
         // Add ActionListener to menuSettings button
         menuSettings.addActionListener(new ActionListener() {
             @Override
@@ -79,6 +80,13 @@ public class ManagerFile implements ActionListener{
               salesReport();
           }
       });
+
+        restockReport.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              restockReport();
+          }
+      });
         // Add components to managerPanel using GridLayout
         managerPanel.setLayout(new GridLayout(2, 1, 10, 10));
         managerPanel.add(managerTitle);
@@ -86,6 +94,7 @@ public class ManagerFile implements ActionListener{
         buttonPanel.add(menuSettings);
         buttonPanel.add(inventorySettings);
         buttonPanel.add(salesReport);
+        buttonPanel.add(restockReport);
         managerPanel.add(buttonPanel);
     
         // Add managerPanel to frame
@@ -1134,6 +1143,56 @@ public class ManagerFile implements ActionListener{
           }
       });
     }
+
+    public static void restockReport() {
+      JFrame restockFrame = new JFrame("Restock Report");
+      
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+  
+      // add a label saying "Restock Report"
+      JLabel titleLabel = new JLabel("Restock Needed");
+      titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+      p2.add(titleLabel);
+  
+      try {
+          Class.forName("org.postgresql.Driver");
+          conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                  "csce315331_team_63_master", "WFHD");
+  
+          // create a statement object
+          Statement stmt = conn2.createStatement();
+  
+          // write the SQL query to retrieve inventory items with quantity less than 20.0
+          String sql = "SELECT item, quantity FROM inventory_table WHERE CAST(quantity AS DOUBLE PRECISION) < 20.0";
+          ResultSet rs = stmt.executeQuery(sql);
+  
+          // display items that need restocking in the text area
+          JTextArea textArea = new JTextArea();
+          textArea.setEditable(false);
+          while (rs.next()) {
+              String item = rs.getString("item");
+              String quantity = rs.getString("quantity");
+              textArea.append(item + " : " + quantity + "\n");
+          }
+          p2.add(textArea);
+  
+          try {
+              conn2.close();
+              JOptionPane.showMessageDialog(null, "Connection Closed.");
+          } catch (Exception e2) {
+              JOptionPane.showMessageDialog(null, "Connection NOT Closed.");
+          }
+      } catch (Exception ex) {
+          JOptionPane.showMessageDialog(null, "Error retrieving inventory items.");
+      }
+  
+      restockFrame.getContentPane().add(p2);
+      restockFrame.pack();
+      restockFrame.setSize(400, restockFrame.getHeight());
+      restockFrame.setVisible(true);
+  }
 
     // if button is pressed
     public void actionPerformed(ActionEvent e)
