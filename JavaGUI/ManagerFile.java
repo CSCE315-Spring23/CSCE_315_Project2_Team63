@@ -58,6 +58,7 @@ public class ManagerFile implements ActionListener{
         JButton restockReport = new JButton("RESTOCK REPORT");
         JButton xReport = new JButton("X-REPORT");
         JButton zReport = new JButton("Z-REPORT");
+        JButton excessReport = new JButton("EXCESS REPORT");
 
         // Add ActionListener to menuSettings button
         menuSettings.addActionListener(new ActionListener() {
@@ -103,6 +104,13 @@ public class ManagerFile implements ActionListener{
               zReport();
           }
       });
+
+      excessReport.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            excessReport();
+        }
+    });
         // Add components to managerPanel using GridLayout
         managerPanel.setLayout(new GridLayout(2, 1, 10, 10));
         managerPanel.add(managerTitle);
@@ -113,6 +121,7 @@ public class ManagerFile implements ActionListener{
         buttonPanel.add(restockReport);
         buttonPanel.add(xReport);
         buttonPanel.add(zReport);
+        buttonPanel.add(excessReport);
         managerPanel.add(buttonPanel);
     
         // Add managerPanel to frame
@@ -120,7 +129,7 @@ public class ManagerFile implements ActionListener{
     
         // Set frame properties
         intialMangOption.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        intialMangOption.setSize(550, 300);
+        intialMangOption.setSize(750, 300);
         intialMangOption.setVisible(true);
     }
 
@@ -539,8 +548,9 @@ public class ManagerFile implements ActionListener{
        p.add(t7);
        p.add(b);
        p.add(b2);
-       p.add(b3);
-       p.add(b4);
+       //commented add and delete for inventory because of excess report
+       //p.add(b3);
+       //p.add(b4);
 
 
        f.add(p);
@@ -1358,6 +1368,109 @@ public class ManagerFile implements ActionListener{
           }
       });
     }
+
+    public static void excessReport()
+    {
+
+      JFrame excessReportFrame = new JFrame("Excess Report");
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+
+      JLabel startLabel = new JLabel("Date: ");
+      JTextField startDateField = new JTextField(10);
+      JButton confirmButton = new JButton("Confirm");
+      JPanel startPanel = new JPanel();
+      startPanel.add(startLabel);
+      startPanel.add(startDateField);
+      startPanel.add(confirmButton);
+
+
+
+      JTextArea totalArea = new JTextArea(1, 30);
+      totalArea.setEditable(false);
+      JScrollPane totalScroll = new JScrollPane(totalArea);
+
+      p2.add(startPanel);
+      //p2.add(confirmButton);
+      p2.add(totalScroll);
+
+      excessReportFrame.getContentPane().add(p2);
+
+      // set the size and make the frame visible
+      excessReportFrame.setSize(350, 300);
+      excessReportFrame.setVisible(true);
+
+      confirmButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) 
+        {
+
+          String startDate = startDateField.getText();  
+
+          try {
+
+            ArrayList<String> currentQuant = new ArrayList<>();
+            ArrayList<String> currentItem = new ArrayList<>();
+            ArrayList<String> finalItem = new ArrayList<>();
+            String entry = "";
+  
+            Class.forName("org.postgresql.Driver");
+            conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                "csce315331_team_63_master", "WFHD");
+          
+            // create a statement object
+            Statement stmt = conn2.createStatement();
+            String sql = "SELECT * FROM inventory_table ORDER BY item_id;";                    // execute the statement
+  
+            ResultSet result = stmt.executeQuery(sql);
+            
+            while (result.next()) {
+                currentQuant.add(result.getString("quantity"));
+                currentItem.add(result.getString("item"));
+            }
+            
+            sql = "SELECT quantity FROM inventory_status WHERE date = '" + startDate + "';";
+            result = stmt.executeQuery(sql);
+            while (result.next()) {
+                entry += (result.getString("quantity"));
+            }
+
+            entry = entry.substring(0,entry.length()-1);
+            String[] arr = entry.split(":");
+
+            for(int i=0; i<arr.length; i++)
+            {
+              double previous = Double.parseDouble(arr[i]);
+              double current = Double.parseDouble(currentQuant.get(i));
+              double percentage = ((previous-current)/100.0)*100.0;
+              if(percentage>=0 && percentage<10)
+              {
+                finalItem.add(currentItem.get(i));
+                //System.out.println(currentItem.get(i) + "added. Percentage: " + percentage + ". Previous: "+ previous + "current: " + current);
+              }
+            }
+            
+            if(finalItem.size() == 0)
+            {
+              totalArea.setText("Every Item sold more than 10%");
+            }
+            for (String element : finalItem) 
+            {
+              totalArea.append(element + "\n");
+            }
+
+            try {
+              conn2.close();
+              JOptionPane.showMessageDialog(null,"Connection Closed.");
+            } catch(Exception e2) {
+              JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+            }
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+          }
+        }
+      });
+  }
 
     // if button is pressed
     public void actionPerformed(ActionEvent e)

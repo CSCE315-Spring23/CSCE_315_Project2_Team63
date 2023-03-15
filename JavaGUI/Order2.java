@@ -243,7 +243,9 @@ public class Order2 extends JFrame implements ActionListener {
 
             quant = new Vector<Double>();
             ingredient = new Vector<String>();
-            //custom list not empty!
+            
+            //run current state of inventory:
+            addCurrentstateOfInventory(date.getText());
         }
         else if(e.getSource() == cancel)
         {
@@ -409,6 +411,61 @@ public class Order2 extends JFrame implements ActionListener {
         buttonPanel.removeAll();
         hashMap.clear(); 
         runMenuAndButton();
+    }
+
+    public static void addCurrentstateOfInventory(String date)
+    {
+        try {
+
+            String quantity = "";
+            String item = "";
+
+            Class.forName("org.postgresql.Driver");
+            conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                "csce315331_team_63_master", "WFHD");
+            
+            // create a statement object
+            Statement stmt = conn2.createStatement();
+            String sql = "SELECT * FROM inventory_table ORDER BY item_id;";                    // execute the statement
+
+            ResultSet result = stmt.executeQuery(sql);
+            
+            while (result.next()) {
+                quantity += (result.getString("quantity")) + ":";
+                item += (result.getString("item")) + ":";
+            }
+
+            PreparedStatement stmt2 = conn2.prepareStatement("SELECT * FROM inventory_status WHERE date = ?");
+            stmt2.setString(1, date);
+            ResultSet result2 = stmt2.executeQuery();
+    
+            if (result2.next()) {
+                // Entry already exists, update quantity and item columns
+                stmt2 = conn2.prepareStatement("UPDATE inventory_status SET quantity = ?, item = ? WHERE date = ?");
+                stmt2.setString(1, quantity);
+                stmt2.setString(2, item);
+                stmt2.setString(3, date);
+                stmt2.executeUpdate();
+                System.out.println("Inventory status updated");
+            } else {
+                // Entry does not exist, insert a new row
+                stmt2 = conn2.prepareStatement("INSERT INTO inventory_status (date, quantity, item) VALUES (?, ?, ?)");
+                stmt2.setString(1, date);
+                stmt2.setString(2, quantity);
+                stmt2.setString(3, item);
+                stmt2.executeUpdate();
+                System.out.println("Inventory status added");
+            }
+            
+            try {
+              conn2.close();
+              JOptionPane.showMessageDialog(null,"Connection Closed.");
+            } catch(Exception e2) {
+              JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+            }
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+        }
     }
     // public static void addButton(String n, String p, String entry)
     // {
