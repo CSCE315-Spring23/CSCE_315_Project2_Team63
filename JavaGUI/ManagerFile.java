@@ -1,7 +1,12 @@
 //package CSCE_315_Project2_Team63.JavaGUI.Manager;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.awt.event.*;
 import javax.swing.*;
@@ -59,6 +64,7 @@ public class ManagerFile implements ActionListener{
         JButton xReport = new JButton("X-REPORT");
         JButton zReport = new JButton("Z-REPORT");
         JButton excessReport = new JButton("EXCESS REPORT");
+        JButton popularReport = new JButton("SALES TOGETHER");
 
         // Add ActionListener to menuSettings button
         menuSettings.addActionListener(new ActionListener() {
@@ -110,7 +116,14 @@ public class ManagerFile implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             excessReport();
         }
-    });
+      });
+
+      popularReport.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            popularReport();
+        }
+      });
         // Add components to managerPanel using GridLayout
         managerPanel.setLayout(new GridLayout(2, 1, 10, 10));
         managerPanel.add(managerTitle);
@@ -122,6 +135,7 @@ public class ManagerFile implements ActionListener{
         buttonPanel.add(xReport);
         buttonPanel.add(zReport);
         buttonPanel.add(excessReport);
+        buttonPanel.add(popularReport);
         managerPanel.add(buttonPanel);
     
         // Add managerPanel to frame
@@ -1471,6 +1485,111 @@ public class ManagerFile implements ActionListener{
         }
       });
   }
+
+    public static void popularReport()
+    {
+      JFrame salesFrame = new JFrame("Sales Together Report");
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+  
+      // create a label and text field for starting date
+      JLabel startLabel = new JLabel("Starting Date: ");
+      JTextField startDateField = new JTextField(10);
+      JPanel startPanel = new JPanel();
+      startPanel.add(startLabel);
+      startPanel.add(startDateField);
+  
+      // create a label and text field for ending date
+      JLabel endLabel = new JLabel("Ending Date: ");
+      JTextField endDateField = new JTextField(10);
+      JPanel endPanel = new JPanel();
+      endPanel.add(endLabel);
+      endPanel.add(endDateField);
+  
+      // create a confirm button
+      JButton confirmButton = new JButton("Confirm");
+  
+      // create text areas for displaying orders and total
+      JTextArea totalArea = new JTextArea(1, 30);
+      totalArea.setEditable(false);
+      JScrollPane totalScroll = new JScrollPane(totalArea);
+  
+      // add components to the panel
+      p2.add(startPanel);
+      p2.add(endPanel);
+      p2.add(confirmButton);
+      p2.add(totalScroll);
+  
+      // add the panel to the frame
+      salesFrame.getContentPane().add(p2);
+  
+      // set the size and make the frame visible
+      salesFrame.setSize(400, 400);
+      salesFrame.setVisible(true);
+
+        confirmButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) 
+          {
+              // retrieve starting and ending dates
+              String startDate = startDateField.getText();    
+              String endDate = endDateField.getText();   
+
+              try {
+                  Class.forName("org.postgresql.Driver");
+                  conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                      "csce315331_team_63_master", "WFHD");
+
+                  // create a statement object
+                  Statement stmt = conn2.createStatement();
+                 
+                  String sql = "SELECT order_history, total FROM orderhistory WHERE date >= '" + startDate + "' AND date <= '" + endDate + "'";
+                  ResultSet rs = stmt.executeQuery(sql);
+
+                  Map<String, Integer> pairCounts = new HashMap<>();
+
+                  while (rs.next()) {
+                    String orderHistory = rs.getString("order_history");
+                    orderHistory = orderHistory.substring(0,orderHistory.length()-1);
+                    List<String> items = Arrays.asList(orderHistory.split(","));
+                
+                    // Generate all pairs of menu items and count their frequency
+                    for (int i = 0; i < items.size(); i++) {
+                        for (int j = i + 1; j < items.size(); j++) {
+                            String pair = items.get(i) + "," + items.get(j);
+                            int count = pairCounts.getOrDefault(pair, 0);
+                            pairCounts.put(pair, count + 1);
+                        }
+                    }
+                  }
+
+                  List<Map.Entry<String, Integer>> sortedPairs = new ArrayList<>(pairCounts.entrySet());
+                  Collections.sort(sortedPairs, new Comparator<Map.Entry<String, Integer>>() {
+                      @Override
+                      public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                          return o2.getValue().compareTo(o1.getValue());
+                      }
+                  });
+
+                  for (Map.Entry<String, Integer> entry : sortedPairs) {
+                    String[] pair = entry.getKey().split(",");
+                    totalArea.append(pair[0] + " and " + pair[1]  + "\n");
+                    System.out.println(pair[0] + " and " + pair[1] + ": " + entry.getValue() + " times");
+                }
+
+                  try {
+                      conn2.close();
+                      JOptionPane.showMessageDialog(null,"Connection Closed.");
+                  } catch(Exception e2) {
+                      JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                  }
+              } catch (Exception ex) {
+                  JOptionPane.showMessageDialog(null, "Error retrieving");
+              }  
+          }
+      });      
+
+    }
 
     // if button is pressed
     public void actionPerformed(ActionEvent e)
