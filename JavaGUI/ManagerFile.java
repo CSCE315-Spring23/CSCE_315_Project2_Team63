@@ -10,9 +10,7 @@ import java.util.Map;
 import java.util.Random;
 import java.awt.event.*;
 import javax.swing.*;
-
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
