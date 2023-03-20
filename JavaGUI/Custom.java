@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Custom {
+public class Custom extends JFrame {
 
     // initialize window and overall panel
     private JFrame frame;
@@ -18,12 +18,20 @@ public class Custom {
     ArrayList<JCheckBox> toppings = new ArrayList<JCheckBox>();
     ArrayList<JCheckBox> extras = new ArrayList<JCheckBox>();
 
-    private JButton addButton;
+    private JButton addButton, cancelButton;
 
     // list of strings that will keep track of selected items
     public ArrayList<String> to_return = new ArrayList<String>();
+    private UpdateListener updateListener;
 
-    public Custom() { // default constructor 
+    public interface UpdateListener {
+        void onUpdate(ArrayList<String> updatedList);
+    }
+
+    public Custom(UpdateListener updateListener) { // default constructor 
+
+        // set close operation
+        
 
         // window setup
         frame = new JFrame("Order");
@@ -130,6 +138,11 @@ public class Custom {
         panel.add(extraPanel);
 
         addButton = new JButton("Add to Order");
+        cancelButton = new JButton("Cancel Order");
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
 
 addButton.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
@@ -173,18 +186,17 @@ addButton.addActionListener(new ActionListener() {
             }
         }
 
-        System.out.print(to_return);
+        updateListener.onUpdate(to_return);
+        frame.dispose();
     }
-});
+}
+
+);
 
 panel.add(addButton);
 panel.revalidate();
 panel.repaint();
 frame.add(panel);
 frame.setVisible(true);
-}
-
-public static void main(String[] args) {
-    new Custom();
 }
 }

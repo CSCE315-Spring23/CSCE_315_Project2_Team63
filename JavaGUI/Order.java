@@ -17,12 +17,15 @@ public class Order extends JFrame implements ActionListener {
     private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
     private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
     private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
-    private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button, cancel;
+    private JButton bowl_chicken_button, custom_order_button, bowl_steak_button, bowl_beef_button, bowl_veg_button, cancel;
     private String itemList = "";
 
     private JButton checkoutButton;
     private double total = 0;
     private double complete_total = 0;
+
+    
+    private ArrayList<ArrayList<String> > custom_orders = new ArrayList<ArrayList<String> >();
     // private Boolean isFirst = false;
     // private String date_ = "";
 
@@ -89,6 +92,9 @@ public class Order extends JFrame implements ActionListener {
     
         bowl_chicken_button = new JButton("Chicken Bowl - $8.69");
         bowl_chicken_button.addActionListener(this);
+
+        custom_order_button = new JButton("Custom Bowl - $10.99");
+        custom_order_button.addActionListener(this);
     
         checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(this);
@@ -114,6 +120,7 @@ public class Order extends JFrame implements ActionListener {
         buttonPanel.add(bowl_chicken_button);
         buttonPanel.add(bowl_steak_button);
         buttonPanel.add(bowl_veg_button);
+        buttonPanel.add(custom_order_button);
     
         JPanel checkoutPanel = new JPanel(new FlowLayout());
 
@@ -291,6 +298,9 @@ public class Order extends JFrame implements ActionListener {
             String total_p = String.format("%.2f", total);
             total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
+        } else if (e.getSource() == custom_order_button) {
+            new Custom(this::onUpdate);
+
         } else if (e.getSource() == checkoutButton) {
             // String prev_day = "";
             // if(isFirst == false) {
@@ -362,6 +372,12 @@ public class Order extends JFrame implements ActionListener {
             name.setText("");
             itemList = "";
         }
+    }
+
+    private void onUpdate(ArrayList<String> updatedList) {
+        System.out.print("adding, " + updatedList);
+        custom_orders.add(updatedList);
+        System.out.print("all custom orders: " + custom_orders);
     }
 
     public static void main(String[] args) {
