@@ -102,7 +102,7 @@ public class Custom extends JFrame {
         JPanel toppingPanel = new JPanel();
         toppingPanel.setBorder(BorderFactory.createTitledBorder("Toppings"));
         toppings.add(new JCheckBox("mozzarella cheese"));
-        toppings.add(new JCheckBox("mixed cheese"));
+        toppings.add(new JCheckBox("mixed cheddar"));
         toppings.add(new JCheckBox("corn salsa"));
         toppings.add(new JCheckBox("pico de gallo"));
         toppings.add(new JCheckBox("onions"));

@@ -1,111 +1,116 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.*;
-import java.util.Random;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.DefaultListModel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.*;
 import java.util.*;
+import java.text.DecimalFormat;
 
 public class Order extends JFrame implements ActionListener {
+    public static Connection conn2 = null;
     private JTextArea receiptArea;
-    private JButton chicken_taco_button;
-    private JButton steak_taco_button;
-    private JButton beef_taco_button;
-    private JButton veggie_taco_button;
-    private JButton chips_and_guac;
-    private JButton chips_and_queso;
-    private JButton chips_and_salsa;
-    private JButton drink;
-    private JButton burrito_steak_button;
-    private JButton burrito_beef_button;
-    private JButton burrito_veg_button;
-    private JButton burrito_chicken_button;
-    private JButton bowl_chicken_button;
-    private JButton bowl_steak_button;
-    private JButton bowl_beef_button;
-    private JButton bowl_veg_button;
-    private JButton water_button;
-    private JButton custom_order_button;
-
-    JTextArea a = new JTextArea("EmployeeID:");
+    private JTextField employeeID, date, name;
+    private JLabel employee_label, date_label, name_label, total_price;
+    private JButton chicken_taco_button, steak_taco_button, beef_taco_button, veggie_taco_button;
+    private JButton chips_and_guac, chips_and_queso, chips_and_salsa, drink;
+    private JButton rainbow, custom;
+    private JButton burrito_steak_button, burrito_beef_button, burrito_veg_button, burrito_chicken_button;
+    private JButton bowl_chicken_button, bowl_steak_button, bowl_beef_button, bowl_veg_button, cancel;
+    private String itemList = "";
 
     Vector<Double> quant = new Vector<Double>();
     Vector<String> ingredient = new Vector<String>();
+    public ArrayList<ArrayList<String>> custom_order_list= new ArrayList<>();
     ArrayList<String> to_return = new ArrayList<>();
-    private ArrayList<ArrayList<String> > custom_list = new ArrayList<ArrayList<String> >();
 
     private JButton checkoutButton;
     private double total = 0;
+    private double complete_total = 0;
+    private String prev_day = "N/A";
+    private ArrayList<ArrayList<String> > custom_list = new ArrayList<ArrayList<String> >();
+    // private String date_ = "";
+
     public Order() {
         super("Point of Sale");
         // Create text area for displaying the receipt
         receiptArea = new JTextArea(10, 30);
+        employeeID = new JTextField(10);
+        name = new JTextField(10);
+        date = new JTextField(10);
+
+        employee_label = new JLabel("Employee ID: ");
+        date_label = new JLabel("Date(XXXX-XX-XX): ");
+        name_label = new JLabel("Customer name: ");
+        total_price = new JLabel("Total price: $0.00");
+        
         receiptArea.setEditable(false);
     
         // Create buttons for adding items and checking out
-        chicken_taco_button = new JButton("Chicken Taco - $7.89");
+        chicken_taco_button = new JButton("tacos_chili-rubbed-chicken - $7.89");
         chicken_taco_button.addActionListener(this);
     
-        steak_taco_button = new JButton("Steak Taco - $8.89");
+        steak_taco_button = new JButton("tacos-marinated-steak - $8.89");
         steak_taco_button.addActionListener(this);
     
-        beef_taco_button = new JButton("Beef Taco - $8.79");
+        beef_taco_button = new JButton("tacos_seasoned-beef - $8.79");
         beef_taco_button.addActionListener(this);
     
-        veggie_taco_button = new JButton("Veggie Taco - $7.89");
+        veggie_taco_button = new JButton("tacos_grilled-vegetable-medley - $7.89");
         veggie_taco_button.addActionListener(this);
         
-        chips_and_guac = new JButton("Chips-and-guac - $3.69");
+        chips_and_guac = new JButton("chips-and-guac - $3.69");
         chips_and_guac.addActionListener(this);
     
-        chips_and_salsa = new JButton("Chips-and-salsa - $2.19");
+        chips_and_salsa = new JButton("chips-and-salsa - $2.19");
         chips_and_salsa.addActionListener(this);
     
-        chips_and_queso = new JButton("Chips-and-queso - $3.49");
+        chips_and_queso = new JButton("chips-and-queso - $3.49");
         chips_and_queso.addActionListener(this);
         
-        drink = new JButton("Drink - $2.45");
+        drink = new JButton("fountain-drink - $2.45");
         drink.addActionListener(this);
     
-        burrito_steak_button = new JButton("Steak Burrito - $9.19");
+        burrito_steak_button = new JButton("burrito_marinated-steak - $9.19");
         burrito_steak_button.addActionListener(this);
     
-        burrito_beef_button = new JButton("Beef Burrito - $8.99");
+        burrito_beef_button = new JButton("burrito_seasoned-beef - $8.99");
         burrito_beef_button.addActionListener(this);
     
-        burrito_veg_button = new JButton("Veggie Burrito - $8.29");
+        burrito_veg_button = new JButton("burrito_grilled-vegetable-medley - $8.29");
         burrito_veg_button.addActionListener(this);
     
-        burrito_chicken_button = new JButton("Chicken Burrito - $8.69");
+        burrito_chicken_button = new JButton("burrito_chili-rubbed-chicken - $8.69");
         burrito_chicken_button.addActionListener(this);
     
-        bowl_steak_button = new JButton("Steak Burrito - $9.19");
+        bowl_steak_button = new JButton("bowl_marinated-steak - $9.19");
         bowl_steak_button.addActionListener(this);
     
-        bowl_beef_button = new JButton("Beef Burrito - $8.99");
+        bowl_beef_button = new JButton("bowl_seasoned-beef - $8.99");
         bowl_beef_button.addActionListener(this);
     
-        bowl_veg_button = new JButton("Veggie Burrito - $8.29");
+        bowl_veg_button = new JButton("bowl_grilled-vegetable-medley - $8.29");
         bowl_veg_button.addActionListener(this);
     
-        bowl_chicken_button = new JButton("Chicken Burrito - $8.69");
+        bowl_chicken_button = new JButton("bowl_chili-rubbed-chicken - $8.69");
         bowl_chicken_button.addActionListener(this);
 
-        water_button = new JButton("Water Bottle - $1.50");
-        water_button.addActionListener(this);
+        custom = new JButton("Custom");
+        custom.addActionListener(this);
 
-        custom_order_button = new JButton("Custom Bowl - $10.99");
-        custom_order_button.addActionListener(this);
+        rainbow = new JButton("eat-the-rainbow - $20");
+        rainbow.addActionListener(this);
     
         checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(this);
+
+        cancel = new JButton("Cancel Order");
+        cancel.addActionListener(this);
     
         // Add components to the frame
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 8));
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 6));
         buttonPanel.add(chips_and_queso);
         buttonPanel.add(chips_and_guac);
         buttonPanel.add(chips_and_salsa);
@@ -122,23 +127,39 @@ public class Order extends JFrame implements ActionListener {
         buttonPanel.add(bowl_chicken_button);
         buttonPanel.add(bowl_steak_button);
         buttonPanel.add(bowl_veg_button);
-        buttonPanel.add(water_button);
-        buttonPanel.add(custom_order_button);
+        buttonPanel.add(rainbow);
+        buttonPanel.add(custom);
     
         JPanel checkoutPanel = new JPanel(new FlowLayout());
-        checkoutPanel.add(checkoutButton);
 
-        getContentPane().add(a, BorderLayout.WEST);
-    
         getContentPane().add(buttonPanel, BorderLayout.NORTH);
         getContentPane().add(receiptArea, BorderLayout.CENTER);
+        
+        checkoutPanel.add(total_price);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(checkoutButton);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(employee_label);
+        checkoutPanel.add(employeeID);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(date_label);
+        checkoutPanel.add(date);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(name_label);
+        checkoutPanel.add(name);
+        getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
+
+        checkoutPanel.add(cancel);
         getContentPane().add(checkoutPanel, BorderLayout.SOUTH);
     
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-
     
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == chicken_taco_button) {
@@ -203,10 +224,12 @@ public class Order extends JFrame implements ActionListener {
             String item = "Chicken Taco";
             double price = 7.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_steak_button) {
-
             ingredient.add("black beans");
             quant.add(0.175);
 
@@ -264,14 +287,15 @@ public class Order extends JFrame implements ActionListener {
             ingredient.add("steak");
             quant.add(0.155);
 
-
             String item = "Marinated Steak Burrito";
             double price = 9.19;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == steak_taco_button) {
-
             ingredient.add("pinto beans");
             quant.add(0.375);
 
@@ -328,37 +352,28 @@ public class Order extends JFrame implements ActionListener {
 
             ingredient.add("steak");
             quant.add(0.355);
-
-
             String item = "Marinated Steak Taco";
             double price = 8.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == drink) {
 
-            ingredient.add("fountain drink cup");
+            ingredient.add("fountain drink cups");
             quant.add(1.0);
-
 
             String item = "Fountain Drink";
             double price = 2.45;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
-            receiptArea.append(receiptLine);
-        } else if (e.getSource() == water_button) {
-
-            ingredient.add("water bottles");
-            quant.add(1.0);
-
-
-            String item = "Water Bottle";
-            double price = 1.50;
-            total += price;
-            String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == beef_taco_button) {
-
             ingredient.add("pinto beans");
             quant.add(0.375);
 
@@ -419,10 +434,12 @@ public class Order extends JFrame implements ActionListener {
             String item = "Beef Taco";
             double price = 8.79;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_chicken_button) {
-
             ingredient.add("black beans");
             quant.add(0.175);
 
@@ -480,14 +497,15 @@ public class Order extends JFrame implements ActionListener {
             ingredient.add("chicken");
             quant.add(0.155);
 
-
             String item = "Chicken Burrito";
             double price = 8.69;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == veggie_taco_button) {
-
             ingredient.add("pinto beans");
             quant.add(0.375);
 
@@ -549,11 +567,12 @@ public class Order extends JFrame implements ActionListener {
             String item = "Grilled Vegetable Taco";
             double price = 7.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_beef_button) {
-
-
             ingredient.add("black beans");
             quant.add(0.175);
 
@@ -610,15 +629,15 @@ public class Order extends JFrame implements ActionListener {
 
             ingredient.add("ground beef");
             quant.add(0.155);
-
-
             String item = "Grilled Vegetable Taco";
             double price = 7.89;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == chips_and_guac) {
-
             ingredient.add("nacho chips");
             quant.add(0.09375);
 
@@ -628,14 +647,15 @@ public class Order extends JFrame implements ActionListener {
             ingredient.add("sauce containers");
             quant.add(2.0);
 
-
             String item = "Chips-and-Guac";
             double price = 3.69;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == chips_and_queso) {
-
             ingredient.add("nacho chips");
             quant.add(0.09375);
 
@@ -645,14 +665,15 @@ public class Order extends JFrame implements ActionListener {
             ingredient.add("sauce containers");
             quant.add(2.0);
 
-
             String item = "Chips-and-Queso";
             double price = 3.49;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == chips_and_salsa) {
-
             ingredient.add("nacho chips");
             quant.add(0.09375);
 
@@ -664,14 +685,15 @@ public class Order extends JFrame implements ActionListener {
 
             ingredient.add("sauce containers");
             quant.add(2.0);
-            
             String item = "Chips-and-Salsa";
             double price = 2.19;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == burrito_veg_button) {
-
             ingredient.add("black beans");
             quant.add(0.175);
 
@@ -728,16 +750,15 @@ public class Order extends JFrame implements ActionListener {
 
             ingredient.add("fajita vegetables");
             quant.add(0.155);
-
-
-
             String item = "Grilled Vegetable Burrito";
             double price = 8.29;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_veg_button) {
-
             ingredient.add("brown rice");
             quant.add(0.175);
 
@@ -800,17 +821,15 @@ public class Order extends JFrame implements ActionListener {
 
             ingredient.add("fajita vegetables");
             quant.add(0.155);
-
-
-
             String item = "Grilled Vegetable Bowl";
             double price = 8.29;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_beef_button) {
-
-
             ingredient.add("brown rice");
             quant.add(0.175);
 
@@ -875,16 +894,15 @@ public class Order extends JFrame implements ActionListener {
             quant.add(0.155);
 
 
-
             String item = "Beef Bowl";
             double price = 8.99;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_steak_button) {
-
-
-
             ingredient.add("brown rice");
             quant.add(0.175);
 
@@ -947,18 +965,15 @@ public class Order extends JFrame implements ActionListener {
 
             ingredient.add("steak");
             quant.add(0.155);
-
-
-
             String item = "Marinated Steak Bowl";
             double price = 9.19;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
         } else if (e.getSource() == bowl_chicken_button) {
-
-
-
             ingredient.add("brown rice");
             quant.add(0.175);
 
@@ -1021,38 +1036,81 @@ public class Order extends JFrame implements ActionListener {
 
             ingredient.add("chicken");
             quant.add(0.155);
-
-
-
-
             String item = "Chicken Bowl";
             double price = 8.69;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
-
-
-
-        } else if (e.getSource() == custom_order_button) {
-
-
-
-            String item = "Custom Order";
-            double price = 10.99;
+        } else if (e.getSource() == rainbow) {
+            String item = "Eat-the-rainbow";
+            double price = 20;
             total += price;
+            itemList += item + ", ";
             String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
             receiptArea.append(receiptLine);
-
+        } else if (e.getSource() == custom) {
+            
+            String item = "Custom";
+            double price = 10.00; // up to you
+            total += price;
+            itemList += item + ", ";
+            String receiptLine = String.format("%s\t$%.2f\n", item, price);
+            String total_p = String.format("%.2f", total);
+            total_price.setText("Total price: $" + total_p);
+            receiptArea.append(receiptLine);
 
             new Custom(this::onUpdate);
-
-
-
+            // !HAVE ONE FOR EAT THE RAINBOW OPTION!
         } else if (e.getSource() == checkoutButton) {
-            String totalLine = String.format("Total:\t$%.2f\n", total);
-            receiptArea.append(totalLine);
-            total = 0;
+            String employee = employeeID.getText();
+            String day = date.getText();
+            String customer = name.getText();
 
+            if (prev_day.equals("N/A")) {
+                prev_day = day;
+            }
+
+            if(employee.isEmpty() || day.isEmpty() || customer.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Please enter into all text entries");
+            } else {
+                total_price.setText("Total price: $0.00");
+                receiptArea.setText("");
+            }
+
+            try {
+                Class.forName("org.postgresql.Driver");
+                conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                    "csce315331_team_63_master", "WFHD");
+
+                Statement stmt = conn2.createStatement();
+                stmt.executeUpdate("INSERT INTO orderhistory (emp_id, date, customer_name, order_history, total) VALUES ('" + employee + "', '" + day + "', '" + customer + "', '" + itemList + "', '" + total + "');");
+
+                if(!(prev_day.equals(day))){
+                    System.out.println("if total: " + total);
+                    System.out.println("if: " + complete_total);
+                    stmt.executeUpdate("INSERT INTO sales (date, total_sales) VALUES ('" + prev_day + "', '" + complete_total + "')");
+                    prev_day = day;
+                    complete_total = total;
+                }
+                else {
+                    complete_total += total;
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+                System.err.println(e.getClass().getName()+": "+e2.getMessage());
+                System.exit(0);
+            }
+        
+            itemList = "";
+            total = 0;
+            total_price.setText("Total price: $0.00");
+            receiptArea.setText("");
+            prev_day = day;
 
             for(int i = 0; i < ingredient.size(); i++) {
 
@@ -1208,25 +1266,31 @@ public class Order extends JFrame implements ActionListener {
                     
                 }
             }
-
+            
             quant = new Vector<Double>();
             ingredient = new Vector<String>();
-            
-            
+            custom_list = new ArrayList<ArrayList<String>>();
 
+
+        } else if(e.getSource() == cancel) {//
+            total = 0;
+            total_price.setText("Total price: $0.00");
+            receiptArea.setText("");
+            employeeID.setText("");
+            date.setText("");
+            name.setText("");
+            itemList = "";
+            quant = new Vector<Double>();
+            ingredient = new Vector<String>();
+            custom_list = new ArrayList<ArrayList<String> >();
         }
-
-            
     }
-
-
 
     private void onUpdate(ArrayList<String> updatedList) {
         System.out.print("adding, " + updatedList);
         custom_list.add(updatedList);
         System.out.print("all custom orders: " + custom_list);
     }
-
 
     public void updateInventory(Double stock, String item) {
 
@@ -1279,12 +1343,5 @@ public class Order extends JFrame implements ActionListener {
             System.out.println("Database connection error: " + e2.getMessage());
         }
     }
-
-
-
-
-
-    public static void main(String[] args) {
-        new Order();
-    }    
+ 
 }

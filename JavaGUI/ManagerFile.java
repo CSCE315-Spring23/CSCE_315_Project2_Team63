@@ -8,7 +8,7 @@ import java.awt.GridLayout;
 
 // public class ManagerFile extends JFrame{
 
-public class ManagerFile {
+public class ManagerFile implements ActionListener{
 
     static JFrame intialMangOption;
     static JFrame f;
