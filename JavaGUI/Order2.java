@@ -467,6 +467,7 @@ public class Order2 extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
         }
     }
+    
     // public static void addButton(String n, String p, String entry)
     // {
     //     System.out.println("IN ORDER2 METHOD");
