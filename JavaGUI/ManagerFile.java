@@ -60,6 +60,7 @@ public class ManagerFile implements ActionListener{
       * Upon clicking on a button, the relevant action is performed.
       @return void
     */
+
     public static void ManagerDashboard()
     {
         intialMangOption = new JFrame("Manager Options");
@@ -157,6 +158,7 @@ public class ManagerFile implements ActionListener{
         intialMangOption.setSize(750, 300);
         intialMangOption.setVisible(true);
     }
+    
     /**
       * The InventoryChange() function is utilized to make updates to the inventory to allow
         managers and servers alike to make necessary updates in respond to user requests
@@ -598,10 +600,7 @@ public class ManagerFile implements ActionListener{
        }
 
     }
-    /**
-     * Displays a menu GUI that allows the user to view, edit, add, and delete menu items.
-     @return void
-      */
+   
     public static void MenuChange()
     {
 
@@ -959,12 +958,7 @@ public class ManagerFile implements ActionListener{
           JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
         }
     }
-    /**
-     * Runs a menu table from a PostgreSQL database and retrieves the item number,
-      name, and price for each item.
-      
-      @return void
-     */
+   
 
     public static void runMenuTable() 
     {
