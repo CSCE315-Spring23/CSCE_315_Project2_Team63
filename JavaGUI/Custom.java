@@ -47,9 +47,9 @@ public class Custom extends JFrame {
         // style options
         JPanel stylePanel = new JPanel();
         stylePanel.setBorder(BorderFactory.createTitledBorder("Style"));
-        styles.add(new JCheckBox("Bowl"));
-        styles.add(new JCheckBox("Burrito"));
-        styles.add(new JCheckBox("Tacos"));
+        styles.add(new JCheckBox("bowl"));
+        styles.add(new JCheckBox("burrito"));
+        styles.add(new JCheckBox("tacos"));
         for (JCheckBox style : styles) {
             stylePanel.add(style);
         }
@@ -60,10 +60,10 @@ public class Custom extends JFrame {
         // base options
         JPanel basePanel = new JPanel();
         basePanel.setBorder(BorderFactory.createTitledBorder("Base"));
-        bases.add(new JCheckBox("White Rice"));
-        bases.add(new JCheckBox("Brown Rice"));
-        bases.add(new JCheckBox("Pinto Beans"));
-        bases.add(new JCheckBox("Black Beans"));
+        bases.add(new JCheckBox("white rice"));
+        bases.add(new JCheckBox("brown rice"));
+        bases.add(new JCheckBox("pinto beans"));
+        bases.add(new JCheckBox("black beans"));
         for (JCheckBox base : bases) {
             basePanel.add(base);
         }
@@ -74,10 +74,10 @@ public class Custom extends JFrame {
         // protein options
         JPanel proteinPanel = new JPanel();
         proteinPanel.setBorder(BorderFactory.createTitledBorder("Protein"));
-        proteins.add(new JCheckBox("Chicken"));
-        proteins.add(new JCheckBox("Ground Beef"));
-        proteins.add(new JCheckBox("Steak"));
-        proteins.add(new JCheckBox("Veggie"));
+        proteins.add(new JCheckBox("chicken"));
+        proteins.add(new JCheckBox("ground beef"));
+        proteins.add(new JCheckBox("steak"));
+        proteins.add(new JCheckBox("fajita vegetables"));
         for (JCheckBox protein : proteins) {
             proteinPanel.add(protein);
         }
@@ -88,9 +88,9 @@ public class Custom extends JFrame {
         // vegetable options
         JPanel vegetablePanel = new JPanel();
         vegetablePanel.setBorder(BorderFactory.createTitledBorder("Vegetables"));
-        vegetables.add(new JCheckBox("Spring Mix"));
-        vegetables.add(new JCheckBox("Romaine Lettuce"));
-        vegetables.add(new JCheckBox("Iceburg Lettuce"));
+        vegetables.add(new JCheckBox("spring mix"));
+        vegetables.add(new JCheckBox("romaine lettuce"));
+        vegetables.add(new JCheckBox("iceburg lettuce"));
         for (JCheckBox vegetable : vegetables) {
             vegetablePanel.add(vegetable);
         }
@@ -101,23 +101,23 @@ public class Custom extends JFrame {
         // topping options
         JPanel toppingPanel = new JPanel();
         toppingPanel.setBorder(BorderFactory.createTitledBorder("Toppings"));
-        toppings.add(new JCheckBox("Mozzarella Cheese"));
-        toppings.add(new JCheckBox("Mixed Cheese"));
-        toppings.add(new JCheckBox("Corn Salsa"));
-        toppings.add(new JCheckBox("Pico de Gallo"));
-        toppings.add(new JCheckBox("Onions"));
-        toppings.add(new JCheckBox("Jalapeno Peppers"));
-        toppings.add(new JCheckBox("Black Olives"));
-        toppings.add(new JCheckBox("Cilantro"));
-        toppings.add(new JCheckBox("Sour Cream"));
-        toppings.add(new JCheckBox("Red Sauce"));
-        toppings.add(new JCheckBox("Salsa Verde"));
-        toppings.add(new JCheckBox("Ranch"));
-        toppings.add(new JCheckBox("Jalapeno Ranch"));
-        toppings.add(new JCheckBox("Chipotle Sauce"));
-        toppings.add(new JCheckBox("Italian Dressing"));
-        toppings.add(new JCheckBox("Lime Juice"));
-        toppings.add(new JCheckBox("Lime"));
+        toppings.add(new JCheckBox("mozzarella cheese"));
+        toppings.add(new JCheckBox("mixed cheddar"));
+        toppings.add(new JCheckBox("corn salsa"));
+        toppings.add(new JCheckBox("pico de gallo"));
+        toppings.add(new JCheckBox("onions"));
+        toppings.add(new JCheckBox("jalapeno peppers"));
+        toppings.add(new JCheckBox("black olives"));
+        toppings.add(new JCheckBox("cilantro"));
+        toppings.add(new JCheckBox("sour cream"));
+        toppings.add(new JCheckBox("red sauce"));
+        toppings.add(new JCheckBox("salse verde"));
+        toppings.add(new JCheckBox("ranch"));
+        toppings.add(new JCheckBox("jalapeno ranch"));
+        toppings.add(new JCheckBox("chipotle sauce"));
+        toppings.add(new JCheckBox("italian dressing"));
+        toppings.add(new JCheckBox("lime juice"));
+        toppings.add(new JCheckBox("lime"));
         for (JCheckBox topping : toppings) {
             toppingPanel.add(topping);
         }
@@ -128,8 +128,8 @@ public class Custom extends JFrame {
         // extra options
         JPanel extraPanel = new JPanel();
         extraPanel.setBorder(BorderFactory.createTitledBorder("Extras"));
-        extras.add(new JCheckBox("Guacamole"));
-        extras.add(new JCheckBox("Queso"));
+        extras.add(new JCheckBox("guacamole"));
+        extras.add(new JCheckBox("queso"));
         for (JCheckBox extra : extras) {
             extraPanel.add(extra);
         }
