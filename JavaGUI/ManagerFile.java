@@ -159,6 +159,11 @@ public class ManagerFile implements ActionListener{
         intialMangOption.setVisible(true);
     }
     
+    /**
+      * The InventoryChange() function is utilized to make updates to the inventory to allow
+        managers and servers alike to make necessary updates in respond to user requests
+      @return void
+    */
 
     public static void InventoryChange()
     {
