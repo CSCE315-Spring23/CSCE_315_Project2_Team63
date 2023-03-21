@@ -14,7 +14,12 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
+/*
+    This class represents the view and features that managers at Cabo Grill
+    will have access to when utilizing our tool. 
 
+    @author - work-from-home-dads
+*/
 
 public class ManagerFile implements ActionListener{
 
