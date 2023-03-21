@@ -28,6 +28,9 @@ public class Custom extends JFrame {
     public ArrayList<String> to_return = new ArrayList<String>();
     private UpdateListener updateListener;
 
+    /**
+     * An interface representing a listener that will be called when the user updates their order.
+     */
     public interface UpdateListener {
         void onUpdate(ArrayList<String> updatedList);
     }
