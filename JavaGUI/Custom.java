@@ -111,7 +111,7 @@ public class Custom extends JFrame {
         toppings.add(new JCheckBox("cilantro"));
         toppings.add(new JCheckBox("sour cream"));
         toppings.add(new JCheckBox("red sauce"));
-        toppings.add(new JCheckBox("salsa verde"));
+        toppings.add(new JCheckBox("salse verde"));
         toppings.add(new JCheckBox("ranch"));
         toppings.add(new JCheckBox("jalapeno ranch"));
         toppings.add(new JCheckBox("chipotle sauce"));

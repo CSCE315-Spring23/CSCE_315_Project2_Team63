@@ -18,7 +18,7 @@ public class HomePage extends JFrame {
             // when the server button is clicked, create a new Order object and display the Order window.
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Da Server button triggers instance of a lovely order screen window by Daniel and Connor");
-                Order _order = new Order();
+                Order2 _order = new Order2();
                 // _order.server();
 
 
@@ -47,6 +47,7 @@ public class HomePage extends JFrame {
         contentPane.add(managerButton);
 
         setContentPane(contentPane);
+
     }
 
     // 

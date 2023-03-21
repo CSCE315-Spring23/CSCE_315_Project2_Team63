@@ -1,8 +1,16 @@
 //package CSCE_315_Project2_Team63.JavaGUI.Manager;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -32,6 +40,8 @@ public class ManagerFile implements ActionListener{
     public static String inventoryUnit = "Unit: " + '\n';
     public static String inventoryExp_date = "Expiration Date: " +'\n';
 
+    public static String hashmapEntry = "";
+
     public ManagerFile()
     {
       System.out.print("Manager Process");
@@ -47,7 +57,13 @@ public class ManagerFile implements ActionListener{
         managerTitle.setFont(new Font("Arial", Font.BOLD, 24));
         JButton menuSettings = new JButton("MENU SETTINGS");
         JButton inventorySettings = new JButton("INVENTORY SETTINGS");
-    
+        JButton salesReport = new JButton("SALES REPORT");
+        JButton restockReport = new JButton("RESTOCK REPORT");
+        JButton xReport = new JButton("X-REPORT");
+        JButton zReport = new JButton("Z-REPORT");
+        JButton excessReport = new JButton("EXCESS REPORT");
+        JButton popularReport = new JButton("SALES TOGETHER");
+
         // Add ActionListener to menuSettings button
         menuSettings.addActionListener(new ActionListener() {
             @Override
@@ -65,12 +81,59 @@ public class ManagerFile implements ActionListener{
           }
       });
     
+        salesReport.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              salesReport();
+          }
+      });
+
+        restockReport.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              restockReport();
+          }
+      });
+
+        xReport.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              xReport();
+          }
+      });
+
+        zReport.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              zReport();
+          }
+      });
+
+      excessReport.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            excessReport();
+        }
+      });
+
+      popularReport.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            popularReport();
+        }
+      });
         // Add components to managerPanel using GridLayout
         managerPanel.setLayout(new GridLayout(2, 1, 10, 10));
         managerPanel.add(managerTitle);
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         buttonPanel.add(menuSettings);
         buttonPanel.add(inventorySettings);
+        buttonPanel.add(salesReport);
+        buttonPanel.add(restockReport);
+        buttonPanel.add(xReport);
+        buttonPanel.add(zReport);
+        buttonPanel.add(excessReport);
+        buttonPanel.add(popularReport);
         managerPanel.add(buttonPanel);
     
         // Add managerPanel to frame
@@ -78,12 +141,19 @@ public class ManagerFile implements ActionListener{
     
         // Set frame properties
         intialMangOption.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        intialMangOption.setSize(400, 300);
+        intialMangOption.setSize(750, 300);
         intialMangOption.setVisible(true);
     }
 
     public static void InventoryChange()
     {
+      inventoryItemNum = "Item Id: " + '\n';
+      inventoryItem = "Item: " + '\n';
+      inventoryQuantity = "Quantity: " + '\n';
+      inventoryPrice = "Price: " + '\n';
+      inventoryVendorName = "Vendor Name: " + '\n';
+      inventoryUnit = "Unit: " + '\n';
+      inventoryExp_date = "Expiration Date: " +'\n';
       runInventoryTable();
       f = new JFrame("Inventory");
 
@@ -370,7 +440,6 @@ public class ManagerFile implements ActionListener{
             p3.add(Exp_data);
             p3.add(Exp_Input);
             p3.add(confirmButton);
-    
             // add the new panel to the frame and display it
             frame3.add(p3);
             frame3.setSize(300, 500);
@@ -491,8 +560,9 @@ public class ManagerFile implements ActionListener{
        p.add(t7);
        p.add(b);
        p.add(b2);
-       p.add(b3);
-       p.add(b4);
+       //commented add and delete for inventory because of excess report
+       //p.add(b3);
+       //p.add(b4);
 
 
        f.add(p);
@@ -513,6 +583,10 @@ public class ManagerFile implements ActionListener{
 
     public static void MenuChange()
     {
+
+        menuItem = "Item Id: " + '\n';
+        menuItemString = "Menu Item: " + '\n';
+        menuPrice = "Price: " + '\n';
         runMenuTable();
 
         // create a new frame
@@ -589,7 +663,8 @@ public class ManagerFile implements ActionListener{
                         // create a statement object
                         Statement stmt = conn2.createStatement();
                         // write the SQL update statement
-                        String sql = "UPDATE menu SET food = '" + name + "', price = " + price + " WHERE itemnum = " + num + ";";
+                        String sql = "UPDATE menu2 SET food = '" + name + "', price = " + price + " WHERE itemnum = " + num + ";";
+                        Order2.DeleteAndRepopulate();
                         // execute the statement
                         int rowsUpdated = stmt.executeUpdate(sql);
                         if (rowsUpdated > 0) {
@@ -597,7 +672,7 @@ public class ManagerFile implements ActionListener{
                           frame2.setVisible(false);
                           
                           // get the updated data and sort it by item number
-                          sql = "SELECT * FROM menu ORDER BY itemnum";
+                          sql = "SELECT * FROM menu2 ORDER BY itemnum";
                           ResultSet rs = stmt.executeQuery(sql);
                           menuItem = "Item Id: " + '\n';
                           menuItemString = "Menu Item: "+'\n';
@@ -685,22 +760,26 @@ public class ManagerFile implements ActionListener{
                       Statement stmt = conn2.createStatement();
   
                                   // get the max itemnum number from the menu table
-                      String getMaxNumSql = "SELECT MAX(itemnum) AS max_num FROM menu";
+                      String getMaxNumSql = "SELECT MAX(itemnum) AS max_num FROM menu2";
                       ResultSet maxNumRs = stmt.executeQuery(getMaxNumSql);
                       int num = 1;
                       if (maxNumRs.next()) {
                           num = maxNumRs.getInt("max_num") + 1;
                       }
                       // write the SQL update statement
-                      String sql = "INSERT INTO menu (itemnum, food, price) VALUES (" + num + ", '" + name + "', " + price + ");";
+                      String sql = "INSERT INTO menu2 (itemnum, food, price, ingridents) VALUES (" + num + ", '" + name + "', " + price + ", '" + hashmapEntry + "');";
                       // execute the statement
+                      Order2.runMenuAndButton();
+                      // 
+                      hashmapEntry = "";
+                      
                       int rowsUpdated = stmt.executeUpdate(sql);
                       if (rowsUpdated > 0) {
                       // if the update was successful, close the edit item frame
                       frame3.setVisible(false);
                       
                       // get the updated data and sort it by item number
-                      sql = "SELECT * FROM menu ORDER BY itemnum";
+                      sql = "SELECT * FROM menu2 ORDER BY itemnum";
                       ResultSet rs = stmt.executeQuery(sql);
                       menuItem = "Item Id: " + '\n';
                       menuItemString = "Menu Item: "+'\n';
@@ -739,10 +818,14 @@ public class ManagerFile implements ActionListener{
           p3.add(menuPriceLabel);
           p3.add(menuPriceField);
           p3.add(confirmButton);
+          JPanel p3a = new JPanel();
+          inventoryCheckbox(p3a);
   
           // add the new panel to the frame and display it
+          frame3.setLayout(new GridLayout(2, 1));
           frame3.add(p3);
-          frame3.setSize(200, 400);
+          frame3.add(p3a);
+          frame3.setSize(600, 800);
           frame3.show();
           
       }
@@ -782,7 +865,10 @@ public class ManagerFile implements ActionListener{
                         // create a statement object
                         Statement stmt = conn2.createStatement();
                         // write the SQL update statement
-                        String sql = "DELETE FROM menu WHERE itemnum = " + num + ";";
+                        String sql = "DELETE FROM menu2 WHERE itemnum = " + num + ";";
+
+                        Order2.DeleteAndRepopulate();
+
                         // execute the statement
                         int rowsUpdated = stmt.executeUpdate(sql);
                         if (rowsUpdated > 0) {
@@ -790,7 +876,7 @@ public class ManagerFile implements ActionListener{
                           frame4.setVisible(false);
                           
                           // get the updated data and sort it by item number
-                          sql = "SELECT * FROM menu ORDER BY itemnum";
+                          sql = "SELECT * FROM menu2 ORDER BY itemnum";
                           ResultSet rs = stmt.executeQuery(sql);
                           menuItem = "Item Id: " + '\n';
                           menuItemString = "Menu Item: "+'\n';
@@ -873,7 +959,7 @@ public class ManagerFile implements ActionListener{
         Statement stmt = conn.createStatement();
         //String sqlStatement = ;
         //send statement to DBMS
-        ResultSet result = stmt.executeQuery("SELECT * FROM menu ORDER BY itemnum;"); 
+        ResultSet result = stmt.executeQuery("SELECT * FROM menu2 ORDER BY itemnum;"); 
         while (result.next()) 
         {
           menuItem +=  result.getString("itemnum")+"\n";
@@ -923,6 +1009,584 @@ public class ManagerFile implements ActionListener{
       {
         JOptionPane.showMessageDialog(null,"Error accessing Database.");
       }
+    }
+
+    public static void inventoryCheckbox(JPanel buttonPanel)
+    {
+      try {
+        Class.forName("org.postgresql.Driver");
+        conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+            "csce315331_team_63_master", "WFHD");
+      } catch (Exception e) {
+        e.printStackTrace();
+        System.err.println(e.getClass().getName()+": "+e.getMessage());
+        System.exit(0);
+      }
+      //JOptionPane.showMessageDialog(null,"Opened database successfully");
+
+      try
+      {
+        ArrayList<String> inventory_values = new ArrayList<>();
+
+        //create a statement object
+        Statement stmt = conn.createStatement();
+        //String sqlStatement = ;
+        //send statement to DBMS
+        ResultSet result = stmt.executeQuery("SELECT * FROM inventory_table;"); 
+        while (result.next()) 
+        {
+          inventory_values.add(result.getString("item"));
+        }
+        int numItems = inventory_values.size();
+        int numCols = 2; // Number of columns in the grid
+        int numRows = (numItems + numCols - 1) / numCols; // Calculate number of rows needed
+        buttonPanel.setLayout(new GridLayout(numRows, numCols));
+        
+        ArrayList<JTextField> textFields = new ArrayList<JTextField>();
+        ArrayList<JCheckBox> checkboxes = new ArrayList<JCheckBox>();
+        
+        for (int i = 0; i < numItems; i++) {
+            String checkboxName = inventory_values.get(i);
+            JCheckBox checkbox = new JCheckBox(checkboxName);
+            JTextField textField = new JTextField();
+            textField.setColumns(10);
+            textField.setVisible(false);
+            textFields.add(textField);
+            checkboxes.add(checkbox);
+            final int index = i;
+            checkbox.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    textFields.get(index).setVisible(true);
+                } else {
+                    textFields.get(index).setVisible(false);
+                }
+            });
+            buttonPanel.add(checkbox);
+            buttonPanel.add(textField);
+        }
+        
+        JButton confirmButton = new JButton("Confirm Inventory Item");
+        confirmButton.addActionListener(e -> {
+          for (int i = 0; i < numItems; i++) {
+              JCheckBox checkbox = checkboxes.get(i);
+              JTextField textField = textFields.get(i);
+              if (checkbox.isSelected()) {
+                  String checkboxName = checkbox.getText();
+                  String textFieldValue = textField.getText();
+                  hashmapEntry += textFieldValue + ":" + checkboxName +",";
+              }
+              textField.setText(""); // reset text field to empty string
+              checkbox.setSelected(false); // uncheck checkbox
+              checkbox.setEnabled(false); // disable checkbox
+          }
+          hashmapEntry = hashmapEntry.trim().substring(0,hashmapEntry.length()-1);
+          System.out.println(hashmapEntry);
+      });
+        buttonPanel.add(confirmButton);
+      } 
+      catch (Exception e)
+      {
+        JOptionPane.showMessageDialog(null,"Error accessing Database.");
+      }
+    }
+
+    public static void salesReport()
+    {
+      JFrame salesFrame = new JFrame("Sales Report");
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+  
+      // create a label and text field for starting date
+      JLabel startLabel = new JLabel("Starting Date: ");
+      JTextField startDateField = new JTextField(10);
+      JPanel startPanel = new JPanel();
+      startPanel.add(startLabel);
+      startPanel.add(startDateField);
+  
+      // create a label and text field for ending date
+      JLabel endLabel = new JLabel("Ending Date: ");
+      JTextField endDateField = new JTextField(10);
+      JPanel endPanel = new JPanel();
+      endPanel.add(endLabel);
+      endPanel.add(endDateField);
+  
+      // create a confirm button
+      JButton confirmButton = new JButton("Confirm");
+  
+      // create text areas for displaying orders and total
+      JTextArea allOrderArea = new JTextArea(10, 30);
+      allOrderArea.setEditable(false);
+      JScrollPane allOrderScroll = new JScrollPane(allOrderArea);
+      JTextArea totalArea = new JTextArea(1, 30);
+      totalArea.setEditable(false);
+      JScrollPane totalScroll = new JScrollPane(totalArea);
+  
+      // add components to the panel
+      p2.add(startPanel);
+      p2.add(endPanel);
+      p2.add(confirmButton);
+      p2.add(allOrderScroll);
+      p2.add(totalScroll);
+  
+      // add the panel to the frame
+      salesFrame.getContentPane().add(p2);
+  
+      // set the size and make the frame visible
+      salesFrame.setSize(400, 400);
+      salesFrame.setVisible(true);
+
+        confirmButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) 
+          {
+              // retrieve starting and ending dates
+              String startDate = startDateField.getText();    
+              String endDate = endDateField.getText();    
+
+              try {
+                  Class.forName("org.postgresql.Driver");
+                  conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                      "csce315331_team_63_master", "WFHD");
+
+                  // create a statement object
+                  Statement stmt = conn2.createStatement();
+                  // write the SQL query to retrieve order history between specified dates
+                  String sql = "SELECT order_history, total FROM orderhistory WHERE date >= '" + startDate + "' AND date <= '" + endDate + "'";
+                  ResultSet rs = stmt.executeQuery(sql);
+
+                  // display order history in the allOrder text area
+                  allOrderArea.setText("");
+                  while (rs.next()) {
+                      String orderHistory = rs.getString("order_history");
+                      String price = rs.getString("total");
+                      allOrderArea.append(orderHistory + " : " + price + "\n");
+                  }
+
+                  // retrieve and display total in the total text area
+                  rs = stmt.executeQuery("SELECT SUM(total) AS total FROM orderhistory WHERE date >= '" + startDate + "' AND date <= '" + endDate + "'");
+                  if (rs.next()) {
+                      double total = rs.getDouble("total");
+                      totalArea.setText("Total: $" + String.format("%.2f", total));
+                  } else {
+                      totalArea.setText("Total: $0.00");
+                  }
+
+                  try {
+                      conn2.close();
+                      JOptionPane.showMessageDialog(null,"Connection Closed.");
+                  } catch(Exception e2) {
+                      JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                  }
+              } catch (Exception ex) {
+                  JOptionPane.showMessageDialog(null, "Error retrieving");
+              }  
+          }
+      });
+    }
+
+    public static void restockReport() {
+      JFrame restockFrame = new JFrame("Restock Report");
+      
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+  
+      // add a label saying "Restock Report"
+      JLabel titleLabel = new JLabel("Restock Needed");
+      titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+      p2.add(titleLabel);
+  
+      try {
+          Class.forName("org.postgresql.Driver");
+          conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                  "csce315331_team_63_master", "WFHD");
+  
+          // create a statement object
+          Statement stmt = conn2.createStatement();
+  
+          // write the SQL query to retrieve inventory items with quantity less than 20.0
+          String sql = "SELECT item, quantity FROM inventory_table WHERE CAST(quantity AS DOUBLE PRECISION) < 20.0";
+          ResultSet rs = stmt.executeQuery(sql);
+  
+          // display items that need restocking in the text area
+          JTextArea textArea = new JTextArea();
+          textArea.setEditable(false);
+          while (rs.next()) {
+              String item = rs.getString("item");
+              String quantity = rs.getString("quantity");
+              textArea.append(item + " : " + quantity + "\n");
+          }
+          p2.add(textArea);
+  
+          try {
+              conn2.close();
+              JOptionPane.showMessageDialog(null, "Connection Closed.");
+          } catch (Exception e2) {
+              JOptionPane.showMessageDialog(null, "Connection NOT Closed.");
+          }
+      } catch (Exception ex) {
+          JOptionPane.showMessageDialog(null, "Error retrieving inventory items.");
+      }
+  
+      restockFrame.getContentPane().add(p2);
+      restockFrame.pack();
+      restockFrame.setSize(400, restockFrame.getHeight());
+      restockFrame.setVisible(true);
+  }
+
+    public static void xReport()
+    {
+        JFrame xReportFrame = new JFrame("X-Report");
+        // create a new panel for editing menu items
+        JPanel p2 = new JPanel();
+        p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+    
+        // create a label and text field for starting date
+        JLabel startLabel = new JLabel("Date: ");
+        JTextField startDateField = new JTextField(10);
+        JButton confirmButton = new JButton("Confirm");
+        JPanel startPanel = new JPanel();
+        startPanel.add(startLabel);
+        startPanel.add(startDateField);
+        startPanel.add(confirmButton);
+
+
+
+        JTextArea totalArea = new JTextArea(1, 30);
+        totalArea.setEditable(false);
+        JScrollPane totalScroll = new JScrollPane(totalArea);
+
+        p2.add(startPanel);
+        //p2.add(confirmButton);
+        p2.add(totalScroll);
+
+        xReportFrame.getContentPane().add(p2);
+  
+        // set the size and make the frame visible
+        xReportFrame.setSize(350, 300);
+        xReportFrame.setVisible(true);
+
+        confirmButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) 
+          {
+              // retrieve starting and ending dates
+              String startDate = startDateField.getText();       
+
+              try {
+                  Class.forName("org.postgresql.Driver");
+                  conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                      "csce315331_team_63_master", "WFHD");
+
+                  // create a statement object
+                  Statement stmt = conn2.createStatement();
+
+                  // retrieve and display total in the total text area
+                  ResultSet rs = stmt.executeQuery("SELECT SUM(total) AS total FROM orderhistory WHERE date = '" + startDate + "'");
+                  if (rs.next()) {
+                      double total = rs.getDouble("total");
+                      totalArea.setText("Total: $" + String.format("%.2f", total));
+                  } else {
+                      totalArea.setText("Total: $0.00");
+                  }
+
+                  try {
+                      conn2.close();
+                      JOptionPane.showMessageDialog(null,"Connection Closed.");
+                  } catch(Exception e2) {
+                      JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                  }
+              } catch (Exception ex) {
+                  JOptionPane.showMessageDialog(null, "Error retrieving");
+              }  
+          }
+      });
+    }
+
+    public static void zReport()
+    {
+        JFrame zReportFrame = new JFrame("Z-Report");
+        // create a new panel for editing menu items
+        JPanel p2 = new JPanel();
+        p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+    
+        // create a label and text field for starting date
+        JLabel startLabel = new JLabel("Date: ");
+        JTextField startDateField = new JTextField(10);
+        JButton confirmButton = new JButton("Confirm");
+        JPanel startPanel = new JPanel();
+        startPanel.add(startLabel);
+        startPanel.add(startDateField);
+        startPanel.add(confirmButton);
+
+
+
+        JTextArea totalArea = new JTextArea(1, 30);
+        totalArea.setEditable(false);
+        JScrollPane totalScroll = new JScrollPane(totalArea);
+
+        p2.add(startPanel);
+        //p2.add(confirmButton);
+        p2.add(totalScroll);
+
+        zReportFrame.getContentPane().add(p2);
+  
+        // set the size and make the frame visible
+        zReportFrame.setSize(350, 300);
+        zReportFrame.setVisible(true);
+
+        confirmButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) 
+          {
+              // retrieve starting and ending dates
+              String startDate = startDateField.getText();       
+
+              try {
+                  Class.forName("org.postgresql.Driver");
+                  conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                      "csce315331_team_63_master", "WFHD");
+
+                  // create a statement object
+                  Statement stmt = conn2.createStatement();
+
+                  // retrieve and display total in the total text area
+                  ResultSet rs = stmt.executeQuery("SELECT total_sales AS total FROM sales WHERE date = '" + startDate + "'");
+                  if (rs.next()) {
+                      double total = rs.getDouble("total");
+                      if (total != 0.0) {
+                        // add date and total to z_report table
+                        String insertQuery = "INSERT INTO z_report(date, z_entry) VALUES('" + startDate + "', " + total + ")";
+                        stmt.executeUpdate(insertQuery);
+        
+                        // set total_sales to 0 for the specified date
+                        String updateQuery = "UPDATE sales SET total_sales = 0 WHERE date = '" + startDate + "'";
+                        stmt.executeUpdate(updateQuery);
+        
+                        totalArea.setText("Total: $" + String.format("%.2f", total));
+                    }
+
+                  } else {
+                      totalArea.setText("Total: $0.00");
+                  }
+
+                  try {
+                      conn2.close();
+                      JOptionPane.showMessageDialog(null,"Connection Closed.");
+                  } catch(Exception e2) {
+                      JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                  }
+              } catch (Exception ex) {
+                  JOptionPane.showMessageDialog(null, "Error retrieving");
+              }  
+          }
+      });
+    }
+
+    public static void excessReport()
+    {
+
+      JFrame excessReportFrame = new JFrame("Excess Report");
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+
+      JLabel startLabel = new JLabel("Date: ");
+      JTextField startDateField = new JTextField(10);
+      JButton confirmButton = new JButton("Confirm");
+      JPanel startPanel = new JPanel();
+      startPanel.add(startLabel);
+      startPanel.add(startDateField);
+      startPanel.add(confirmButton);
+
+
+
+      JTextArea totalArea = new JTextArea(1, 30);
+      totalArea.setEditable(false);
+      JScrollPane totalScroll = new JScrollPane(totalArea);
+
+      p2.add(startPanel);
+      //p2.add(confirmButton);
+      p2.add(totalScroll);
+
+      excessReportFrame.getContentPane().add(p2);
+
+      // set the size and make the frame visible
+      excessReportFrame.setSize(350, 300);
+      excessReportFrame.setVisible(true);
+
+      confirmButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) 
+        {
+
+          String startDate = startDateField.getText();  
+
+          try {
+
+            ArrayList<String> currentQuant = new ArrayList<>();
+            ArrayList<String> currentItem = new ArrayList<>();
+            ArrayList<String> finalItem = new ArrayList<>();
+            String entry = "";
+  
+            Class.forName("org.postgresql.Driver");
+            conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                "csce315331_team_63_master", "WFHD");
+          
+            // create a statement object
+            Statement stmt = conn2.createStatement();
+            String sql = "SELECT * FROM inventory_table ORDER BY item_id;";                    // execute the statement
+  
+            ResultSet result = stmt.executeQuery(sql);
+            
+            while (result.next()) {
+                currentQuant.add(result.getString("quantity"));
+                currentItem.add(result.getString("item"));
+            }
+            
+            sql = "SELECT quantity FROM inventory_status WHERE date = '" + startDate + "';";
+            result = stmt.executeQuery(sql);
+            while (result.next()) {
+                entry += (result.getString("quantity"));
+            }
+
+            entry = entry.substring(0,entry.length()-1);
+            String[] arr = entry.split(":");
+
+            for(int i=0; i<arr.length; i++)
+            {
+              double previous = Double.parseDouble(arr[i]);
+              double current = Double.parseDouble(currentQuant.get(i));
+              double percentage = ((previous-current)/100.0)*100.0;
+              if(percentage>=0 && percentage<10)
+              {
+                finalItem.add(currentItem.get(i));
+                //System.out.println(currentItem.get(i) + "added. Percentage: " + percentage + ". Previous: "+ previous + "current: " + current);
+              }
+            }
+            
+            if(finalItem.size() == 0)
+            {
+              totalArea.setText("Every Item sold more than 10%");
+            }
+            for (String element : finalItem) 
+            {
+              totalArea.append(element + "\n");
+            }
+
+            try {
+              conn2.close();
+              JOptionPane.showMessageDialog(null,"Connection Closed.");
+            } catch(Exception e2) {
+              JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+            }
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error updating item: " + ex.getMessage());
+          }
+        }
+      });
+  }
+
+    public static void popularReport()
+    {
+      JFrame salesFrame = new JFrame("Sales Together Report");
+      // create a new panel for editing menu items
+      JPanel p2 = new JPanel();
+      p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+  
+      // create a label and text field for starting date
+      JLabel startLabel = new JLabel("Starting Date: ");
+      JTextField startDateField = new JTextField(10);
+      JPanel startPanel = new JPanel();
+      startPanel.add(startLabel);
+      startPanel.add(startDateField);
+  
+      // create a label and text field for ending date
+      JLabel endLabel = new JLabel("Ending Date: ");
+      JTextField endDateField = new JTextField(10);
+      JPanel endPanel = new JPanel();
+      endPanel.add(endLabel);
+      endPanel.add(endDateField);
+  
+      // create a confirm button
+      JButton confirmButton = new JButton("Confirm");
+  
+      // create text areas for displaying orders and total
+      JTextArea totalArea = new JTextArea(1, 30);
+      totalArea.setEditable(false);
+      JScrollPane totalScroll = new JScrollPane(totalArea);
+  
+      // add components to the panel
+      p2.add(startPanel);
+      p2.add(endPanel);
+      p2.add(confirmButton);
+      p2.add(totalScroll);
+  
+      // add the panel to the frame
+      salesFrame.getContentPane().add(p2);
+  
+      // set the size and make the frame visible
+      salesFrame.setSize(400, 400);
+      salesFrame.setVisible(true);
+
+        confirmButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) 
+          {
+              // retrieve starting and ending dates
+              String startDate = startDateField.getText();    
+              String endDate = endDateField.getText();   
+
+              try {
+                  Class.forName("org.postgresql.Driver");
+                  conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
+                      "csce315331_team_63_master", "WFHD");
+
+                  // create a statement object
+                  Statement stmt = conn2.createStatement();
+                 
+                  String sql = "SELECT order_history, total FROM orderhistory WHERE date >= '" + startDate + "' AND date <= '" + endDate + "'";
+                  ResultSet rs = stmt.executeQuery(sql);
+
+                  Map<String, Integer> pairCounts = new HashMap<>();
+
+                  while (rs.next()) {
+                    String orderHistory = rs.getString("order_history");
+                    orderHistory = orderHistory.substring(0,orderHistory.length()-1);
+                    List<String> items = Arrays.asList(orderHistory.split(","));
+                
+                    // Generate all pairs of menu items and count their frequency
+                    for (int i = 0; i < items.size(); i++) {
+                        for (int j = i + 1; j < items.size(); j++) {
+                            String pair = items.get(i) + "," + items.get(j);
+                            int count = pairCounts.getOrDefault(pair, 0);
+                            pairCounts.put(pair, count + 1);
+                        }
+                    }
+                  }
+
+                  List<Map.Entry<String, Integer>> sortedPairs = new ArrayList<>(pairCounts.entrySet());
+                  Collections.sort(sortedPairs, new Comparator<Map.Entry<String, Integer>>() {
+                      @Override
+                      public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                          return o2.getValue().compareTo(o1.getValue());
+                      }
+                  });
+
+                  for (Map.Entry<String, Integer> entry : sortedPairs) {
+                    String[] pair = entry.getKey().split(",");
+                    totalArea.append(pair[0] + " and " + pair[1]  + "\n");
+                    System.out.println(pair[0] + " and " + pair[1] + ": " + entry.getValue() + " times");
+                }
+
+                  try {
+                      conn2.close();
+                      JOptionPane.showMessageDialog(null,"Connection Closed.");
+                  } catch(Exception e2) {
+                      JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+                  }
+              } catch (Exception ex) {
+                  JOptionPane.showMessageDialog(null, "Error retrieving");
+              }  
+          }
+      });      
+
     }
 
     // if button is pressed
