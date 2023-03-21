@@ -1571,9 +1571,17 @@ public class ManagerFile implements ActionListener{
 
                   for (Map.Entry<String, Integer> entry : sortedPairs) {
                     String[] pair = entry.getKey().split(",");
-                    totalArea.append(pair[0] + " and " + pair[1]  + "\n");
-                    System.out.println(pair[0] + " and " + pair[1] + ": " + entry.getValue() + " times");
-                }
+                    String text = totalArea.getText();
+                    if(text.contains(pair[0].trim() + " and " + pair[1].trim()) || text.contains(pair[1].trim() + " and " + pair[0].trim()))
+                    {
+                      System.out.println("CONTAINS: " + pair[0].trim() + " and " + pair[1].trim() + ": " + entry.getValue() + " times");
+                    }
+                    else
+                    {
+                      totalArea.append(pair[0].trim() + " and " + pair[1].trim()  + "\n");
+                    }
+                    //System.out.println(pair[0] + " and " + pair[1] + ": " + entry.getValue() + " times");
+                  }
 
                   try {
                       conn2.close();
