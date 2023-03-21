@@ -963,6 +963,12 @@ public class ManagerFile implements ActionListener{
         }
     }
    
+     /**
+     * Runs a menu table from a PostgreSQL database and retrieves the item number,
+      name, and price for each item.
+      
+      @return void
+     */
 
     public static void runMenuTable() 
     {
