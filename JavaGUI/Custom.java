@@ -4,6 +4,10 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * A class representing a custom order window that allows the user to select various ingredients
+ * for their meal.
+ */
 public class Custom extends JFrame {
 
     // initialize window and overall panel
@@ -24,10 +28,18 @@ public class Custom extends JFrame {
     public ArrayList<String> to_return = new ArrayList<String>();
     private UpdateListener updateListener;
 
+    /**
+     * An interface representing a listener that will be called when the user updates their order.
+     */
     public interface UpdateListener {
         void onUpdate(ArrayList<String> updatedList);
     }
 
+    /**
+     * Constructs a new Custom order window.
+     *
+     * @param updateListener the listener to call when the user updates their order
+     */
     public Custom(UpdateListener updateListener) { // default constructor 
 
         // set close operation
