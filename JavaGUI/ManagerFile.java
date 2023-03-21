@@ -600,7 +600,11 @@ public class ManagerFile implements ActionListener{
        }
 
     }
-   
+    /**
+     * Displays a menu GUI that allows the user to view, edit, add, and delete menu items.
+     @return void
+      */
+
     public static void MenuChange()
     {
 
