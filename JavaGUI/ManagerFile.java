@@ -51,7 +51,16 @@ public class ManagerFile implements ActionListener{
     {
       System.out.print("Manager Process");
     }
-    
+    /**
+      * Displays the Manager Dashboard with various options available to the manager.
+      * The options include menu settings, inventory settings, sales report, restock report,
+        X-report, Z-report, excess report, and popular report.
+      * The method creates a JFrame and adds a JPanel with a GridLayout to it. It also creates and adds
+        JLabels and JButtons to the panel with appropriate text and action listeners.
+      * Upon clicking on a button, the relevant action is performed.
+      @return void
+    */
+
     public static void ManagerDashboard()
     {
         intialMangOption = new JFrame("Manager Options");
