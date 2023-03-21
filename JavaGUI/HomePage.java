@@ -1,8 +1,17 @@
 import javax.swing.*;
 import java.awt.event.*;
 
-public class HomePage extends JFrame {
+/*
+    This class represents a home page GUI that contains buttons to open
+    different windows for the user to interact with.
+    @author - work-from-home-dads
+*/
 
+public class HomePage extends JFrame {
+    /**
+     * Constructor that creates a home page GUI with two buttons.
+     * One button opens a server window, and the other opens a manager window.
+     */
     public HomePage() {
         super("Home Page");
         setSize(300, 200);
