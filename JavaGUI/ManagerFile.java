@@ -51,15 +51,7 @@ public class ManagerFile implements ActionListener{
     {
       System.out.print("Manager Process");
     }
-    /**
-      * Displays the Manager Dashboard with various options available to the manager.
-      * The options include menu settings, inventory settings, sales report, restock report,
-        X-report, Z-report, excess report, and popular report.
-      * The method creates a JFrame and adds a JPanel with a GridLayout to it. It also creates and adds
-        JLabels and JButtons to the panel with appropriate text and action listeners.
-      * Upon clicking on a button, the relevant action is performed.
-      @return void
-    */
+    
     public static void ManagerDashboard()
     {
         intialMangOption = new JFrame("Manager Options");
@@ -157,11 +149,7 @@ public class ManagerFile implements ActionListener{
         intialMangOption.setSize(750, 300);
         intialMangOption.setVisible(true);
     }
-    /**
-      * The InventoryChange() function is utilized to make updates to the inventory to allow
-        managers and servers alike to make necessary updates in respond to user requests
-      @return void
-    */
+    
 
     public static void InventoryChange()
     {
@@ -598,10 +586,7 @@ public class ManagerFile implements ActionListener{
        }
 
     }
-    /**
-     * Displays a menu GUI that allows the user to view, edit, add, and delete menu items.
-     @return void
-      */
+   
     public static void MenuChange()
     {
 
@@ -959,12 +944,7 @@ public class ManagerFile implements ActionListener{
           JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
         }
     }
-    /**
-     * Runs a menu table from a PostgreSQL database and retrieves the item number,
-      name, and price for each item.
-      
-      @return void
-     */
+   
 
     public static void runMenuTable() 
     {
