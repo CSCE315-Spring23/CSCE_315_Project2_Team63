@@ -35,6 +35,11 @@ public class Custom extends JFrame {
         void onUpdate(ArrayList<String> updatedList);
     }
 
+    /**
+     * Constructs a new Custom order window.
+     *
+     * @param updateListener the listener to call when the user updates their order
+     */
     public Custom(UpdateListener updateListener) { // default constructor 
 
         // set close operation
