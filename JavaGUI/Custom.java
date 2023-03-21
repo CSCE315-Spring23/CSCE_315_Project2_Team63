@@ -170,8 +170,8 @@ addButton.addActionListener(new ActionListener() {
 
         // loop through each list of buttons, push selected items to string
         for(JCheckBox style : styles) {
-            if (style.isSelected()) {
-                to_return.add(style.getText());
+            if (style.isSelected()) { // check if the checkbox is selected
+                to_return.add(style.getText()); // add the text of the selected checkbox to the to_return list
             }
         }
 
@@ -205,16 +205,21 @@ addButton.addActionListener(new ActionListener() {
             }
         }
 
-        updateListener.onUpdate(to_return);
-        frame.dispose();
+        updateListener.onUpdate(to_return); // call the onUpdate method of the UpdateListener with the to_return list as an argument
+        frame.dispose(); // dispose of the frame
     }
 }
 
 );
 
+// create and add the "Add" button to the panel
 panel.add(addButton);
+
+// validate and repaint the panel to update its display
 panel.revalidate();
 panel.repaint();
+
+// add the panel to the frame and make the frame visible
 frame.add(panel);
 frame.setVisible(true);
 }
