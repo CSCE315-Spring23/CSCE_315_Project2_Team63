@@ -336,9 +336,7 @@ public class Order extends JFrame implements ActionListener {
 
             try {
                 Class.forName("org.postgresql.Driver");
-                conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
-                    "csce315331_team_63_master", "WFHD");
-
+                conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63","csce315331_team_63_master", "WFHD");
                 Statement stmt = conn2.createStatement();
                 stmt.executeUpdate("INSERT INTO orderhistory (emp_id, date, customer_name, order_history, total) VALUES ('" + employee + "', '" + day + "', '" + customer + "', '" + itemList + "', '" + total + "');");
 
@@ -347,7 +345,7 @@ public class Order extends JFrame implements ActionListener {
                     stmt.executeUpdate("UPDATE sales SET total_sales = " + complete_total + " WHERE date = '" + prev_day + "'");
                 }
                 else {
-                    stmt.executeUpdate("INSERT INTO sales (date, total_sales) VALUES ('" + prev_day + "', '" + complete_total + "')");
+                    stmt.executeUpdate("INSERT INTO sales (date, total_sales) VALUES ('" + day + "', '" + complete_total + "')");
                     isFirst = false;
                     complete_total = 0;
                 }
