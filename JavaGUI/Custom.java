@@ -4,6 +4,10 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * A class representing a custom order window that allows the user to select various ingredients
+ * for their meal.
+ */
 public class Custom extends JFrame {
 
     // initialize window and overall panel
