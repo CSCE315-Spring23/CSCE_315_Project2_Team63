@@ -155,7 +155,14 @@ public class Custom extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 
-
+/**
+ * Invoked when the "Add" button is pressed.
+ * Adds the selected items to a list of ingredients to return to the caller.
+ * Notifies the listener that the list has been updated.
+ * Closes the window.
+ *
+ * @param e the action event that triggered this method
+ */
 addButton.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
 
