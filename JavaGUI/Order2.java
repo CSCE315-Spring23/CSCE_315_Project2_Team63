@@ -138,6 +138,16 @@ public class Order2 extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+    This method is called when an action is performed, such as a button being clicked.
+    If the source of the event is the checkoutButton, it gets the employee ID, date, and customer name
+    and checks if they are empty. If they are not empty, it sets the total price and receipt area to
+    default values. Then, it connects to a PostgreSQL database using JDBC driver and inserts the
+    employee ID, date, customer name, itemList, and total into a table named "orderhistory".
+    If the current date is different from the previous date, it inserts the previous day and complete
+    total into a table named "sales". It also updates the inventory by connecting to the same database
+    and calling updateInventory(). Then, it sets itemList, total, and receipt area to default values.
+    */
     public static void STATICactionPerformed(ActionEvent e) {
 
         if(e.getSource() == checkoutButton)
