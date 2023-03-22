@@ -392,11 +392,11 @@ public class Order2 extends JFrame implements ActionListener {
 
 
 
-    //The function "runMenuAndButton" establishes a connection to a PostgreSQL database and retrieves information from a table called "menu2". 
-    //The information includes the item number, name, price, and ingredients of each menu item. 
-    //It then creates a JButton for each non-custom menu item and adds it to a button panel. 
-    //The function is meant to display the menu and allow customers to place an order.
-
+    /**The function "runMenuAndButton" establishes a connection to a PostgreSQL database and retrieves information from a table called "menu2". 
+    *The information includes the item number, name, price, and ingredients of each menu item. 
+    *It then creates a JButton for each non-custom menu item and adds it to a button panel. 
+    *The function is meant to display the menu and allow customers to place an order.
+    */
     public static void runMenuAndButton() 
     {
 
