@@ -1266,8 +1266,15 @@ public class ManagerFile implements ActionListener{
 
     /**
      * Generates a restock report in a new window.
+     * This code creates a GUI for a restock report that retrieves data 
+       from a PostgreSQL database.
+     * The GUI consists of a JFrame window titled "Restock Report" 
+       and a JPanel that contains several components including a JLabel 
+       with the title "Restock Needed", and a JTextArea for displaying 
+       the inventory items that need restocking.
      @return void
      */
+    
     public static void restockReport() {
       JFrame restockFrame = new JFrame("Restock Report");
       
@@ -1320,6 +1327,13 @@ public class ManagerFile implements ActionListener{
 
     /**
      * Generates a X-report in a new window.
+     * This code creates a JFrame called "X-Report" and a 
+       JPanel to hold various components. 
+     * The JPanel contains a JLabel, a JTextField, a JButton, 
+      and a JTextArea. 
+     * The JTextField and JButton are used to enter and confirm
+      a starting date for an X-Report, and the JTextArea is used
+      to display the total for the specified date.
      @return void
      */
     public static void xReport()
@@ -1392,6 +1406,14 @@ public class ManagerFile implements ActionListener{
 
     /**
      * Generates a Z-report in a new window.
+     * This code seems to be creating a JFrame for a Z-Report and 
+       adding a panel to it with a label, text field, button, and a text area.
+     * The text area is set to be not editable and has a scroll bar.
+     * The code then sets the size of the frame and makes it visible.
+     * The ActionListener for the Confirm button retrieves the start date
+       entered in the text field and connects to a PostgreSQL database using JDBC.
+     * It creates a statement object and executes a query to retrieve the 
+       total sales for the specified date from a "sales" table.
      @return void
      */
     public static void zReport()
@@ -1475,6 +1497,16 @@ public class ManagerFile implements ActionListener{
 
     /**
      * Generates a excess report in a new window.
+     * This code creates a GUI for an excess report window in a Java Swing application.
+     * It consists of a JFrame called "Excess Report" with a JPanel called "p2" 
+       that has a BoxLayout along the Y axis. The panel contains a JLabel with the text
+       "Date:" and a JTextField for inputting a date, as well as a JButton with the text
+       "Confirm". 
+     * Additionally, there is a JTextArea called "totalArea" with a size of 1 row and 30 columns,
+      and a JScrollPane called "totalScroll" that contains the JTextArea. 
+     * The panel also adds the startPanel and totalScroll.
+
+
      @return void
      */
     public static void excessReport()
