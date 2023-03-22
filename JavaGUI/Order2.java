@@ -149,7 +149,7 @@ public class Order2 extends JFrame implements ActionListener {
     and calling updateInventory(). Then, it sets itemList, total, and receipt area to default values.
     */
     public static void STATICactionPerformed(ActionEvent e) {
-
+        // Our conditional for the buttons and only allows for it to pass if every slot is filled: day, customer, and employee.
         if(e.getSource() == checkoutButton)
         {
             String employee = employeeID.getText();
@@ -166,7 +166,8 @@ public class Order2 extends JFrame implements ActionListener {
                 total_price.setText("Total price: $0.00");
                 receiptArea.setText("");
             }
-
+            
+            // connect to data base to excecute inserting into orderhistory table and adding to sales table.
             try {
                 Class.forName("org.postgresql.Driver");
                 conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
@@ -198,7 +199,7 @@ public class Order2 extends JFrame implements ActionListener {
             prev_day = day;
 
             try{
-                            // 1. Load the JDBC driver
+                // 1. Load the JDBC driver
                 Class.forName("org.postgresql.Driver");
 
                 // 2. Create a connection to the database
