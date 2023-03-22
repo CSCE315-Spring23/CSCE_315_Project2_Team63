@@ -467,11 +467,11 @@ public class Order2 extends JFrame implements ActionListener {
     }
 
 
-    //Updates the inventory status of an item in the database. 
-    //It retrieves the current quantity and item information from the inventory_table, 
-    //checks if an entry exists for the specified date in the inventory_status table and either updates or inserts a new row accordingly. 
-    //It uses JDBC API to connect to the database and execute SQL statements.
-
+    /**Updates the inventory status of an item in the database. 
+    *It retrieves the current quantity and item information from the inventory_table, 
+    *checks if an entry exists for the specified date in the inventory_status table and either updates or inserts a new row accordingly. 
+    *It uses JDBC API to connect to the database and execute SQL statements.
+    */
     public static void addCurrentstateOfInventory(String date)
     {
         try {
