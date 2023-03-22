@@ -337,6 +337,10 @@ public class ManagerFile implements ActionListener{
 
       //ADD:
       b3.addActionListener(new ActionListener() {
+
+        //LEAVE ALONE
+
+        
         public void actionPerformed(ActionEvent e) {
             frame3 = new JFrame("add item");
             // create a new panel for editing menu items
@@ -370,6 +374,10 @@ public class ManagerFile implements ActionListener{
 
             JButton confirmButton = new JButton("Confirm Changes");
             confirmButton.addActionListener(new ActionListener() {
+
+              //LEAVE ALONE
+
+
                 public void actionPerformed(ActionEvent e) 
                 {
                   String s = e.getActionCommand();
@@ -473,6 +481,9 @@ public class ManagerFile implements ActionListener{
 
       //DELETE:
       b4.addActionListener(new ActionListener() {
+
+        //LEAVE ALONE
+
         public void actionPerformed(ActionEvent e) {
             frame4 = new JFrame("delete item");
             // create a new panel for editing menu items
@@ -486,6 +497,9 @@ public class ManagerFile implements ActionListener{
 
             JButton confirmButton = new JButton("Confirm Changes");
             confirmButton.addActionListener(new ActionListener() {
+
+              //LEAVE ALONE
+
                 public void actionPerformed(ActionEvent e) 
                 {
                   String s = e.getActionCommand();
