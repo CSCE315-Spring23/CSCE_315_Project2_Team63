@@ -569,9 +569,9 @@ public class Order2 extends JFrame implements ActionListener {
 
 
 
-    //The function is a placeholder for an actionPerformed method that implements the ActionListener interface. 
-    //It is currently unimplemented and will throw an UnsupportedOperationException when called.
-
+    /**The function is a placeholder for an actionPerformed method that implements the ActionListener interface. 
+    *It is currently unimplemented and will throw an UnsupportedOperationException when called.
+    */
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
