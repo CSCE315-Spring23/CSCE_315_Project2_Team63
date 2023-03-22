@@ -14,7 +14,12 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-// public class ManagerFile extends JFrame{
+/*
+    This class represents the view and features that managers at Cabo Grill
+    will have access to when utilizing our tool. 
+
+    @author - work-from-home-dads
+*/
 
 public class ManagerFile implements ActionListener{
 
@@ -46,6 +51,15 @@ public class ManagerFile implements ActionListener{
     {
       System.out.print("Manager Process");
     }
+    /**
+      * Displays the Manager Dashboard with various options available to the manager.
+      * The options include menu settings, inventory settings, sales report, restock report,
+        X-report, Z-report, excess report, and popular report.
+      * The method creates a JFrame and adds a JPanel with a GridLayout to it. It also creates and adds
+        JLabels and JButtons to the panel with appropriate text and action listeners.
+      * Upon clicking on a button, the relevant action is performed.
+      @return void
+    */
 
     public static void ManagerDashboard()
     {
@@ -144,6 +158,12 @@ public class ManagerFile implements ActionListener{
         intialMangOption.setSize(750, 300);
         intialMangOption.setVisible(true);
     }
+    
+    /**
+      * The InventoryChange() function is utilized to make updates to the inventory to allow
+        managers and servers alike to make necessary updates in respond to user requests
+      @return void
+    */
 
     public static void InventoryChange()
     {
@@ -580,6 +600,10 @@ public class ManagerFile implements ActionListener{
        }
 
     }
+    /**
+     * Displays a menu GUI that allows the user to view, edit, add, and delete menu items.
+     @return void
+      */
 
     public static void MenuChange()
     {
@@ -938,6 +962,13 @@ public class ManagerFile implements ActionListener{
           JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
         }
     }
+   
+     /**
+     * Runs a menu table from a PostgreSQL database and retrieves the item number,
+      name, and price for each item.
+      
+      @return void
+     */
 
     public static void runMenuTable() 
     {
@@ -973,6 +1004,12 @@ public class ManagerFile implements ActionListener{
       }
     }
 
+    /**
+      * Runs a query on the inventory_table and retrieves data from it.
+      * Populates several variables with inventory information.
+      * Uses a PostgreSQL database connection.
+      @return void
+    */
     public static void runInventoryTable() 
     {
 
@@ -1011,6 +1048,16 @@ public class ManagerFile implements ActionListener{
       }
     }
 
+    /**
+
+    * This method creates checkboxes for each item in the inventory table in a graphical user interface.
+    * When a checkbox is selected, a text field appears next to it where the user can enter a quantity for the item.
+    * Once the user has entered a quantity for all the desired items, they can click the "Confirm Inventory Item"
+      button to add the selected items and their quantities to a hashmap as key-value pairs, where the item name
+      is the key and the quantity is the value. The hashmap entry is then printed to the console.
+    @param buttonPanel JPanel where the checkboxes and text fields will be displayed
+    @return void
+    */
     public static void inventoryCheckbox(JPanel buttonPanel)
     {
       try {
@@ -1089,6 +1136,10 @@ public class ManagerFile implements ActionListener{
         JOptionPane.showMessageDialog(null,"Error accessing Database.");
       }
     }
+    /**
+     * Displays a sales report in a new JFrame window.
+     @return void
+     */
 
     public static void salesReport()
     {
@@ -1184,6 +1235,10 @@ public class ManagerFile implements ActionListener{
       });
     }
 
+    /**
+     * Generates a restock report in a new window.
+     @return void
+     */
     public static void restockReport() {
       JFrame restockFrame = new JFrame("Restock Report");
       
@@ -1234,6 +1289,10 @@ public class ManagerFile implements ActionListener{
       restockFrame.setVisible(true);
   }
 
+    /**
+     * Generates a X-report in a new window.
+     @return void
+     */
     public static void xReport()
     {
         JFrame xReportFrame = new JFrame("X-Report");
@@ -1302,6 +1361,10 @@ public class ManagerFile implements ActionListener{
       });
     }
 
+    /**
+     * Generates a Z-report in a new window.
+     @return void
+     */
     public static void zReport()
     {
         JFrame zReportFrame = new JFrame("Z-Report");
@@ -1381,6 +1444,10 @@ public class ManagerFile implements ActionListener{
       });
     }
 
+    /**
+     * Generates a excess report in a new window.
+     @return void
+     */
     public static void excessReport()
     {
 
@@ -1484,6 +1551,10 @@ public class ManagerFile implements ActionListener{
       });
   }
 
+    /**
+     * Generates a popular report in a new window.
+     @return void
+     */
     public static void popularReport()
     {
       JFrame salesFrame = new JFrame("Sales Together Report");
@@ -1597,6 +1668,10 @@ public class ManagerFile implements ActionListener{
 
     }
 
+    /**
+     * Handle's disposing of when appropriate
+     @return void 
+     */
     // if button is pressed
     public void actionPerformed(ActionEvent e)
     {
