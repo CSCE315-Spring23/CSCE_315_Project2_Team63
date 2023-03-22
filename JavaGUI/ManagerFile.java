@@ -14,7 +14,12 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-// public class ManagerFile extends JFrame{
+/*
+    This class represents the view and features that managers at Cabo Grill
+    will have access to when utilizing our tool. 
+
+    @author - work-from-home-dads
+*/
 
 public class ManagerFile implements ActionListener{
 
@@ -46,6 +51,14 @@ public class ManagerFile implements ActionListener{
     {
       System.out.print("Manager Process");
     }
+    /**
+      * Displays the Manager Dashboard with various options available to the manager.
+      * The options include menu settings, inventory settings, sales report, restock report,
+        X-report, Z-report, excess report, and popular report.
+      * The method creates a JFrame and adds a JPanel with a GridLayout to it. It also creates and adds
+        JLabels and JButtons to the panel with appropriate text and action listeners.
+      * Upon clicking on a button, the relevant action is performed.
+    */
 
     public static void ManagerDashboard()
     {
@@ -144,6 +157,14 @@ public class ManagerFile implements ActionListener{
         intialMangOption.setSize(750, 300);
         intialMangOption.setVisible(true);
     }
+    
+    /**
+      * The InventoryChange() function is utilized to make updates to the inventory to allow
+        managers and servers alike to make necessary updates in respond to user requests.
+      * The function has restricted access to only the manager side of the application we created
+        to simulate Cabo Grill's everyday processes. 
+      * The function utilizes tools from swing to allow the Manager to work with the interface
+    */
 
     public static void InventoryChange()
     {
@@ -314,6 +335,10 @@ public class ManagerFile implements ActionListener{
 
       //ADD:
       b3.addActionListener(new ActionListener() {
+
+        //LEAVE ALONE
+
+        
         public void actionPerformed(ActionEvent e) {
             frame3 = new JFrame("add item");
             // create a new panel for editing menu items
@@ -347,6 +372,10 @@ public class ManagerFile implements ActionListener{
 
             JButton confirmButton = new JButton("Confirm Changes");
             confirmButton.addActionListener(new ActionListener() {
+
+              //LEAVE ALONE
+
+
                 public void actionPerformed(ActionEvent e) 
                 {
                   String s = e.getActionCommand();
@@ -450,6 +479,9 @@ public class ManagerFile implements ActionListener{
 
       //DELETE:
       b4.addActionListener(new ActionListener() {
+
+        //LEAVE ALONE
+
         public void actionPerformed(ActionEvent e) {
             frame4 = new JFrame("delete item");
             // create a new panel for editing menu items
@@ -463,6 +495,9 @@ public class ManagerFile implements ActionListener{
 
             JButton confirmButton = new JButton("Confirm Changes");
             confirmButton.addActionListener(new ActionListener() {
+
+              //LEAVE ALONE
+
                 public void actionPerformed(ActionEvent e) 
                 {
                   String s = e.getActionCommand();
@@ -580,6 +615,13 @@ public class ManagerFile implements ActionListener{
        }
 
     }
+    /**
+     * Displays a menu GUI that allows the user to view, edit, add, and delete menu items.
+     * This function manages the menu GUI and allows for both the manager and the server
+       to adequately and efficiently utilize the application. 
+     * This MenuChange function also utilizes swing to make the GUI act better as expected. 
+
+      */
 
     public static void MenuChange()
     {
@@ -938,6 +980,16 @@ public class ManagerFile implements ActionListener{
           JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
         }
     }
+   
+     /**
+     * Runs a menu table from a PostgreSQL database and retrieves the item number,
+      name, and price for each item.
+     * This function utilizes other functions in Swing that makes it possible for the 
+       menu GUI to act appropriately. 
+     * Everytime the menu's logic has to update, this function is utilized to make things
+      reflect our database and logic appropriately.
+      
+     */
 
     public static void runMenuTable() 
     {
@@ -973,6 +1025,11 @@ public class ManagerFile implements ActionListener{
       }
     }
 
+    /**
+      * Runs a query on the inventory_table and retrieves data from it.
+      * Populates several variables with inventory information.
+      * Uses a PostgreSQL database connection.
+    */
     public static void runInventoryTable() 
     {
 
@@ -1011,6 +1068,15 @@ public class ManagerFile implements ActionListener{
       }
     }
 
+    /**
+
+    * This method creates checkboxes for each item in the inventory table in a graphical user interface.
+    * When a checkbox is selected, a text field appears next to it where the user can enter a quantity for the item.
+    * Once the user has entered a quantity for all the desired items, they can click the "Confirm Inventory Item"
+      button to add the selected items and their quantities to a hashmap as key-value pairs, where the item name
+      is the key and the quantity is the value. The hashmap entry is then printed to the console.
+    * @param buttonPanel JPanel where the checkboxes and text fields will be displayed
+    */
     public static void inventoryCheckbox(JPanel buttonPanel)
     {
       try {
@@ -1090,6 +1156,14 @@ public class ManagerFile implements ActionListener{
       }
     }
 
+    /**
+     * Displays a sales report in a new JFrame window.
+     * This code creates a GUI (graphical user interface) window for a sales report.
+     * It creates a JFrame named "Sales Report" and adds a JPanel to it. 
+    * The JPanel contains several components, including two JLabels and JTextFields 
+       for inputting a start and end date range, a JButton for confirming the input, 
+       and two JTextAreas for displaying orders and the total. 
+     */
     public static void salesReport()
     {
       JFrame salesFrame = new JFrame("Sales Report");
@@ -1184,6 +1258,15 @@ public class ManagerFile implements ActionListener{
       });
     }
 
+    /**
+     * Generates a restock report in a new window.
+     * This code creates a GUI for a restock report that retrieves data 
+       from a PostgreSQL database.
+     * The GUI consists of a JFrame window titled "Restock Report" 
+       and a JPanel that contains several components including a JLabel 
+       with the title "Restock Needed", and a JTextArea for displaying 
+       the inventory items that need restocking.
+     */
     public static void restockReport() {
       JFrame restockFrame = new JFrame("Restock Report");
       
@@ -1234,6 +1317,16 @@ public class ManagerFile implements ActionListener{
       restockFrame.setVisible(true);
   }
 
+    /**
+     * Generates a X-report in a new window.
+     * This code creates a JFrame called "X-Report" and a 
+       JPanel to hold various components. 
+     * The JPanel contains a JLabel, a JTextField, a JButton, 
+      and a JTextArea. 
+     * The JTextField and JButton are used to enter and confirm
+      a starting date for an X-Report, and the JTextArea is used
+      to display the total for the specified date.
+     */
     public static void xReport()
     {
         JFrame xReportFrame = new JFrame("X-Report");
@@ -1302,6 +1395,17 @@ public class ManagerFile implements ActionListener{
       });
     }
 
+    /**
+     * Generates a Z-report in a new window.
+     * This code seems to be creating a JFrame for a Z-Report and 
+       adding a panel to it with a label, text field, button, and a text area.
+     * The text area is set to be not editable and has a scroll bar.
+     * The code then sets the size of the frame and makes it visible.
+     * The ActionListener for the Confirm button retrieves the start date
+       entered in the text field and connects to a PostgreSQL database using JDBC.
+     * It creates a statement object and executes a query to retrieve the 
+       total sales for the specified date from a "sales" table.
+     */
     public static void zReport()
     {
         JFrame zReportFrame = new JFrame("Z-Report");
@@ -1381,6 +1485,18 @@ public class ManagerFile implements ActionListener{
       });
     }
 
+    /**
+     * Generates a excess report in a new window.
+     * This code creates a GUI for an excess report window in a Java Swing application.
+     * It consists of a JFrame called "Excess Report" with a JPanel called "p2" 
+       that has a BoxLayout along the Y axis. The panel contains a JLabel with the text
+       "Date:" and a JTextField for inputting a date, as well as a JButton with the text
+       "Confirm". 
+     * Additionally, there is a JTextArea called "totalArea" with a size of 1 row and 30 columns,
+      and a JScrollPane called "totalScroll" that contains the JTextArea. 
+     * The panel also adds the startPanel and totalScroll.
+
+     */
     public static void excessReport()
     {
 
@@ -1484,6 +1600,15 @@ public class ManagerFile implements ActionListener{
       });
   }
 
+    /**
+     * Generates a popular report in a new window.
+     * This code creates a graphical user interface (GUI) for a sales report that retrieves data from a PostgreSQL database. 
+     * The GUI consists of a JFrame window titled "Sales Together Report" 
+      and a JPanel that contains several components including two JTextFields for 
+      inputting starting and ending dates, a JButton for confirming the input,
+      a JTextArea for displaying the total, and a JScrollPane for scrolling through
+      the total if it exceeds the size of the JTextArea.
+     */
     public static void popularReport()
     {
       JFrame salesFrame = new JFrame("Sales Together Report");
@@ -1597,6 +1722,9 @@ public class ManagerFile implements ActionListener{
 
     }
 
+    /**
+     * Handle's disposing of when appropriate
+     */
     // if button is pressed
     public void actionPerformed(ActionEvent e)
     {

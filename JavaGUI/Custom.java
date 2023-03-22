@@ -4,6 +4,10 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * A class representing a custom order window that allows the user to select various ingredients
+ * for their meal.
+ */
 public class Custom extends JFrame {
 
     // initialize window and overall panel
@@ -24,10 +28,18 @@ public class Custom extends JFrame {
     public ArrayList<String> to_return = new ArrayList<String>();
     private UpdateListener updateListener;
 
+    /**
+     * An interface representing a listener that will be called when the user updates their order.
+     */
     public interface UpdateListener {
         void onUpdate(ArrayList<String> updatedList);
     }
 
+    /**
+     * Constructs a new Custom order window.
+     *
+     * @param updateListener the listener to call when the user updates their order
+     */
     public Custom(UpdateListener updateListener) { // default constructor 
 
         // set close operation
@@ -145,14 +157,23 @@ public class Custom extends JFrame {
 
 
 addButton.addActionListener(new ActionListener() {
+/**
+ * Invoked when the "Add" button is pressed.
+ * Adds the selected items to a list of ingredients to return to the caller.
+ * Notifies the listener that the list has been updated.
+ * Closes the window.
+ *
+ * @param e the action event that triggered this method
+ * @return void
+ */
     public void actionPerformed(ActionEvent e) {
 
         to_return.add("Custom");
 
         // loop through each list of buttons, push selected items to string
         for(JCheckBox style : styles) {
-            if (style.isSelected()) {
-                to_return.add(style.getText());
+            if (style.isSelected()) { // check if the checkbox is selected
+                to_return.add(style.getText()); // add the text of the selected checkbox to the to_return list
             }
         }
 
@@ -186,16 +207,21 @@ addButton.addActionListener(new ActionListener() {
             }
         }
 
-        updateListener.onUpdate(to_return);
-        frame.dispose();
+        updateListener.onUpdate(to_return); // call the onUpdate method of the UpdateListener with the to_return list as an argument
+        frame.dispose(); // dispose of the frame
     }
 }
 
 );
 
+// create and add the "Add" button to the panel
 panel.add(addButton);
+
+// validate and repaint the panel to update its display
 panel.revalidate();
 panel.repaint();
+
+// add the panel to the frame and make the frame visible
 frame.add(panel);
 frame.setVisible(true);
 }
