@@ -468,51 +468,10 @@ public class Order2 extends JFrame implements ActionListener {
         }
     }
     
-    // public static void addButton(String n, String p, String entry)
-    // {
-    //     System.out.println("IN ORDER2 METHOD");
-    //     n = n.trim();
-    //     p = p.trim();
-    //     entry = entry.trim();
-
-    //     System.out.println(n);
-    //     System.out.println(p);
-    //     System.out.println(entry);
-
-    //     if(!(hashMap.containsKey(n)))
-    //     {   
-    //         System.out.println("new item added");
-    //         hashMap.put(n,entry);
-
-    //         Set<String> keys = hashMap.keySet();
-
-    //         // Iterate over the keys and print each one
-    //         for (String key : keys) {
-    //             System.out.println(key);
-    //         }
-
-    //         System.out.println("After button in HashMap");
-    //         String buttonLabel = n + " - $" + p;
-    //         String buttonName = n;
-    //         JButton button = new JButton(buttonLabel);
-    //         button.setName(buttonName);
-    //         button.addActionListener(e -> Order2.STATICactionPerformed(e));
-    //         System.out.println("Before putting the button");
-    //         buttonPanel.add(button);
-    //         System.out.println("After putting the button");
-    //     }
-    //     else
-    //     {
-    //         System.out.println("Item already exist");
-    //     }
-    // }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
-
- 
 }
