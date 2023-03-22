@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Custom {
+public class Custom extends JFrame {
 
     // initialize window and overall panel
     private JFrame frame;
@@ -18,12 +18,20 @@ public class Custom {
     ArrayList<JCheckBox> toppings = new ArrayList<JCheckBox>();
     ArrayList<JCheckBox> extras = new ArrayList<JCheckBox>();
 
-    private JButton addButton;
+    private JButton addButton, cancelButton;
 
     // list of strings that will keep track of selected items
     public ArrayList<String> to_return = new ArrayList<String>();
+    private UpdateListener updateListener;
 
-    public Custom() { // default constructor 
+    public interface UpdateListener {
+        void onUpdate(ArrayList<String> updatedList);
+    }
+
+    public Custom(UpdateListener updateListener) { // default constructor 
+
+        // set close operation
+        
 
         // window setup
         frame = new JFrame("Order");
@@ -39,9 +47,9 @@ public class Custom {
         // style options
         JPanel stylePanel = new JPanel();
         stylePanel.setBorder(BorderFactory.createTitledBorder("Style"));
-        styles.add(new JCheckBox("Bowl"));
-        styles.add(new JCheckBox("Burrito"));
-        styles.add(new JCheckBox("Tacos"));
+        styles.add(new JCheckBox("bowl"));
+        styles.add(new JCheckBox("burrito"));
+        styles.add(new JCheckBox("tacos"));
         for (JCheckBox style : styles) {
             stylePanel.add(style);
         }
@@ -69,7 +77,7 @@ public class Custom {
         proteins.add(new JCheckBox("chicken"));
         proteins.add(new JCheckBox("ground beef"));
         proteins.add(new JCheckBox("steak"));
-        proteins.add(new JCheckBox("veggie"));
+        proteins.add(new JCheckBox("fajita vegetables"));
         for (JCheckBox protein : proteins) {
             proteinPanel.add(protein);
         }
@@ -94,7 +102,7 @@ public class Custom {
         JPanel toppingPanel = new JPanel();
         toppingPanel.setBorder(BorderFactory.createTitledBorder("Toppings"));
         toppings.add(new JCheckBox("mozzarella cheese"));
-        toppings.add(new JCheckBox("mixed cheese"));
+        toppings.add(new JCheckBox("mixed cheddar"));
         toppings.add(new JCheckBox("corn salsa"));
         toppings.add(new JCheckBox("pico de gallo"));
         toppings.add(new JCheckBox("onions"));
@@ -103,7 +111,7 @@ public class Custom {
         toppings.add(new JCheckBox("cilantro"));
         toppings.add(new JCheckBox("sour cream"));
         toppings.add(new JCheckBox("red sauce"));
-        toppings.add(new JCheckBox("salsa verde"));
+        toppings.add(new JCheckBox("salse verde"));
         toppings.add(new JCheckBox("ranch"));
         toppings.add(new JCheckBox("jalapeno ranch"));
         toppings.add(new JCheckBox("chipotle sauce"));
@@ -130,6 +138,11 @@ public class Custom {
         panel.add(extraPanel);
 
         addButton = new JButton("Add to Order");
+        cancelButton = new JButton("Cancel Order");
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
 
 addButton.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
@@ -173,23 +186,17 @@ addButton.addActionListener(new ActionListener() {
             }
         }
 
-        System.out.print(to_return);
+        updateListener.onUpdate(to_return);
+        frame.dispose();
     }
-});
+}
+
+);
 
 panel.add(addButton);
 panel.revalidate();
 panel.repaint();
 frame.add(panel);
 frame.setVisible(true);
-}
-
-public ArrayList<String> getReturn() {
-
-    return to_return;
-}
-
-public static void main(String[] args) {
-    new Custom();
 }
 }
