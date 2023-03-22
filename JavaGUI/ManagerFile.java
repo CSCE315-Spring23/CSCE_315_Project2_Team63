@@ -81,6 +81,10 @@ public class ManagerFile implements ActionListener{
         // Add ActionListener to menuSettings button
         menuSettings.addActionListener(new ActionListener() {
             @Override
+            /** This method is called when an action event occurs. It calls the MenuChange() method
+                *to perform the necessary menu changes and hides the intialMangOption component.
+                *@param e the ActionEvent that triggered this method.
+                */
             public void actionPerformed(ActionEvent e) {
                 MenuChange();
                 //intialMangOption.setVisible(false);
@@ -89,6 +93,14 @@ public class ManagerFile implements ActionListener{
 
         inventorySettings.addActionListener(new ActionListener() {
           @Override
+
+          /**
+
+            *This method is called when an action event occurs. It calls the InventoryChange() method
+            *to perform the necessary inventory changes and hides the intialMangOption component.
+            *@param e the ActionEvent that triggered this method.
+
+            */
           public void actionPerformed(ActionEvent e) {
               InventoryChange();
               //intialMangOption.setVisible(false);
@@ -97,6 +109,14 @@ public class ManagerFile implements ActionListener{
     
         salesReport.addActionListener(new ActionListener() {
           @Override
+
+          /**
+
+          *This method is called when an action event occurs. It calls the salesReport() method
+          *to generate a sales report.
+          *@param e the ActionEvent that triggered this method.
+          */
+
           public void actionPerformed(ActionEvent e) {
               salesReport();
           }
@@ -104,6 +124,14 @@ public class ManagerFile implements ActionListener{
 
         restockReport.addActionListener(new ActionListener() {
           @Override
+
+          /**
+
+          *This method is called when an action event occurs. It calls the restockReport() method
+          *to generate a restock report.
+          *@param e the ActionEvent that triggered this method.
+          */
+
           public void actionPerformed(ActionEvent e) {
               restockReport();
           }
@@ -111,6 +139,14 @@ public class ManagerFile implements ActionListener{
 
         xReport.addActionListener(new ActionListener() {
           @Override
+
+          /**
+
+          *This method is called when an action event occurs. It calls the xReport() method
+          *to generate an X report.
+          *@param e the ActionEvent that triggered this method.
+          */
+
           public void actionPerformed(ActionEvent e) {
               xReport();
           }
@@ -118,6 +154,15 @@ public class ManagerFile implements ActionListener{
 
         zReport.addActionListener(new ActionListener() {
           @Override
+
+
+          /**
+
+          *This method is called when an action event occurs. It calls the zReport() method
+          *to generate a Z report.
+          *@param e the ActionEvent that triggered this method.
+          */
+
           public void actionPerformed(ActionEvent e) {
               zReport();
           }
@@ -125,6 +170,14 @@ public class ManagerFile implements ActionListener{
 
       excessReport.addActionListener(new ActionListener() {
         @Override
+
+        /**
+
+        *This method is called when an action event occurs. It calls the excessReport() method
+        *to generate an excess report.
+        *@param e the ActionEvent that triggered this method.
+        */
+
         public void actionPerformed(ActionEvent e) {
             excessReport();
         }
@@ -132,6 +185,14 @@ public class ManagerFile implements ActionListener{
 
       popularReport.addActionListener(new ActionListener() {
         @Override
+
+        /**
+
+        *This method is called when an action event occurs. It calls the popularReport() method
+        *to generate a popular report.
+        *@param e the ActionEvent that triggered this method.
+        */
+
         public void actionPerformed(ActionEvent e) {
             popularReport();
         }
@@ -209,6 +270,16 @@ public class ManagerFile implements ActionListener{
 
       //Restock:
       b2.addActionListener(new ActionListener() {
+
+        /**
+
+        *Opens a new JFrame to allow the user to restock an item from the inventory.
+        *This method creates a panel with labels and text fields for the user to input the necessary information.
+        *Upon clicking the "Confirm Changes" button, this method updates the inventory_table in the database with the new information,
+        *then updates the GUI to reflect the changes.
+        *@param e the ActionEvent that triggered this method.
+        */
+
         public void actionPerformed(ActionEvent e) {
             frame2 = new JFrame("restock item");
             // create a new panel for editing menu items
@@ -239,6 +310,17 @@ public class ManagerFile implements ActionListener{
 
             JButton confirmButton = new JButton("Confirm Changes");
             confirmButton.addActionListener(new ActionListener() {
+
+
+              /**
+
+                *Performs an action when an event is triggered.
+                *If the event's action command equals "Restock", displays the frame2.
+                *If the event's action command equals "Confirm Changes", updates the database with the values entered by the user
+                *and updates the GUI JTextAreas to reflect the changes.
+                *@param e the ActionEvent that triggered the action
+                */
+
                 public void actionPerformed(ActionEvent e) 
                 {
                   String s = e.getActionCommand();
@@ -340,7 +422,7 @@ public class ManagerFile implements ActionListener{
 
         //LEAVE ALONE
 
-        
+
         public void actionPerformed(ActionEvent e) {
             frame3 = new JFrame("add item");
             // create a new panel for editing menu items
@@ -620,10 +702,10 @@ public class ManagerFile implements ActionListener{
     /**
      * Displays a menu GUI that allows the user to view, edit, add, and delete menu items.
      * This function manages the menu GUI and allows for both the manager and the server
-       to adequately and efficiently utilize the application. 
+     * to adequately and efficiently utilize the application. 
      * This MenuChange function also utilizes swing to make the GUI act better as expected. 
-     @return void
-      */
+     *@return void
+     */
 
     public static void MenuChange()
     {
@@ -669,6 +751,16 @@ public class ManagerFile implements ActionListener{
   
          //EDIT
       b2.addActionListener(new ActionListener() {
+
+          /**
+
+            *This method is called when the user clicks the "Edit" button in the GUI.
+            *It creates a new JFrame and adds a JPanel with labels and text fields for editing menu items.
+            *The user can input a new menu name and price for an existing menu item, and confirm the changes by clicking the "Confirm Changes" button.
+            *If the update is successful, the edited item is reflected in the JTextAreas of the main GUI.
+            *@param e the ActionEvent object that triggered the method call
+            */
+
           public void actionPerformed(ActionEvent e) {
               frame2 = new JFrame("edit item");
               // create a new panel for editing menu items
@@ -688,6 +780,16 @@ public class ManagerFile implements ActionListener{
   
               JButton confirmButton = new JButton("Confirm Changes");
               confirmButton.addActionListener(new ActionListener() {
+
+
+                  /*
+                    * This method is called when the user clicks the "Confirm Changes" button in the edit item frame.
+                    * It updates the menu item information in the database and updates the main GUI JTextAreas to reflect the changes.
+                    * If the update is successful, it closes the edit item frame.
+                    * @param e the ActionEvent object that triggered the method call
+                    */
+
+
                   public void actionPerformed(ActionEvent e) 
                   {
                     String s = e.getActionCommand();
@@ -769,6 +871,15 @@ public class ManagerFile implements ActionListener{
   
       //ADD
       b3.addActionListener(new ActionListener() {
+
+        /**
+
+        *Creates a new frame for adding menu items and populates it with labels and text fields for user input.
+        *Executes an SQL insert statement to add the new menu item to the menu2 table in the csce315331_team_63 database.
+        *Updates the GUI JTextAreas with the updated menu data and closes the edit item frame.
+        *@param e The action event that triggers the method
+        */
+
       public void actionPerformed(ActionEvent e) {
           frame3 = new JFrame("add item");
           // create a new panel for editing menu items
@@ -785,6 +896,15 @@ public class ManagerFile implements ActionListener{
   
           JButton confirmButton = new JButton("Confirm Changes");
           confirmButton.addActionListener(new ActionListener() {
+
+
+              /**
+              * Executes an SQL insert statement to add the new menu item to the menu2 table in the csce315331_team_63 database.
+              * Updates the GUI JTextAreas with the updated menu data and closes the edit item frame.
+              *
+              * @param e The action event that triggers the method
+              */
+
               public void actionPerformed(ActionEvent e) 
               {
                   String s = e.getActionCommand();
@@ -878,6 +998,20 @@ public class ManagerFile implements ActionListener{
   
       //DELETE
       b4.addActionListener(new ActionListener() {
+
+
+
+        /**
+
+          *This method performs an action when the "delete item" button is clicked. It creates a new JFrame
+          *for deleting menu items and a JPanel for editing menu items. It creates labels and text fields for user input,
+          *and adds them to the panel. It also adds a "Confirm Changes" button to the panel, which, when clicked,
+          *deletes the item from the menu2 table in the database and updates the JTextAreas in the GUI to reflect the changes.
+          *@param e the action event that triggers this method
+          */
+
+
+
           public void actionPerformed(ActionEvent e) {
               frame4 = new JFrame("delete item");
               // create a new panel for editing menu items
@@ -892,6 +1026,19 @@ public class ManagerFile implements ActionListener{
   
               JButton confirmButton = new JButton("Confirm Changes");
               confirmButton.addActionListener(new ActionListener() {
+
+
+                  /**
+
+                  *This method is invoked when the user clicks on the confirm button to delete an item from the menu.
+                  *@param e ActionEvent that occurred
+                  *This method retrieves the item number entered by the user and attempts to delete the corresponding item from the database.
+                  *If the deletion is successful, it updates the GUI JTextAreas to reflect the changes and closes the "delete item" frame.
+                  *If an error occurs while attempting to delete the item, an error message is displayed.
+                  *@throws SQLException if an error occurs while attempting to connect to the database or execute the SQL statement
+                  *@throws ClassNotFoundException if the Postgresql driver class is not found
+                  */
+
                   public void actionPerformed(ActionEvent e) 
                   {
                     String s = e.getActionCommand();
@@ -1217,6 +1364,15 @@ public class ManagerFile implements ActionListener{
       salesFrame.setVisible(true);
 
         confirmButton.addActionListener(new ActionListener() {
+
+
+          /**
+
+          *Retrieves the order history between specified dates and displays it in the allOrderArea JTextArea.
+          *The total for the specified date range is also retrieved and displayed in the totalArea JTextArea.
+          *@param e The ActionEvent that triggers this method
+          */
+
           public void actionPerformed(ActionEvent e) 
           {
               // retrieve starting and ending dates
@@ -1369,6 +1525,19 @@ public class ManagerFile implements ActionListener{
         xReportFrame.setVisible(true);
 
         confirmButton.addActionListener(new ActionListener() {
+
+          /**
+
+            *This method retrieves the total order amount for a specific date from the database and displays it in the totalArea JTextArea.
+            *It first retrieves the starting date from the startDateField JTextField.
+            *It then establishes a connection to the database and creates a statement object.
+            *The method executes an SQL query to retrieve the total order amount for the specified date.
+            *If the query returns a result, the method sets the totalArea JTextArea to display the total in dollars.
+            *If the query does not return a result, the method sets the totalArea JTextArea to display "$0.00".
+            *If there is an error retrieving the data, the method displays an error message.
+            *@param e the ActionEvent object representing the user's action
+            */
+
           public void actionPerformed(ActionEvent e) 
           {
               // retrieve starting and ending dates
@@ -1449,6 +1618,14 @@ public class ManagerFile implements ActionListener{
         zReportFrame.setVisible(true);
 
         confirmButton.addActionListener(new ActionListener() {
+
+          /**
+
+          *Retrieves the total sales for a specified date from the sales table, and adds it to the z_report table,
+          *sets the total_sales to 0 for the specified date in the sales table, and displays the total in the totalArea text field.
+          *@param e the ActionEvent object representing the event that occurred
+          */
+
           public void actionPerformed(ActionEvent e) 
           {
               // retrieve starting and ending dates
@@ -1542,6 +1719,18 @@ public class ManagerFile implements ActionListener{
       excessReportFrame.setVisible(true);
 
       confirmButton.addActionListener(new ActionListener() {
+
+
+          /**
+
+          *This method is called when an action is performed in the inventory system. 
+          *It retrieves the starting date entered by the user and queries the database to get the current inventory levels and the previous inventory levels on the given date. 
+          *It then calculates the percentage change between the current and previous inventory levels for each item and checks if the percentage is between 0 and 10. 
+          *If an item's percentage change is within this range, it is added to the final item list. If no items are added to the final list, it means every item was sold more than 10% and the appropriate message is displayed. 
+          *If items are present in the final list, they are displayed in the total area.
+          *@param e ActionEvent object generated by the inventory system
+          */
+
         public void actionPerformed(ActionEvent e) 
         {
 
@@ -1665,6 +1854,20 @@ public class ManagerFile implements ActionListener{
       salesFrame.setVisible(true);
 
         confirmButton.addActionListener(new ActionListener() {
+
+
+          /**
+
+            *This method is called when the user clicks the "Get Pairings" button.
+            *It retrieves the starting and ending dates entered by the user, connects to the database,
+            *and executes a query to retrieve the order histories and totals for all orders placed
+            *within the given date range. It then generates all pairs of menu items for each order
+            *and counts their frequency across all orders. The pairings are sorted in descending order
+            *by frequency and displayed in the GUI's text area. If a pairing has already been displayed,
+            *it will not be displayed again with its frequency.
+            *@param e an ActionEvent object that triggers the method when the "Get Pairings" button is clicked
+            */
+
           public void actionPerformed(ActionEvent e) 
           {
               // retrieve starting and ending dates
