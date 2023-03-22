@@ -9,6 +9,11 @@ import javax.swing.table.DefaultTableModel;
 import java.util.*;
 import java.text.DecimalFormat;
 
+/** Creates a class of order2 that is the primary window for the server side of the POS. The window is comprised primarily of buttons for each menu item, and should create a textfield
+ * that keeps track of the total sum of the order currently in receiptArea, date, employeeID, and name of customers. Order2 implements Actionlistener is carries the class creation behind Custom.java 
+ * which is a seperate ActionListener window 
+ * that organizes custom order creations. 
+ */
 public class Order2 extends JFrame implements ActionListener {
     public static Connection conn2 = null;
     public static Connection conn = null;
@@ -19,7 +24,7 @@ public class Order2 extends JFrame implements ActionListener {
     private static String itemList = "";
     private static JPanel buttonPanel = new JPanel(new GridLayout(4, 5));;
 
-
+    // hashMap is a HashMap that dynamically creates menu items with listed recipes or inventory slots that are used to make them. 
     public static HashMap<String, String> hashMap = new HashMap<String, String>(); //{{
         
     //     //BURRITO:
@@ -49,8 +54,7 @@ public class Order2 extends JFrame implements ActionListener {
     //     put("eat-the-rainbow","0.175:brown rice,0.175:white rice,0.09375:pico de gallo,0.1875:onions,0.09924:jalapeno peppers,0.08724:cilantro,0.155:sour cream,0.105:ranch,0.115:chipotle sauce,0.115:black olives,0.089:lime,0.109:italian dressing,1.0:large tortilla,1.0:paper bags");
 
     // }};
-
-
+    
     public static Vector<Double> quant = new Vector<Double>();
     public static Vector<String> ingredient = new Vector<String>();
     public static ArrayList<ArrayList<String>> custom_order_list= new ArrayList<>();
@@ -62,6 +66,17 @@ public class Order2 extends JFrame implements ActionListener {
     private static String prev_day = "N/A";
     private static ArrayList<ArrayList<String> > custom_list = new ArrayList<ArrayList<String> >();
 
+    /**
+    * This Java class implements a Point of Sale (POS) system using the Java Swing GUI framework.
+    * The system allows a user to create and cancel orders, and checkout with a customer's name, employee ID, and date.
+    * The system also keeps a record of all orders and their total price, which is stored in a PostgreSQL database.
+    * The GUI components include a text area for displaying the receipt, text fields for entering employee ID, customer name and date,
+    * and buttons for selecting items, canceling orders and checking out.
+    * The class contains a public Order2 constructor which creates the GUI and adds all the necessary components to it.
+    * The STATICactionPerformed method is called when any of the buttons are clicked and performs the corresponding actions.
+    * The PostgreSQL database connection is established using the JDBC API.
+    * This POS system is designed to be user-friendly and intuitive, allowing for quick and easy transactions in a retail setting.
+    */
     public Order2() {
         super("Point of Sale");
         // Create text area for displaying the receipt
@@ -122,9 +137,20 @@ public class Order2 extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-    
-    public static void STATICactionPerformed(ActionEvent e) {
 
+    /**
+    * This method is called when an action is performed, such as a button being clicked.
+    * If the source of the event is the checkoutButton, it gets the employee ID, date, and customer name
+    * and checks if they are empty. If they are not empty, it sets the total price and receipt area to
+    * default values. Then, it connects to a PostgreSQL database using JDBC driver and inserts the
+    * employee ID, date, customer name, itemList, and total into a table named "orderhistory".
+    * If the current date is different from the previous date, it inserts the previous day and complete
+    * total into a table named "sales". It also updates the inventory by connecting to the same database
+    * and calling updateInventory(). Then, it sets itemList, total, and receipt area to default values.
+    * @param e any event that occurs in server side
+    */
+    public static void STATICactionPerformed(ActionEvent e) {
+        // Our conditional for the buttons and only allows for it to pass if every slot is filled: day, customer, and employee.
         if(e.getSource() == checkoutButton)
         {
             String employee = employeeID.getText();
@@ -141,7 +167,8 @@ public class Order2 extends JFrame implements ActionListener {
                 total_price.setText("Total price: $0.00");
                 receiptArea.setText("");
             }
-
+            
+            // connect to data base to excecute inserting into orderhistory table and adding to sales table.
             try {
                 Class.forName("org.postgresql.Driver");
                 conn2 = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_team_63",
@@ -173,7 +200,7 @@ public class Order2 extends JFrame implements ActionListener {
             prev_day = day;
 
             try{
-                            // 1. Load the JDBC driver
+                // 1. Load the JDBC driver
                 Class.forName("org.postgresql.Driver");
 
                 // 2. Create a connection to the database
