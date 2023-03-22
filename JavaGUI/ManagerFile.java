@@ -161,7 +161,10 @@ public class ManagerFile implements ActionListener{
     
     /**
       * The InventoryChange() function is utilized to make updates to the inventory to allow
-        managers and servers alike to make necessary updates in respond to user requests
+        managers and servers alike to make necessary updates in respond to user requests.
+      * The function has restricted access to only the manager side of the application we created
+        to simulate Cabo Grill's everyday processes. 
+      * The function utilizes tools from swing to allow the Manager to work with the interface
       @return void
     */
 
@@ -602,6 +605,9 @@ public class ManagerFile implements ActionListener{
     }
     /**
      * Displays a menu GUI that allows the user to view, edit, add, and delete menu items.
+     * This function manages the menu GUI and allows for both the manager and the server
+       to adequately and efficiently utilize the application. 
+     * This MenuChange function also utilizes swing to make the GUI act better as expected. 
      @return void
       */
 
@@ -966,6 +972,10 @@ public class ManagerFile implements ActionListener{
      /**
      * Runs a menu table from a PostgreSQL database and retrieves the item number,
       name, and price for each item.
+     * This function utilizes other functions in Swing that makes it possible for the 
+       menu GUI to act appropriately. 
+     * Everytime the menu's logic has to update, this function is utilized to make things
+      reflect our database and logic appropriately.
       
       @return void
      */
@@ -1138,6 +1148,11 @@ public class ManagerFile implements ActionListener{
     }
     /**
      * Displays a sales report in a new JFrame window.
+     * This code creates a GUI (graphical user interface) window for a sales report.
+     * It creates a JFrame named "Sales Report" and adds a JPanel to it. 
+    * The JPanel contains several components, including two JLabels and JTextFields 
+       for inputting a start and end date range, a JButton for confirming the input, 
+       and two JTextAreas for displaying orders and the total. 
      @return void
      */
 
@@ -1553,6 +1568,12 @@ public class ManagerFile implements ActionListener{
 
     /**
      * Generates a popular report in a new window.
+     * This code creates a graphical user interface (GUI) for a sales report that retrieves data from a PostgreSQL database. 
+     * The GUI consists of a JFrame window titled "Sales Together Report" 
+      and a JPanel that contains several components including two JTextFields for 
+      inputting starting and ending dates, a JButton for confirming the input,
+      a JTextArea for displaying the total, and a JScrollPane for scrolling through
+      the total if it exceeds the size of the JTextArea.
      @return void
      */
     public static void popularReport()
