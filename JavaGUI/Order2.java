@@ -67,15 +67,15 @@ public class Order2 extends JFrame implements ActionListener {
     private static ArrayList<ArrayList<String> > custom_list = new ArrayList<ArrayList<String> >();
 
     /**
-    This Java class implements a Point of Sale (POS) system using the Java Swing GUI framework.
-    The system allows a user to create and cancel orders, and checkout with a customer's name, employee ID, and date.
-    The system also keeps a record of all orders and their total price, which is stored in a PostgreSQL database.
-    The GUI components include a text area for displaying the receipt, text fields for entering employee ID, customer name and date,
-    and buttons for selecting items, canceling orders and checking out.
-    The class contains a public Order2 constructor which creates the GUI and adds all the necessary components to it.
-    The STATICactionPerformed method is called when any of the buttons are clicked and performs the corresponding actions.
-    The PostgreSQL database connection is established using the JDBC API.
-    This POS system is designed to be user-friendly and intuitive, allowing for quick and easy transactions in a retail setting.
+    * This Java class implements a Point of Sale (POS) system using the Java Swing GUI framework.
+    * The system allows a user to create and cancel orders, and checkout with a customer's name, employee ID, and date.
+    * The system also keeps a record of all orders and their total price, which is stored in a PostgreSQL database.
+    * The GUI components include a text area for displaying the receipt, text fields for entering employee ID, customer name and date,
+    * and buttons for selecting items, canceling orders and checking out.
+    * The class contains a public Order2 constructor which creates the GUI and adds all the necessary components to it.
+    * The STATICactionPerformed method is called when any of the buttons are clicked and performs the corresponding actions.
+    * The PostgreSQL database connection is established using the JDBC API.
+    * This POS system is designed to be user-friendly and intuitive, allowing for quick and easy transactions in a retail setting.
     */
     public Order2() {
         super("Point of Sale");
@@ -139,14 +139,15 @@ public class Order2 extends JFrame implements ActionListener {
     }
 
     /**
-    This method is called when an action is performed, such as a button being clicked.
-    If the source of the event is the checkoutButton, it gets the employee ID, date, and customer name
-    and checks if they are empty. If they are not empty, it sets the total price and receipt area to
-    default values. Then, it connects to a PostgreSQL database using JDBC driver and inserts the
-    employee ID, date, customer name, itemList, and total into a table named "orderhistory".
-    If the current date is different from the previous date, it inserts the previous day and complete
-    total into a table named "sales". It also updates the inventory by connecting to the same database
-    and calling updateInventory(). Then, it sets itemList, total, and receipt area to default values.
+    * This method is called when an action is performed, such as a button being clicked.
+    * If the source of the event is the checkoutButton, it gets the employee ID, date, and customer name
+    * and checks if they are empty. If they are not empty, it sets the total price and receipt area to
+    * default values. Then, it connects to a PostgreSQL database using JDBC driver and inserts the
+    * employee ID, date, customer name, itemList, and total into a table named "orderhistory".
+    * If the current date is different from the previous date, it inserts the previous day and complete
+    * total into a table named "sales". It also updates the inventory by connecting to the same database
+    * and calling updateInventory(). Then, it sets itemList, total, and receipt area to default values.
+    * @param e any event that occurs in server side
     */
     public static void STATICactionPerformed(ActionEvent e) {
         // Our conditional for the buttons and only allows for it to pass if every slot is filled: day, customer, and employee.
@@ -335,14 +336,26 @@ public class Order2 extends JFrame implements ActionListener {
         }
     }
 
-    //method that goes through the hashmap and menu, any element in menu that is not in hashmap, it creates a new button for that
+    /** Method that goes through the hashmap and menu, any element in menu that is not in hashmap, it creates a new button for that
 
+    *This function is a public static void method named "onUpdate". It takes an ArrayList of Strings named "updatedList" as its input parameter.
+    *The function performs three actions. First, it prints out the message "adding," followed by the content of the updatedList ArrayList using the System.out.println() method.
+    *Second, it adds the entire "updatedList" ArrayList to another ArrayList called "custom_list" using the add() method.
+    *Finally, it prints out a message that shows all the current custom orders by printing the contents of the "custom_list" ArrayList using the System.out.println() method.
+    */
     public static void onUpdate(ArrayList<String> updatedList) {
         System.out.println("adding, " + updatedList);
         custom_list.add(updatedList);
         System.out.println("all custom orders: " + custom_list);
     }
 
+
+    /**This function takes in a Statement object, a Double "stock", and a String "item". 
+    *It executes a SQL query to retrieve the current stock quantity of the item from a database table called "inventory_table". 
+    *The current stock quantity is then updated by subtracting the input "stock" quantity from the retrieved value. 
+    *If the resulting stock quantity is negative, it is set to zero. Finally, the updated stock quantity is stored back into the "inventory_table" using an SQL UPDATE query. 
+    *This function is meant to update the inventory for a particular item and is likely part of a larger inventory management system.
+    */
     public static void updateInventory(Statement stat, Double stock, String item) {
         try {
 
@@ -377,6 +390,13 @@ public class Order2 extends JFrame implements ActionListener {
         }
     }
 
+
+
+    /**The function "runMenuAndButton" establishes a connection to a PostgreSQL database and retrieves information from a table called "menu2". 
+    *The information includes the item number, name, price, and ingredients of each menu item. 
+    *It then creates a JButton for each non-custom menu item and adds it to a button panel. 
+    *The function is meant to display the menu and allow customers to place an order.
+    */
     public static void runMenuAndButton() 
     {
 
@@ -431,6 +451,13 @@ public class Order2 extends JFrame implements ActionListener {
       }
     }
 
+
+
+    /**The function "DeleteAndRepopulate" is a public static void method that does not take any input parameters. 
+    *It is designed to remove all buttons from a panel and clear a hashmap. 
+    *It then calls another function called "runMenuAndButton" to repopulate the panel with buttons based on the current contents of a database table called "menu2". 
+    *This function is likely used in a larger program to refresh the menu display or update the available options after changes have been made to the database.
+    */
     public static void DeleteAndRepopulate()
     {
         //empty out the button panel, empty out the hashmap, call runMenuAndButton();
@@ -439,6 +466,12 @@ public class Order2 extends JFrame implements ActionListener {
         runMenuAndButton();
     }
 
+
+    /**Updates the inventory status of an item in the database. 
+    *It retrieves the current quantity and item information from the inventory_table, 
+    *checks if an entry exists for the specified date in the inventory_status table and either updates or inserts a new row accordingly. 
+    *It uses JDBC API to connect to the database and execute SQL statements.
+    */
     public static void addCurrentstateOfInventory(String date)
     {
         try {
@@ -532,6 +565,12 @@ public class Order2 extends JFrame implements ActionListener {
     //         System.out.println("Item already exist");
     //     }
     // }
+
+
+
+
+    //The function is a placeholder for an actionPerformed method that implements the ActionListener interface. 
+    //It is currently unimplemented and will throw an UnsupportedOperationException when called.
 
     @Override
     public void actionPerformed(ActionEvent e) {
