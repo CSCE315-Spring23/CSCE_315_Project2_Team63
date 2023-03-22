@@ -1669,7 +1669,7 @@ public class ManagerFile implements ActionListener{
     }
 
     /**
-     * Handle's disposing f when appropriate
+     * Handle's disposing of when appropriate
      @return void 
      */
     // if button is pressed
