@@ -453,11 +453,11 @@ public class Order2 extends JFrame implements ActionListener {
 
 
 
-    //The function "DeleteAndRepopulate" is a public static void method that does not take any input parameters. 
-    //It is designed to remove all buttons from a panel and clear a hashmap. 
-    //It then calls another function called "runMenuAndButton" to repopulate the panel with buttons based on the current contents of a database table called "menu2". 
-    //This function is likely used in a larger program to refresh the menu display or update the available options after changes have been made to the database.
-
+    /**The function "DeleteAndRepopulate" is a public static void method that does not take any input parameters. 
+    *It is designed to remove all buttons from a panel and clear a hashmap. 
+    *It then calls another function called "runMenuAndButton" to repopulate the panel with buttons based on the current contents of a database table called "menu2". 
+    *This function is likely used in a larger program to refresh the menu display or update the available options after changes have been made to the database.
+    */
     public static void DeleteAndRepopulate()
     {
         //empty out the button panel, empty out the hashmap, call runMenuAndButton();
