@@ -66,6 +66,17 @@ public class Order2 extends JFrame implements ActionListener {
     private static String prev_day = "N/A";
     private static ArrayList<ArrayList<String> > custom_list = new ArrayList<ArrayList<String> >();
 
+    /**
+    This Java class implements a Point of Sale (POS) system using the Java Swing GUI framework.
+    The system allows a user to create and cancel orders, and checkout with a customer's name, employee ID, and date.
+    The system also keeps a record of all orders and their total price, which is stored in a PostgreSQL database.
+    The GUI components include a text area for displaying the receipt, text fields for entering employee ID, customer name and date,
+    and buttons for selecting items, canceling orders and checking out.
+    The class contains a public Order2 constructor which creates the GUI and adds all the necessary components to it.
+    The STATICactionPerformed method is called when any of the buttons are clicked and performs the corresponding actions.
+    The PostgreSQL database connection is established using the JDBC API.
+    This POS system is designed to be user-friendly and intuitive, allowing for quick and easy transactions in a retail setting.
+    */
     public Order2() {
         super("Point of Sale");
         // Create text area for displaying the receipt
