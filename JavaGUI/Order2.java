@@ -67,15 +67,15 @@ public class Order2 extends JFrame implements ActionListener {
     private static ArrayList<ArrayList<String> > custom_list = new ArrayList<ArrayList<String> >();
 
     /**
-    This Java class implements a Point of Sale (POS) system using the Java Swing GUI framework.
-    The system allows a user to create and cancel orders, and checkout with a customer's name, employee ID, and date.
-    The system also keeps a record of all orders and their total price, which is stored in a PostgreSQL database.
-    The GUI components include a text area for displaying the receipt, text fields for entering employee ID, customer name and date,
-    and buttons for selecting items, canceling orders and checking out.
-    The class contains a public Order2 constructor which creates the GUI and adds all the necessary components to it.
-    The STATICactionPerformed method is called when any of the buttons are clicked and performs the corresponding actions.
-    The PostgreSQL database connection is established using the JDBC API.
-    This POS system is designed to be user-friendly and intuitive, allowing for quick and easy transactions in a retail setting.
+    * This Java class implements a Point of Sale (POS) system using the Java Swing GUI framework.
+    * The system allows a user to create and cancel orders, and checkout with a customer's name, employee ID, and date.
+    * The system also keeps a record of all orders and their total price, which is stored in a PostgreSQL database.
+    * The GUI components include a text area for displaying the receipt, text fields for entering employee ID, customer name and date,
+    * and buttons for selecting items, canceling orders and checking out.
+    * The class contains a public Order2 constructor which creates the GUI and adds all the necessary components to it.
+    * The STATICactionPerformed method is called when any of the buttons are clicked and performs the corresponding actions.
+    * The PostgreSQL database connection is established using the JDBC API.
+    * This POS system is designed to be user-friendly and intuitive, allowing for quick and easy transactions in a retail setting.
     */
     public Order2() {
         super("Point of Sale");
@@ -139,14 +139,15 @@ public class Order2 extends JFrame implements ActionListener {
     }
 
     /**
-    This method is called when an action is performed, such as a button being clicked.
-    If the source of the event is the checkoutButton, it gets the employee ID, date, and customer name
-    and checks if they are empty. If they are not empty, it sets the total price and receipt area to
-    default values. Then, it connects to a PostgreSQL database using JDBC driver and inserts the
-    employee ID, date, customer name, itemList, and total into a table named "orderhistory".
-    If the current date is different from the previous date, it inserts the previous day and complete
-    total into a table named "sales". It also updates the inventory by connecting to the same database
-    and calling updateInventory(). Then, it sets itemList, total, and receipt area to default values.
+    * This method is called when an action is performed, such as a button being clicked.
+    * If the source of the event is the checkoutButton, it gets the employee ID, date, and customer name
+    * and checks if they are empty. If they are not empty, it sets the total price and receipt area to
+    * default values. Then, it connects to a PostgreSQL database using JDBC driver and inserts the
+    * employee ID, date, customer name, itemList, and total into a table named "orderhistory".
+    * If the current date is different from the previous date, it inserts the previous day and complete
+    * total into a table named "sales". It also updates the inventory by connecting to the same database
+    * and calling updateInventory(). Then, it sets itemList, total, and receipt area to default values.
+    * @param e any event that occurs in server side
     */
     public static void STATICactionPerformed(ActionEvent e) {
         // Our conditional for the buttons and only allows for it to pass if every slot is filled: day, customer, and employee.
