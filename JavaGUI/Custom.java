@@ -4,13 +4,10 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-=======
 /**
  * A class representing a custom order window that allows the user to select various ingredients
  * for their meal.
  */
->>>>>>> 0f8c099e7e57108c64284382253b41c54b62a631
 public class Custom extends JFrame {
 
     // initialize window and overall panel
@@ -31,24 +28,18 @@ public class Custom extends JFrame {
     public ArrayList<String> to_return = new ArrayList<String>();
     private UpdateListener updateListener;
 
-<<<<<<< HEAD
-=======
     /**
      * An interface representing a listener that will be called when the user updates their order.
      */
->>>>>>> 0f8c099e7e57108c64284382253b41c54b62a631
     public interface UpdateListener {
         void onUpdate(ArrayList<String> updatedList);
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Constructs a new Custom order window.
      *
      * @param updateListener the listener to call when the user updates their order
      */
->>>>>>> 0f8c099e7e57108c64284382253b41c54b62a631
     public Custom(UpdateListener updateListener) { // default constructor 
 
         // set close operation
@@ -164,9 +155,6 @@ public class Custom extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 
-<<<<<<< HEAD
-
-=======
 /**
  * Invoked when the "Add" button is pressed.
  * Adds the selected items to a list of ingredients to return to the caller.
@@ -175,7 +163,6 @@ public class Custom extends JFrame {
  *
  * @param e the action event that triggered this method
  */
->>>>>>> 0f8c099e7e57108c64284382253b41c54b62a631
 addButton.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
 
@@ -183,13 +170,8 @@ addButton.addActionListener(new ActionListener() {
 
         // loop through each list of buttons, push selected items to string
         for(JCheckBox style : styles) {
-<<<<<<< HEAD
-            if (style.isSelected()) {
-                to_return.add(style.getText());
-=======
             if (style.isSelected()) { // check if the checkbox is selected
                 to_return.add(style.getText()); // add the text of the selected checkbox to the to_return list
->>>>>>> 0f8c099e7e57108c64284382253b41c54b62a631
             }
         }
 
@@ -223,23 +205,13 @@ addButton.addActionListener(new ActionListener() {
             }
         }
 
-<<<<<<< HEAD
-        updateListener.onUpdate(to_return);
-        frame.dispose();
-=======
         updateListener.onUpdate(to_return); // call the onUpdate method of the UpdateListener with the to_return list as an argument
         frame.dispose(); // dispose of the frame
->>>>>>> 0f8c099e7e57108c64284382253b41c54b62a631
     }
 }
 
 );
 
-<<<<<<< HEAD
-panel.add(addButton);
-panel.revalidate();
-panel.repaint();
-=======
 // create and add the "Add" button to the panel
 panel.add(addButton);
 
@@ -248,7 +220,6 @@ panel.revalidate();
 panel.repaint();
 
 // add the panel to the frame and make the frame visible
->>>>>>> 0f8c099e7e57108c64284382253b41c54b62a631
 frame.add(panel);
 frame.setVisible(true);
 }

@@ -336,13 +336,13 @@ public class Order2 extends JFrame implements ActionListener {
         }
     }
 
-    //Method that goes through the hashmap and menu, any element in menu that is not in hashmap, it creates a new button for that
+    /** Method that goes through the hashmap and menu, any element in menu that is not in hashmap, it creates a new button for that
 
-    //This function is a public static void method named "onUpdate". It takes an ArrayList of Strings named "updatedList" as its input parameter.
-    //The function performs three actions. First, it prints out the message "adding," followed by the content of the updatedList ArrayList using the System.out.println() method.
-    //Second, it adds the entire "updatedList" ArrayList to another ArrayList called "custom_list" using the add() method.
-    //Finally, it prints out a message that shows all the current custom orders by printing the contents of the "custom_list" ArrayList using the System.out.println() method.
-
+    *This function is a public static void method named "onUpdate". It takes an ArrayList of Strings named "updatedList" as its input parameter.
+    *The function performs three actions. First, it prints out the message "adding," followed by the content of the updatedList ArrayList using the System.out.println() method.
+    *Second, it adds the entire "updatedList" ArrayList to another ArrayList called "custom_list" using the add() method.
+    *Finally, it prints out a message that shows all the current custom orders by printing the contents of the "custom_list" ArrayList using the System.out.println() method.
+    */
     public static void onUpdate(ArrayList<String> updatedList) {
         System.out.println("adding, " + updatedList);
         custom_list.add(updatedList);
