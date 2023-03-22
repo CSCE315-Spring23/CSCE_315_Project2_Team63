@@ -309,13 +309,25 @@ public class Order2 extends JFrame implements ActionListener {
         }
     }
 
-    //method that goes through the hashmap and menu, any element in menu that is not in hashmap, it creates a new button for that
+    //Method that goes through the hashmap and menu, any element in menu that is not in hashmap, it creates a new button for that
+
+    //This function is a public static void method named "onUpdate". It takes an ArrayList of Strings named "updatedList" as its input parameter.
+    //The function performs three actions. First, it prints out the message "adding," followed by the content of the updatedList ArrayList using the System.out.println() method.
+    //Second, it adds the entire "updatedList" ArrayList to another ArrayList called "custom_list" using the add() method.
+    //Finally, it prints out a message that shows all the current custom orders by printing the contents of the "custom_list" ArrayList using the System.out.println() method.
 
     public static void onUpdate(ArrayList<String> updatedList) {
         System.out.println("adding, " + updatedList);
         custom_list.add(updatedList);
         System.out.println("all custom orders: " + custom_list);
     }
+
+
+    //This function takes in a Statement object, a Double "stock", and a String "item". 
+    //It executes a SQL query to retrieve the current stock quantity of the item from a database table called "inventory_table". 
+    //The current stock quantity is then updated by subtracting the input "stock" quantity from the retrieved value. 
+    //If the resulting stock quantity is negative, it is set to zero. Finally, the updated stock quantity is stored back into the "inventory_table" using an SQL UPDATE query. 
+    //This function is meant to update the inventory for a particular item and is likely part of a larger inventory management system.
 
     public static void updateInventory(Statement stat, Double stock, String item) {
         try {
@@ -350,6 +362,13 @@ public class Order2 extends JFrame implements ActionListener {
             System.out.println("Database connection error: " + e2.getMessage());
         }
     }
+
+
+
+    //The function "runMenuAndButton" establishes a connection to a PostgreSQL database and retrieves information from a table called "menu2". 
+    //The information includes the item number, name, price, and ingredients of each menu item. 
+    //It then creates a JButton for each non-custom menu item and adds it to a button panel. 
+    //The function is meant to display the menu and allow customers to place an order.
 
     public static void runMenuAndButton() 
     {
@@ -405,6 +424,13 @@ public class Order2 extends JFrame implements ActionListener {
       }
     }
 
+
+
+    //The function "DeleteAndRepopulate" is a public static void method that does not take any input parameters. 
+    //It is designed to remove all buttons from a panel and clear a hashmap. 
+    //It then calls another function called "runMenuAndButton" to repopulate the panel with buttons based on the current contents of a database table called "menu2". 
+    //This function is likely used in a larger program to refresh the menu display or update the available options after changes have been made to the database.
+
     public static void DeleteAndRepopulate()
     {
         //empty out the button panel, empty out the hashmap, call runMenuAndButton();
@@ -412,6 +438,12 @@ public class Order2 extends JFrame implements ActionListener {
         hashMap.clear(); 
         runMenuAndButton();
     }
+
+
+    //Updates the inventory status of an item in the database. 
+    //It retrieves the current quantity and item information from the inventory_table, 
+    //checks if an entry exists for the specified date in the inventory_status table and either updates or inserts a new row accordingly. 
+    //It uses JDBC API to connect to the database and execute SQL statements.
 
     public static void addCurrentstateOfInventory(String date)
     {
@@ -506,6 +538,12 @@ public class Order2 extends JFrame implements ActionListener {
     //         System.out.println("Item already exist");
     //     }
     // }
+
+
+
+
+    //The function is a placeholder for an actionPerformed method that implements the ActionListener interface. 
+    //It is currently unimplemented and will throw an UnsupportedOperationException when called.
 
     @Override
     public void actionPerformed(ActionEvent e) {
