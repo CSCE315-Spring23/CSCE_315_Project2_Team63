@@ -350,12 +350,12 @@ public class Order2 extends JFrame implements ActionListener {
     }
 
 
-    //This function takes in a Statement object, a Double "stock", and a String "item". 
-    //It executes a SQL query to retrieve the current stock quantity of the item from a database table called "inventory_table". 
-    //The current stock quantity is then updated by subtracting the input "stock" quantity from the retrieved value. 
-    //If the resulting stock quantity is negative, it is set to zero. Finally, the updated stock quantity is stored back into the "inventory_table" using an SQL UPDATE query. 
-    //This function is meant to update the inventory for a particular item and is likely part of a larger inventory management system.
-
+    /**This function takes in a Statement object, a Double "stock", and a String "item". 
+    *It executes a SQL query to retrieve the current stock quantity of the item from a database table called "inventory_table". 
+    *The current stock quantity is then updated by subtracting the input "stock" quantity from the retrieved value. 
+    *If the resulting stock quantity is negative, it is set to zero. Finally, the updated stock quantity is stored back into the "inventory_table" using an SQL UPDATE query. 
+    *This function is meant to update the inventory for a particular item and is likely part of a larger inventory management system.
+    */
     public static void updateInventory(Statement stat, Double stock, String item) {
         try {
 
